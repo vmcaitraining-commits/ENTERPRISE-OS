@@ -1,0 +1,6 @@
+{
+  "name": "VMC AI Enterprise — Thông Tin Doanh Nghiệp",
+  "description": "Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
