@@ -1,6 +1,7 @@
 import React from 'react';
 import { usePublicRouter } from '../../context/PublicRouterContext';
 import { useEnterprise } from '../../context/EnterpriseContext';
+import { useI18n } from '../../i18n/I18nContext';
 import { PublicLink } from './PublicLink';
 import { Mail, Globe, MapPin, Shield, ArrowRight, Activity } from 'lucide-react';
 import { NAV_INDUSTRIES } from './navigationData';
@@ -8,11 +9,12 @@ import { NAV_INDUSTRIES } from './navigationData';
 export const PublicFooter: React.FC = () => {
   const { openConsultationModal } = usePublicRouter();
   const { data } = useEnterprise();
+  const { t } = useI18n();
 
   const companyName = data?.identity?.companyName?.value || 'VMC Group';
   const email = data?.contact?.email?.value || 'vmcaitraining@gmail.com';
   const website = data?.contact?.website?.value || 'vmcgroup.com';
-  const address = 'Số 15, Ngõ 91, Đường Nguyễn Chí Thanh, Phường Láng Thượng, Đống Đa, Hà Nội';
+  const address = t('common.companyAddress');
 
   return (
     <footer className="bg-[#0B1F3A] dark:bg-[#060D19] text-slate-300 pt-16 pb-12 border-t border-slate-800 transition-colors">
@@ -32,13 +34,13 @@ export const PublicFooter: React.FC = () => {
               <div>
                 <div className="text-lg font-black text-white tracking-tight">{companyName}</div>
                 <div className="text-[11px] font-semibold text-[#06B6D4] uppercase tracking-wider">
-                  AI ENTERPRISE OS
+                  {t('common.brandTagline')}
                 </div>
               </div>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Xây dựng hệ thống doanh nghiệp vận hành bằng dữ liệu, công nghệ và AI. Đơn vị kiến trúc và triển khai nền tảng điều hành thống nhất cho các doanh nghiệp đang tăng trưởng tại Việt Nam.
+              {t('nav.footerDescription')}
             </p>
 
             <div className="pt-2 space-y-2 text-xs text-slate-300">
@@ -63,7 +65,7 @@ export const PublicFooter: React.FC = () => {
             {/* System Operational Status - Grounded, no unverified SLA numbers */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-emerald-400">
               <Activity className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
-              <span>Hệ thống vận hành: Đang hoạt động ổn định</span>
+              <span>{t('common.systemStatusActive')}</span>
             </div>
 
             <div className="pt-2">
@@ -72,7 +74,7 @@ export const PublicFooter: React.FC = () => {
                 onClick={() => openConsultationModal('consultation')}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-[#155EEF] hover:bg-[#1048b8] text-white text-xs font-semibold rounded-xl shadow-xs transition-colors cursor-pointer"
               >
-                <span>Đăng ký tư vấn giải pháp</span>
+                <span>{t('common.registerSolutionConsultation')}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -81,37 +83,37 @@ export const PublicFooter: React.FC = () => {
           {/* Column 2: AI ENTERPRISE */}
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white border-b border-slate-800 pb-2">
-              AI ENTERPRISE
+              {t('nav.footerEnterpriseCol')}
             </h3>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
                 <PublicLink href="/ai-enterprise" className="hover:text-white transition-colors block">
-                  Tổng quan hệ điều hành
+                  {t('nav.footerOverview')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/ai-enterprise#architecture" className="hover:text-white transition-colors block">
-                  Kiến trúc 11 phân hệ lõi
+                  {t('nav.footerArchitecture')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/ai-enterprise#principles" className="hover:text-white transition-colors block">
-                  6 Nguyên tắc triển khai
+                  {t('nav.footerPrinciples')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/ai-enterprise#security" className="hover:text-white transition-colors block">
-                  Bảo mật & Phân quyền
+                  {t('nav.footerSecurity')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/capabilities" className="hover:text-white transition-colors block">
-                  Năng lực kiến trúc hệ thống
+                  {t('nav.footerCapabilities')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/ai" className="hover:text-white transition-colors block">
-                  Mạng lưới 9 AI Copilots
+                  {t('nav.footerAiNetwork')}
                 </PublicLink>
               </li>
             </ul>
@@ -120,42 +122,42 @@ export const PublicFooter: React.FC = () => {
           {/* Column 3: Giải pháp phòng ban & Nhu cầu */}
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white border-b border-slate-800 pb-2">
-              Giải pháp & Nhu cầu
+              {t('nav.footerSolutionsCol')}
             </h3>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
                 <PublicLink href="/solutions/sales" className="hover:text-white transition-colors block">
-                  Kinh doanh & Bán hàng (Sales)
+                  {t('nav.footerSales')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/solutions/marketing" className="hover:text-white transition-colors block">
-                  Marketing & Phễu Lead
+                  {t('nav.footerMarketing')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/solutions/customer-service" className="hover:text-white transition-colors block">
-                  Chăm sóc khách hàng (CSKH)
+                  {t('nav.footerCskh')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/solutions/crm" className="hover:text-[#06B6D4] transition-colors block">
-                  CRS / CRM Doanh nghiệp
+                  {t('nav.needCrm')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/solutions/automation" className="hover:text-[#06B6D4] transition-colors block">
-                  Tự động hóa Workflow SOP
+                  {t('nav.needAutomation')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/solutions/voice" className="hover:text-[#06B6D4] transition-colors block">
-                  AI Voice Bóc băng & Phân tích
+                  {t('nav.footerVoiceTranscription')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/solutions/bi" className="hover:text-[#06B6D4] transition-colors block">
-                  Báo cáo Quản trị & BI
+                  {t('nav.footerBiReports')}
                 </PublicLink>
               </li>
             </ul>
@@ -164,34 +166,34 @@ export const PublicFooter: React.FC = () => {
           {/* Column 4: 8 Ngành & Tài nguyên */}
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white border-b border-slate-800 pb-2">
-              Ngành & Tài nguyên
+              {t('nav.footerIndustriesCol')}
             </h3>
             <ul className="space-y-2 text-xs text-slate-400">
               {NAV_INDUSTRIES.slice(0, 5).map((ind) => (
                 <li key={ind.path}>
                   <PublicLink href={ind.path} className="hover:text-white transition-colors block">
-                    {ind.name}
+                    {ind.nameKey ? t(`nav.${ind.nameKey}`, ind.name) : ind.name}
                   </PublicLink>
                 </li>
               ))}
               <li>
                 <PublicLink href="/industries" className="text-[#06B6D4] hover:underline block font-medium">
-                  Xem tất cả 8 ngành →
+                  {t('nav.footerViewAllIndustries')}
                 </PublicLink>
               </li>
               <li className="pt-1 border-t border-slate-800/80">
                 <PublicLink href="/resources" className="hover:text-white transition-colors block">
-                  Tài liệu SOP & FAQ
+                  {t('nav.footerSopFaq')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/about" className="hover:text-white transition-colors block">
-                  Về VMC Group
+                  {t('nav.footerAbout')}
                 </PublicLink>
               </li>
               <li>
                 <PublicLink href="/contact" className="hover:text-white transition-colors block">
-                  Liên hệ & Khảo sát
+                  {t('nav.footerContactSurvey')}
                 </PublicLink>
               </li>
             </ul>
@@ -201,7 +203,7 @@ export const PublicFooter: React.FC = () => {
         {/* Bottom Legal & Copyright Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <span>© {new Date().getFullYear()} {companyName}. Bản quyền thuộc về VMC Group. Tất cả quyền được bảo lưu.</span>
+            <span>© {new Date().getFullYear()} {companyName}. {t('common.copyrightNotice')}</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
@@ -210,14 +212,14 @@ export const PublicFooter: React.FC = () => {
               href="/resources#privacy-policy"
               className="hover:text-slate-200 transition-colors"
             >
-              Chính sách bảo mật (NDA)
+              {t('common.privacyPolicy')}
             </PublicLink>
             <span>•</span>
             <PublicLink
               href="/resources#terms-of-service"
               className="hover:text-slate-200 transition-colors"
             >
-              Điều khoản vận hành
+              {t('common.termsOfService')}
             </PublicLink>
             <span>•</span>
             <PublicLink
@@ -225,7 +227,7 @@ export const PublicFooter: React.FC = () => {
               className="text-[#06B6D4] hover:underline flex items-center gap-1 font-medium"
             >
               <Shield className="w-3.5 h-3.5" />
-              <span>Hệ thống Quản trị (Workspace)</span>
+              <span>{t('common.workspaceAdmin')}</span>
             </PublicLink>
           </div>
         </div>

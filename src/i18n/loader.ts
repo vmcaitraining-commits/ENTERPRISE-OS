@@ -6,10 +6,16 @@ const namespaceLoaders: Record<string, Record<string, () => Promise<{ default: T
   vi: {
     common: () => import('./locales/vi/common'),
     nav: () => import('./locales/vi/nav'),
+    forms: () => import('./locales/vi/forms'),
+    accessibility: () => import('./locales/vi/accessibility'),
+    notFound: () => import('./locales/vi/notFound'),
   },
   en: {
     common: () => import('./locales/en/common'),
     nav: () => import('./locales/en/nav'),
+    forms: () => import('./locales/en/forms'),
+    accessibility: () => import('./locales/en/accessibility'),
+    notFound: () => import('./locales/en/notFound'),
   }
 };
 
@@ -81,7 +87,10 @@ export const loadNamespace = async (
 export const preloadCoreNamespaces = async (locale: LocaleCode): Promise<void> => {
   await Promise.all([
     loadNamespace(locale, 'common'),
-    loadNamespace(locale, 'nav')
+    loadNamespace(locale, 'nav'),
+    loadNamespace(locale, 'forms'),
+    loadNamespace(locale, 'accessibility'),
+    loadNamespace(locale, 'notFound')
   ]);
 };
 

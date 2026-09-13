@@ -15,6 +15,9 @@ export interface LocaleMetadata {
 export type TranslationNamespace =
   | 'common'
   | 'nav'
+  | 'forms'
+  | 'accessibility'
+  | 'notFound'
   | 'home'
   | 'solutions'
   | 'industries'

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Globe, Check, ChevronDown } from 'lucide-react';
 import { usePublicRouter } from '../../context/PublicRouterContext';
+import { useI18n } from '../../i18n/I18nContext';
 import { LocaleCode, LocaleMetadata } from '../../i18n/types';
 import { SUPPORTED_LOCALES, isLocalePublished } from '../../i18n/registry';
 
@@ -26,6 +27,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   onItemSelect
 }) => {
   const { locale, changeLocale, currentPath } = usePublicRouter();
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobilePlannedOpen, setIsMobilePlannedOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -116,14 +118,14 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           aria-haspopup="true"
           aria-expanded={isOpen}
           aria-controls="language-switcher-menu"
-          aria-label={`Ngôn ngữ hiện tại: ${currentMetadata.nativeName}. Nhấn để chọn ngôn ngữ.`}
+          aria-label={t('common.currentLanguageSelectorAria', { language: currentMetadata.nativeName })}
           onClick={() => setIsOpen(!isOpen)}
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer border ${
             isOpen
               ? 'bg-blue-50/90 dark:bg-blue-950/60 border-[#155EEF] dark:border-[#06B6D4] text-[#155EEF] dark:text-[#06B6D4]'
               : 'bg-slate-50/70 dark:bg-slate-900/60 border-slate-200/90 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           } focus:outline-none focus-visible:ring-2 focus-visible:ring-[#155EEF] dark:focus-visible:ring-[#06B6D4]`}
-          title={`Chọn ngôn ngữ (Hiện tại: ${currentMetadata.nativeName})`}
+          title={t('common.selectLanguageTitle', { language: currentMetadata.nativeName })}
         >
           <Globe
             className={`w-3.5 h-3.5 transition-colors ${
@@ -154,7 +156,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             {/* Header / Context indicator */}
             <div className="px-2.5 py-1.5 pb-2 text-left">
               <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center justify-between">
-                <span>Ngôn ngữ / Language</span>
+                <span>{t('common.languageSelect')}</span>
                 {isDevOrTestMode && (
                   <span className="text-[9px] text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/50 px-1.5 py-0.2 rounded">
                     Test Mode
@@ -219,13 +221,13 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                               : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
                           }`}
                         >
-                          {isDevOrTestMode ? 'Bản thử nghiệm' : 'Sắp ra mắt'}
+                          {isDevOrTestMode ? t('common.badgeDraft') : t('common.badgeComingSoon')}
                         </span>
                       )}
 
                       {!isSelected && !isPublished && !isDraft && (
                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 dark:bg-slate-800/60 dark:text-slate-500">
-                          Sắp ra mắt
+                          {t('common.badgeComingSoon')}
                         </span>
                       )}
                     </div>
@@ -254,7 +256,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       <div className="flex items-center justify-between px-3 mb-2">
         <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
           <Globe className="w-3.5 h-3.5 text-slate-400" />
-          <span>Ngôn ngữ / Language</span>
+          <span>{t('common.languageSelect')}</span>
         </div>
         {isDevOrTestMode && (
           <span className="text-[9px] text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/50 px-1.5 py-0.5 rounded">
@@ -288,7 +290,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                 <div className="text-left">
                   <div className="text-xs font-bold">{item.nativeName}</div>
                   <div className="text-[10px] text-slate-500 dark:text-slate-400">
-                    {item.name} {isDraft && '— Bản thử nghiệm (Draft)'}
+                    {item.name} {isDraft && `— ${t('common.badgeDraft')}`}
                   </div>
                 </div>
               </div>
@@ -314,7 +316,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             onClick={() => setIsMobilePlannedOpen(!isMobilePlannedOpen)}
             className="w-full flex items-center justify-between px-3 py-2 text-[11px] font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 rounded-lg transition-colors cursor-pointer"
           >
-            <span>Các ngôn ngữ đang chuẩn bị ({plannedLocales.length})</span>
+            <span>{t('common.plannedLanguagesCount', { count: plannedLocales.length })}</span>
             <ChevronDown
               className={`w-3.5 h-3.5 transition-transform duration-150 ${
                 isMobilePlannedOpen ? 'rotate-180' : ''
@@ -325,7 +327,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           {isMobilePlannedOpen && (
             <div className="mt-1.5 p-2 bg-slate-50/80 dark:bg-slate-900/40 rounded-xl border border-slate-100 dark:border-slate-800/60 space-y-1">
               <div className="text-[10px] text-slate-400 dark:text-slate-500 mb-1 px-1">
-                Các phiên bản ngôn ngữ này đang trong kế hoạch chuẩn hóa dữ liệu:
+                {t('common.plannedLanguagesNotice')}
               </div>
               <div className="grid grid-cols-2 gap-1.5">
                 {plannedLocales.map((code) => {
@@ -340,7 +342,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                         <span className="truncate">{item.nativeName}</span>
                       </div>
                       <span className="text-[9px] shrink-0 text-slate-400">
-                        {item.status === 'draft' ? 'Draft' : 'Planned'}
+                        {item.status === 'draft' ? t('common.badgeDraft') : t('common.badgeComingSoon')}
                       </span>
                     </div>
                   );

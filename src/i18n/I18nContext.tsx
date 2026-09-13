@@ -6,7 +6,11 @@ import { loadNamespace, getLoadedDictionary, preloadCoreNamespaces } from './loa
 export interface I18nContextType {
   locale: LocaleCode;
   setLocale: (newLocale: LocaleCode) => void;
-  t: (key: string, defaultText?: string, params?: Record<string, string | number>) => string;
+  t: (
+    key: string,
+    defaultTextOrParams?: string | Record<string, string | number>,
+    params?: Record<string, string | number>
+  ) => string;
   hasTranslation: (key: string) => boolean;
   isLoading: boolean;
   fallbackLocale: LocaleCode;
@@ -96,7 +100,23 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
    * Tier 4: The translation key itself
    */
   const t = useCallback(
-    (key: string, defaultText?: string, params?: Record<string, string | number>): string => {
+    (
+      key: string,
+      defaultTextOrParams?: string | Record<string, string | number>,
+      params?: Record<string, string | number>
+    ): string => {
+      let defaultText: string | undefined;
+      let interpolationParams: Record<string, string | number> | undefined;
+
+      if (typeof defaultTextOrParams === 'object' && defaultTextOrParams !== null) {
+        interpolationParams = defaultTextOrParams;
+      } else if (typeof defaultTextOrParams === 'string') {
+        defaultText = defaultTextOrParams;
+        interpolationParams = params;
+      } else {
+        interpolationParams = params;
+      }
+
       const [namespace, ...keyParts] = key.split('.');
       const subKey = keyParts.join('.');
 
@@ -104,7 +124,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
       const currentDict = getLoadedDictionary(locale, namespace as any);
       const val = subKey ? resolveObjectPath(currentDict, subKey) : currentDict[key];
       if (typeof val === 'string') {
-        return interpolate(val, params);
+        return interpolate(val, interpolationParams);
       }
 
       // Tier 2: Fallback to Vietnamese dictionary
@@ -112,13 +132,13 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
         const fallbackDict = getLoadedDictionary(DEFAULT_LOCALE, namespace as any);
         const fallbackVal = subKey ? resolveObjectPath(fallbackDict, subKey) : fallbackDict[key];
         if (typeof fallbackVal === 'string') {
-          return interpolate(fallbackVal, params);
+          return interpolate(fallbackVal, interpolationParams);
         }
       }
 
       // Tier 3: Default text
       if (defaultText !== undefined) {
-        return interpolate(defaultText, params);
+        return interpolate(defaultText, interpolationParams);
       }
 
       // Tier 4: Fallback to the key itself
@@ -163,3 +183,6 @@ export const useTranslation = (): I18nContextType => {
   }
   return context;
 };
+
+export const useI18n = useTranslation;
+

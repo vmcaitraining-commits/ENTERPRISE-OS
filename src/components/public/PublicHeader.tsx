@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePublicRouter } from '../../context/PublicRouterContext';
 import { useEnterprise } from '../../context/EnterpriseContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useI18n } from '../../i18n/I18nContext';
 import { PublicLink } from './PublicLink';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import {
@@ -19,6 +20,7 @@ export const PublicHeader: React.FC = () => {
   const { currentPath, navigate, openConsultationModal } = usePublicRouter();
   const { data } = useEnterprise();
   const { theme, setTheme, activeTheme } = useTheme();
+  const { t } = useI18n();
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -117,10 +119,10 @@ export const PublicHeader: React.FC = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="bg-[#06B6D4]/20 text-[#06B6D4] px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-[#06B6D4]/30">
-              AI Enterprise
+              {t('nav.topBannerTag')}
             </span>
             <span className="text-slate-200">
-              Hệ điều hành doanh nghiệp thế hệ mới — 11 phân hệ lõi, 9 AI Copilots & cơ chế Human-in-the-Loop
+              {t('nav.topBannerText')}
             </span>
           </div>
 
@@ -129,16 +131,16 @@ export const PublicHeader: React.FC = () => {
               href="/ai-enterprise#architecture"
               className="text-[#06B6D4] hover:text-white transition-colors underline font-medium"
             >
-              Xem sơ đồ luồng dữ liệu →
+              {t('nav.topBannerDiagramLink')}
             </PublicLink>
             <span className="text-slate-500">|</span>
             <PublicLink
               href="/admin"
               className="text-slate-300 hover:text-white transition-colors flex items-center gap-1"
-              title="Truy cập Workspace Quản trị Dữ liệu Doanh nghiệp"
+              title={t('nav.topBannerWorkspaceTitle')}
             >
               <Shield className="w-3 h-3 text-[#06B6D4]" />
-              <span>Workspace Quản trị</span>
+              <span>{t('nav.topBannerAdminLink')}</span>
             </PublicLink>
           </div>
         </div>
@@ -157,7 +159,7 @@ export const PublicHeader: React.FC = () => {
               href="/"
               onClick={closeAllMenus}
               className="flex items-center gap-2.5 sm:gap-3 group text-left focus:outline-none focus:ring-2 focus:ring-[#155EEF] rounded-xl p-1"
-              aria-label="VMC Group - Về trang chủ"
+              aria-label={t('nav.brandHomeAria', { company: companyName })}
             >
               {/* Brand Icon */}
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0B1F3A] dark:bg-slate-900 border border-slate-700/50 flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform shrink-0">
@@ -174,7 +176,7 @@ export const PublicHeader: React.FC = () => {
                   {companyName}
                 </span>
                 <span className="text-[10px] font-bold text-[#06B6D4] tracking-widest mt-1 uppercase">
-                  AI ENTERPRISE OS
+                  {t('common.brandTagline')}
                 </span>
               </div>
             </PublicLink>
@@ -182,7 +184,7 @@ export const PublicHeader: React.FC = () => {
             {/* Desktop Navigation Links */}
             <nav
               className="hidden lg:flex items-center gap-1"
-              aria-label="Thanh điều hướng chính"
+              aria-label={t('nav.mainNavAria')}
             >
               {/* Trang chủ */}
               <PublicLink
@@ -192,7 +194,7 @@ export const PublicHeader: React.FC = () => {
                 className="px-3 py-2 text-xs font-semibold rounded-lg transition-colors text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
                 activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
               >
-                Trang chủ
+                {t('nav.home')}
               </PublicLink>
 
               {/* Menu 1: AI ENTERPRISE Dropdown */}
@@ -210,7 +212,7 @@ export const PublicHeader: React.FC = () => {
                       : 'text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <span>AI ENTERPRISE</span>
+                  <span>{t('nav.enterprise')}</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform duration-150 ${
                       activeMenu === 'enterprise' ? 'rotate-180 text-[#155EEF] dark:text-[#06B6D4]' : 'text-slate-400'
@@ -227,14 +229,14 @@ export const PublicHeader: React.FC = () => {
                   >
                     <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-100 dark:border-slate-800/80 mb-1.5">
                       <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                        Hệ Điều Hành Doanh Nghiệp
+                        {t('nav.enterpriseTitle')}
                       </span>
                       <PublicLink
                         href="/ai-enterprise"
                         onClick={closeAllMenus}
                         className="text-[11px] font-bold text-[#155EEF] dark:text-[#06B6D4] hover:underline"
                       >
-                        Trang tổng quan →
+                        {t('nav.enterpriseOverview')}
                       </PublicLink>
                     </div>
 
@@ -248,10 +250,10 @@ export const PublicHeader: React.FC = () => {
                         <Sparkles className="w-4 h-4 text-[#155EEF] dark:text-[#06B6D4] mt-0.5 shrink-0" />
                         <div>
                           <div className="text-xs font-bold text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4]">
-                            Mô hình Hệ điều hành AI
+                            {t('nav.enterpriseModelTitle')}
                           </div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Kiến trúc điều hành dựa trên dữ liệu và AI
+                            {t('nav.enterpriseModelDesc')}
                           </div>
                         </div>
                       </PublicLink>
@@ -264,10 +266,10 @@ export const PublicHeader: React.FC = () => {
                         <Layers className="w-4 h-4 text-[#06B6D4] mt-0.5 shrink-0" />
                         <div>
                           <div className="text-xs font-bold text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4]">
-                            11 Phân hệ lõi (Scope A-K)
+                            {t('nav.enterprise11ModulesTitle')}
                           </div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Từ Website, CRM, CSKH đến Hệ thống & BI
+                            {t('nav.enterprise11ModulesDesc')}
                           </div>
                         </div>
                       </PublicLink>
@@ -280,10 +282,10 @@ export const PublicHeader: React.FC = () => {
                         <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
                         <div>
                           <div className="text-xs font-bold text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4]">
-                            6 Nguyên tắc cốt lõi
+                            {t('nav.enterprise6PrinciplesTitle')}
                           </div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Dữ liệu riêng biệt, trích dẫn nguồn kiểm chứng, kiểm soát rủi ro
+                            {t('nav.enterprise6PrinciplesDesc')}
                           </div>
                         </div>
                       </PublicLink>
@@ -296,10 +298,10 @@ export const PublicHeader: React.FC = () => {
                         <Shield className="w-4 h-4 text-[#D9A62E] mt-0.5 shrink-0" />
                         <div>
                           <div className="text-xs font-bold text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4]">
-                            Bảo mật & Phân quyền
+                            {t('nav.enterpriseSecurityTitle')}
                           </div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Ranh giới phê duyệt con người (Human-in-the-Loop)
+                            {t('nav.enterpriseSecurityDesc')}
                           </div>
                         </div>
                       </PublicLink>
@@ -323,7 +325,7 @@ export const PublicHeader: React.FC = () => {
                       : 'text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <span>Giải pháp</span>
+                  <span>{t('nav.solutions')}</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform duration-150 ${
                       activeMenu === 'solutions' ? 'rotate-180 text-[#155EEF] dark:text-[#06B6D4]' : 'text-slate-400'
@@ -342,14 +344,14 @@ export const PublicHeader: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-100 dark:border-slate-800">
                         <span className="text-[11px] font-bold text-[#155EEF] dark:text-blue-400 uppercase tracking-wider">
-                          Theo phòng ban
+                          {t('nav.solutionsByDepartment')}
                         </span>
                         <PublicLink
                           href="/solutions"
                           onClick={closeAllMenus}
                           className="text-[10px] font-bold text-[#155EEF] dark:text-blue-400 hover:underline"
                         >
-                          Tất cả →
+                          {t('nav.solutionsByDepartmentAll')}
                         </PublicLink>
                       </div>
 
@@ -364,7 +366,7 @@ export const PublicHeader: React.FC = () => {
                               className="w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/60 text-left text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#155EEF] dark:hover:text-[#06B6D4] transition-colors"
                             >
                               <IconComp className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-                              <span>{item.name}</span>
+                              <span>{item.nameKey ? t(`nav.${item.nameKey}`, item.name) : item.name}</span>
                             </PublicLink>
                           );
                         })}
@@ -375,14 +377,14 @@ export const PublicHeader: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-100 dark:border-slate-800">
                         <span className="text-[11px] font-bold text-[#06B6D4] uppercase tracking-wider">
-                          Theo nhu cầu lõi
+                          {t('nav.solutionsByNeed')}
                         </span>
                         <PublicLink
                           href="/solutions"
                           onClick={closeAllMenus}
                           className="text-[10px] font-bold text-[#06B6D4] hover:underline"
                         >
-                          Khám phá →
+                          {t('nav.solutionsByNeedExplore')}
                         </PublicLink>
                       </div>
 
@@ -397,7 +399,7 @@ export const PublicHeader: React.FC = () => {
                               className="w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/60 text-left text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#06B6D4] transition-colors"
                             >
                               <IconComp className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-                              <span>{item.name}</span>
+                              <span>{item.nameKey ? t(`nav.${item.nameKey}`, item.name) : item.name}</span>
                             </PublicLink>
                           );
                         })}
@@ -408,14 +410,14 @@ export const PublicHeader: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-100 dark:border-slate-800">
                         <span className="text-[11px] font-bold text-[#D9A62E] uppercase tracking-wider">
-                          Theo 8 ngành
+                          {t('nav.solutionsByIndustry')}
                         </span>
                         <PublicLink
                           href="/industries"
                           onClick={closeAllMenus}
                           className="text-[10px] font-bold text-[#D9A62E] hover:underline"
                         >
-                          Xem tất cả →
+                          {t('nav.solutionsByIndustryAll')}
                         </PublicLink>
                       </div>
 
@@ -430,7 +432,7 @@ export const PublicHeader: React.FC = () => {
                               className="w-full flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/60 text-left text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#D9A62E] transition-colors"
                             >
                               <IconComp className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-                              <span>{item.name}</span>
+                              <span>{item.nameKey ? t(`nav.${item.nameKey}`, item.name) : item.name}</span>
                             </PublicLink>
                           );
                         })}
@@ -455,7 +457,7 @@ export const PublicHeader: React.FC = () => {
                       : 'text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <span>AI & Tự động hóa</span>
+                  <span>{t('nav.aiAndAutomation')}</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform duration-150 ${
                       activeMenu === 'ai' ? 'rotate-180 text-[#155EEF] dark:text-[#06B6D4]' : 'text-slate-400'
@@ -473,10 +475,10 @@ export const PublicHeader: React.FC = () => {
                     <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 dark:border-slate-800">
                       <div>
                         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                          Mạng lưới 9 AI Copilots chuyên môn
+                          {t('nav.aiCopilotsHeader')}
                         </span>
                         <span className="text-[10px] text-slate-500">
-                          Chỉ đọc, phân tích & đề xuất — Không tự ý quyết định
+                          {t('nav.aiCopilotsSubheader')}
                         </span>
                       </div>
                       <PublicLink
@@ -484,7 +486,7 @@ export const PublicHeader: React.FC = () => {
                         onClick={closeAllMenus}
                         className="text-xs font-semibold text-[#155EEF] dark:text-[#06B6D4] hover:underline"
                       >
-                        Xem tất cả 9 Agent →
+                        {t('nav.aiCopilotsViewAll')}
                       </PublicLink>
                     </div>
 
@@ -503,10 +505,10 @@ export const PublicHeader: React.FC = () => {
                             </div>
                             <div>
                               <div className="text-xs font-bold text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4]">
-                                {item.name}
+                                {item.nameKey ? t(`nav.${item.nameKey}`, item.name) : item.name}
                               </div>
                               <div className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">
-                                {item.desc}
+                                {item.descKey ? t(`nav.${item.descKey}`, item.desc) : item.desc}
                               </div>
                             </div>
                           </PublicLink>
@@ -524,7 +526,7 @@ export const PublicHeader: React.FC = () => {
                 className="px-3 py-2 text-xs font-semibold rounded-lg transition-colors text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
                 activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
               >
-                Năng lực
+                {t('nav.capabilities')}
               </PublicLink>
 
               {/* TÀI NGUYÊN */}
@@ -534,7 +536,7 @@ export const PublicHeader: React.FC = () => {
                 className="px-3 py-2 text-xs font-semibold rounded-lg transition-colors text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
                 activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
               >
-                Tài nguyên
+                {t('nav.resources')}
               </PublicLink>
 
               {/* VỀ VMC GROUP */}
@@ -544,7 +546,7 @@ export const PublicHeader: React.FC = () => {
                 className="px-3 py-2 text-xs font-semibold rounded-lg transition-colors text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
                 activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
               >
-                Về VMC Group
+                {t('nav.aboutVmc')}
               </PublicLink>
             </nav>
           </div>
@@ -565,8 +567,8 @@ export const PublicHeader: React.FC = () => {
                 aria-expanded={isThemeMenuOpen}
                 onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
                 className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                title={`Chế độ hiển thị (${theme === 'system' ? 'Tự động' : theme === 'dark' ? 'Tối' : 'Sáng'})`}
-                aria-label="Chuyển chế độ giao diện Sáng / Tối"
+                title={t('common.themeModeTitle', { mode: theme === 'system' ? t('common.themeSystemShort') : theme === 'dark' ? t('common.themeDarkShort') : t('common.themeLightShort') })}
+                aria-label={t('common.themeToggleAria')}
               >
                 {activeTheme === 'dark' ? (
                   <Moon className="w-4 h-4 text-[#06B6D4]" />
@@ -594,7 +596,7 @@ export const PublicHeader: React.FC = () => {
                     }`}
                   >
                     <Sun className="w-3.5 h-3.5 text-[#D9A62E]" />
-                    <span>Giao diện Sáng</span>
+                    <span>{t('common.themeLight')}</span>
                   </button>
                   <button
                     role="menuitem"
@@ -609,7 +611,7 @@ export const PublicHeader: React.FC = () => {
                     }`}
                   >
                     <Moon className="w-3.5 h-3.5 text-[#06B6D4]" />
-                    <span>Giao diện Tối</span>
+                    <span>{t('common.themeDark')}</span>
                   </button>
                   <button
                     role="menuitem"
@@ -624,7 +626,7 @@ export const PublicHeader: React.FC = () => {
                     }`}
                   >
                     <Monitor className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Theo hệ thống</span>
+                    <span>{t('common.themeSystem')}</span>
                   </button>
                 </div>
               )}
@@ -634,10 +636,10 @@ export const PublicHeader: React.FC = () => {
             <PublicLink
               href="/admin"
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl transition-colors border border-slate-200 dark:border-slate-700/70"
-              title="Truy cập Workspace Quản trị Dữ liệu Doanh nghiệp"
+              title={t('nav.topBannerWorkspaceTitle')}
             >
               <Shield className="w-3.5 h-3.5 text-[#06B6D4]" />
-              <span>Workspace</span>
+              <span>{t('nav.workspace')}</span>
             </PublicLink>
 
             {/* Đăng ký tư vấn CTA */}
@@ -649,7 +651,7 @@ export const PublicHeader: React.FC = () => {
               }}
               className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 bg-[#155EEF] hover:bg-[#1048b8] text-white text-xs font-semibold rounded-xl shadow-xs transition-colors cursor-pointer shrink-0"
             >
-              <span>Đăng ký tư vấn</span>
+              <span>{t('nav.registerConsultation')}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
@@ -658,7 +660,7 @@ export const PublicHeader: React.FC = () => {
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-[#0B1F3A] dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#155EEF]"
-              aria-label={isMobileMenuOpen ? 'Đóng menu' : 'Mở menu'}
+              aria-label={isMobileMenuOpen ? t('nav.mobileMenuCloseAria') : t('nav.mobileMenuOpenAria')}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
             >
@@ -674,7 +676,7 @@ export const PublicHeader: React.FC = () => {
           id="mobile-navigation-drawer"
           role="dialog"
           aria-modal="true"
-          aria-label="Menu điều hướng di động"
+          aria-label={t('nav.mobileMenuAriaLabel')}
           className="fixed inset-0 top-[57px] sm:top-[65px] z-50 lg:hidden flex flex-col bg-white dark:bg-[#070E1B] border-t border-slate-200 dark:border-slate-800 animate-fadeIn"
         >
           <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
@@ -686,7 +688,7 @@ export const PublicHeader: React.FC = () => {
               className="w-full block px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl"
               activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
             >
-              Trang chủ
+              {t('nav.home')}
             </PublicLink>
 
             {/* Accordion 1: AI ENTERPRISE */}
@@ -700,7 +702,7 @@ export const PublicHeader: React.FC = () => {
                 }
                 className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl cursor-pointer"
               >
-                <span>AI ENTERPRISE</span>
+                <span>{t('nav.enterprise')}</span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-150 ${
                     mobileExpandedSection === 'enterprise'
@@ -718,28 +720,28 @@ export const PublicHeader: React.FC = () => {
                     onClick={closeAllMenus}
                     className="block w-full py-1.5 font-bold text-[#155EEF] dark:text-[#06B6D4]"
                   >
-                    Tổng quan Hệ điều hành AI →
+                    {t('nav.mobileEnterpriseOverview')}
                   </PublicLink>
                   <PublicLink
                     href="/ai-enterprise#architecture"
                     onClick={closeAllMenus}
                     className="block w-full py-1.5 hover:text-[#0B1F3A] dark:hover:text-white"
                   >
-                    11 Phân hệ lõi (Scope A-K)
+                    {t('nav.mobile11Modules')}
                   </PublicLink>
                   <PublicLink
                     href="/ai-enterprise#principles"
                     onClick={closeAllMenus}
                     className="block w-full py-1.5 hover:text-[#0B1F3A] dark:hover:text-white"
                   >
-                    6 Nguyên tắc triển khai
+                    {t('nav.mobile6Principles')}
                   </PublicLink>
                   <PublicLink
                     href="/ai-enterprise#security"
                     onClick={closeAllMenus}
                     className="block w-full py-1.5 hover:text-[#0B1F3A] dark:hover:text-white"
                   >
-                    Bảo mật & Phân quyền AI
+                    {t('nav.mobileSecurity')}
                   </PublicLink>
                 </div>
               )}
@@ -756,7 +758,7 @@ export const PublicHeader: React.FC = () => {
                 }
                 className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl cursor-pointer"
               >
-                <span>Giải pháp</span>
+                <span>{t('nav.solutions')}</span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-150 ${
                     mobileExpandedSection === 'solutions'
@@ -774,12 +776,12 @@ export const PublicHeader: React.FC = () => {
                     onClick={closeAllMenus}
                     className="block w-full py-1 font-bold text-[#155EEF] dark:text-[#06B6D4]"
                   >
-                    Xem trang tổng quan Giải pháp →
+                    {t('nav.mobileSolutionsOverview')}
                   </PublicLink>
 
                   {/* Nhóm Theo phòng ban */}
                   <div className="font-bold text-[#155EEF] dark:text-blue-400 pt-1 text-[11px] uppercase tracking-wider">
-                    Theo phòng ban:
+                    {t('nav.mobileByDepartment')}
                   </div>
                   {NAV_DEPARTMENTS.map((dept) => (
                     <PublicLink
@@ -788,13 +790,13 @@ export const PublicHeader: React.FC = () => {
                       onClick={closeAllMenus}
                       className="block w-full py-1 hover:text-[#0B1F3A] dark:hover:text-white"
                     >
-                      {dept.name}
+                      {dept.nameKey ? t(`nav.${dept.nameKey}`, dept.name) : dept.name}
                     </PublicLink>
                   ))}
 
                   {/* Nhóm Theo nhu cầu chuyển đổi */}
                   <div className="font-bold text-[#06B6D4] pt-2 text-[11px] uppercase tracking-wider">
-                    Theo nhu cầu lõi:
+                    {t('nav.mobileByNeed')}
                   </div>
                   {NAV_NEEDS.map((need) => (
                     <PublicLink
@@ -803,19 +805,19 @@ export const PublicHeader: React.FC = () => {
                       onClick={closeAllMenus}
                       className="block w-full py-1 hover:text-[#0B1F3A] dark:hover:text-white"
                     >
-                      {need.name}
+                      {need.nameKey ? t(`nav.${need.nameKey}`, need.name) : need.name}
                     </PublicLink>
                   ))}
 
                   {/* Nhóm Theo 8 Ngành ưu tiên - ĐỦ CẢ 8 NGÀNH */}
                   <div className="font-bold text-[#D9A62E] pt-2 text-[11px] uppercase tracking-wider flex items-center justify-between">
-                    <span>Theo 8 ngành:</span>
+                    <span>{t('nav.mobileByIndustry')}</span>
                     <PublicLink
                       href="/industries"
                       onClick={closeAllMenus}
                       className="text-[10px] lowercase hover:underline"
                     >
-                      (xem tất cả)
+                      {t('nav.mobileViewAll')}
                     </PublicLink>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
@@ -826,7 +828,7 @@ export const PublicHeader: React.FC = () => {
                         onClick={closeAllMenus}
                         className="block w-full py-1 hover:text-[#D9A62E]"
                       >
-                        • {ind.name}
+                        • {ind.nameKey ? t(`nav.${ind.nameKey}`, ind.name) : ind.name}
                       </PublicLink>
                     ))}
                   </div>
@@ -845,7 +847,7 @@ export const PublicHeader: React.FC = () => {
                 }
                 className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl cursor-pointer"
               >
-                <span>AI & Tự động hóa</span>
+                <span>{t('nav.aiAndAutomation')}</span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-150 ${
                     mobileExpandedSection === 'ai'
@@ -863,7 +865,7 @@ export const PublicHeader: React.FC = () => {
                     onClick={closeAllMenus}
                     className="block w-full py-1 font-bold text-[#155EEF] dark:text-[#06B6D4]"
                   >
-                    Xem tất cả 9 AI Agent →
+                    {t('nav.mobileViewAllAiAgents')}
                   </PublicLink>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 pt-1">
                     {NAV_AI_AGENTS.map((agent) => (
@@ -873,7 +875,7 @@ export const PublicHeader: React.FC = () => {
                         onClick={closeAllMenus}
                         className="block w-full py-1 hover:text-[#0B1F3A] dark:hover:text-white"
                       >
-                        • {agent.name}
+                        • {agent.nameKey ? t(`nav.${agent.nameKey}`, agent.name) : agent.name}
                       </PublicLink>
                     ))}
                   </div>
@@ -888,7 +890,7 @@ export const PublicHeader: React.FC = () => {
               className="w-full block px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl"
               activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
             >
-              Năng lực
+              {t('nav.capabilities')}
             </PublicLink>
 
             {/* Tài nguyên */}
@@ -898,7 +900,7 @@ export const PublicHeader: React.FC = () => {
               className="w-full block px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl"
               activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
             >
-              Tài nguyên & Tri thức
+              {t('nav.mobileResources')}
             </PublicLink>
 
             {/* Về VMC Group */}
@@ -908,7 +910,7 @@ export const PublicHeader: React.FC = () => {
               className="w-full block px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-xl"
               activeClassName="!text-[#155EEF] dark:!text-[#06B6D4] !bg-blue-50/80 dark:!bg-blue-950/40"
             >
-              Về VMC Group
+              {t('nav.aboutVmc')}
             </PublicLink>
 
             {/* Mobile Language Selector */}
@@ -917,7 +919,7 @@ export const PublicHeader: React.FC = () => {
             {/* Mobile Theme Selector */}
             <div className="pt-3 border-t border-slate-200 dark:border-slate-800">
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-3">
-                Chế độ hiển thị
+                {t('common.themeMode')}
               </div>
               <div className="grid grid-cols-3 gap-2 px-1">
                 <button
@@ -930,7 +932,7 @@ export const PublicHeader: React.FC = () => {
                   }`}
                 >
                   <Sun className="w-3.5 h-3.5 text-[#D9A62E]" />
-                  <span>Sáng</span>
+                  <span>{t('common.themeLightShort')}</span>
                 </button>
                 <button
                   type="button"
@@ -942,7 +944,7 @@ export const PublicHeader: React.FC = () => {
                   }`}
                 >
                   <Moon className="w-3.5 h-3.5 text-[#06B6D4]" />
-                  <span>Tối</span>
+                  <span>{t('common.themeDarkShort')}</span>
                 </button>
                 <button
                   type="button"
@@ -954,7 +956,7 @@ export const PublicHeader: React.FC = () => {
                   }`}
                 >
                   <Monitor className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Tự động</span>
+                  <span>{t('common.themeSystemShort')}</span>
                 </button>
               </div>
             </div>
@@ -970,7 +972,7 @@ export const PublicHeader: React.FC = () => {
               }}
               className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#155EEF] hover:bg-[#1048b8] rounded-xl shadow-xs cursor-pointer"
             >
-              <span>Đăng ký tư vấn giải pháp</span>
+              <span>{t('common.registerSolutionConsultation')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -980,7 +982,7 @@ export const PublicHeader: React.FC = () => {
               className="w-full flex items-center justify-center gap-1.5 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-[#0B1F3A] dark:hover:text-white"
             >
               <Shield className="w-3.5 h-3.5 text-[#06B6D4]" />
-              <span>Chuyển sang Workspace Quản trị</span>
+              <span>{t('nav.mobileSwitchToWorkspace')}</span>
             </PublicLink>
           </div>
         </div>

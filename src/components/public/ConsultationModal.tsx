@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePublicRouter } from '../../context/PublicRouterContext';
 import { useEnterprise } from '../../context/EnterpriseContext';
+import { useI18n } from '../../i18n/I18nContext';
 import { industriesSolutions } from '../../data/websiteContent';
 import { X, CheckCircle2, ShieldCheck, ArrowRight, Building2, User, Mail, Phone, Sparkles, AlertCircle } from 'lucide-react';
 import { ConsultationFormData } from '../../types/website';
@@ -25,6 +26,7 @@ export const ConsultationModal: React.FC = () => {
   } = usePublicRouter();
 
   const { showToast } = useEnterprise();
+  const { t } = useI18n();
 
   const [formData, setFormData] = useState<ConsultationFormData>({
     fullName: '',
@@ -44,6 +46,30 @@ export const ConsultationModal: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
   const lastActiveElementRef = useRef<HTMLElement | null>(null);
+
+  // Helper for translating industry options while preserving underlying value
+  const getIndustryOptionLabel = (slug: string, fallbackName: string): string => {
+    switch (slug) {
+      case 'trade':
+        return t('forms.industryTrade');
+      case 'service':
+        return t('forms.industryService');
+      case 'education':
+        return t('forms.industryEducation');
+      case 'real-estate':
+        return t('forms.industryRealEstate');
+      case 'manufacturing':
+        return t('forms.industryManufacturing');
+      case 'distribution':
+        return t('forms.industryDistribution');
+      case 'construction':
+        return t('forms.industryConstruction');
+      case 'technology':
+        return t('forms.industryTechnology');
+      default:
+        return fallbackName;
+    }
+  };
 
   // Sync modal type & industry when modal opens or props change
   useEffect(() => {
@@ -129,21 +155,21 @@ export const ConsultationModal: React.FC = () => {
     switch (consultationModalType) {
       case 'assessment':
         return {
-          badge: 'ĐÁNH GIÁ NĂNG LỰC SẴN SÀNG AI',
-          title: 'Đăng Ký Đánh Giá Mức Độ Sẵn Sàng AI',
-          desc: 'Chuyên gia kiến trúc của VMC Group sẽ khảo sát mức độ sẵn sàng công nghệ, dữ liệu và quy trình để đề xuất lộ trình ứng dụng AI ENTERPRISE tối ưu.'
+          badge: t('forms.assessmentBadge'),
+          title: t('forms.assessmentTitle'),
+          desc: t('forms.assessmentDesc')
         };
       case 'booking':
         return {
-          badge: 'ĐẶT LỊCH LÀM VIỆC 1:1',
-          title: 'Đặt Lịch Tư Vấn Kiến Trúc AI',
-          desc: 'Phiên làm việc chuyên sâu 45 phút cùng Kiến trúc sư hệ thống VMC Group về phương án kết nối các phòng ban trên một nền tảng vận hành thống nhất.'
+          badge: t('forms.bookingBadge'),
+          title: t('forms.bookingTitle'),
+          desc: t('forms.bookingDesc')
         };
       default:
         return {
-          badge: 'TƯ VẤN DOANH NGHIỆP',
-          title: 'Đăng Ký Tư Vấn Giải Pháp AI ENTERPRISE',
-          desc: 'Kết nối trực tiếp cùng đội ngũ VMC Group để nhận cấu hình may đo theo quy mô, ngành nghề và quy trình thực tế của doanh nghiệp.'
+          badge: t('forms.generalBadge'),
+          title: t('forms.generalTitle'),
+          desc: t('forms.generalDesc')
         };
     }
   };
@@ -155,31 +181,31 @@ export const ConsultationModal: React.FC = () => {
     const errs: ModalErrors = {};
 
     if (!formData.fullName.trim()) {
-      errs.fullName = 'Vui lòng nhập họ và tên người liên hệ';
+      errs.fullName = t('forms.requiredFullName');
     }
 
     if (!formData.companyName.trim()) {
-      errs.companyName = 'Vui lòng nhập tên doanh nghiệp của bạn';
+      errs.companyName = t('forms.requiredCompanyName');
     }
 
     if (!formData.email.trim()) {
-      errs.email = 'Vui lòng nhập email công tác';
+      errs.email = t('forms.requiredEmail');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      errs.email = 'Email không hợp lệ (ví dụ: name@company.com)';
+      errs.email = t('forms.invalidEmail');
     }
 
     if (!formData.phone.trim()) {
-      errs.phone = 'Vui lòng nhập số điện thoại';
+      errs.phone = t('forms.requiredPhone');
     } else if (formData.phone.trim().length < 8) {
-      errs.phone = 'Số điện thoại tối thiểu 8 chữ số';
+      errs.phone = t('forms.invalidPhoneLength');
     }
 
     if (!formData.companyScale) {
-      errs.companyScale = 'Vui lòng chọn quy mô nhân sự';
+      errs.companyScale = t('forms.requiredCompanyScale');
     }
 
     if (!formData.industry) {
-      errs.industry = 'Vui lòng chọn ngành nghề';
+      errs.industry = t('forms.requiredIndustry');
     }
 
     setErrors(errs);
@@ -190,7 +216,7 @@ export const ConsultationModal: React.FC = () => {
     e.preventDefault();
 
     if (!validate()) {
-      showToast('Vui lòng hoàn tất các trường bắt buộc!', 'warning');
+      showToast(t('forms.missingRequiredFields'), 'warning');
       return;
     }
 
@@ -201,7 +227,7 @@ export const ConsultationModal: React.FC = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-      showToast('Đăng ký thành công! Chuyên gia VMC Group sẽ liên hệ với bạn sớm nhất.', 'success');
+      showToast(t('forms.submissionSuccessToast'), 'success');
 
       setTimeout(() => {
         setIsSubmitted(false);
@@ -216,6 +242,7 @@ export const ConsultationModal: React.FC = () => {
       aria-modal="true"
       aria-labelledby="consultation-modal-title"
       aria-describedby="consultation-modal-desc"
+      aria-label={t('accessibility.consultationDialogAriaLabel')}
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#0B1F3A]/75 dark:bg-black/85 backdrop-blur-xs animate-fadeIn overflow-y-auto"
     >
       <div
@@ -228,13 +255,13 @@ export const ConsultationModal: React.FC = () => {
             type="button"
             onClick={closeConsultationModal}
             className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-            aria-label="Đóng cửa sổ đăng ký tư vấn"
+            aria-label={t('accessibility.closeConsultationModalAria')}
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#155EEF]/30 text-[#06B6D4] text-[11px] font-bold uppercase tracking-wider mb-2 border border-[#155EEF]/40">
-            <Sparkles className="w-3.5 h-3.5 text-[#06B6D4]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#06B6D4]" aria-hidden="true" />
             {info.badge}
           </div>
           <h2 id="consultation-modal-title" className="text-lg sm:text-xl font-bold text-white tracking-tight">
@@ -248,15 +275,19 @@ export const ConsultationModal: React.FC = () => {
         {/* Modal Body - Single main scrollable region on mobile and desktop */}
         <div className="overflow-y-auto p-5 sm:p-6 flex-1 text-[#0F172A] dark:text-slate-200">
           {isSubmitted ? (
-            <div className="p-8 text-center space-y-4">
+            <div className="p-8 text-center space-y-4" role="status" aria-live="polite">
               <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/50 rounded-full flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
-                <CheckCircle2 className="w-10 h-10" />
+                <CheckCircle2 className="w-10 h-10" aria-hidden="true" />
               </div>
-              <h3 className="text-lg font-bold text-[#0F172A] dark:text-white">Tiếp nhận yêu cầu thành công!</h3>
+              <h3 className="text-lg font-bold text-[#0F172A] dark:text-white">
+                {t('forms.successTitle')}
+              </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
-                Cảm ơn Quý khách <span className="font-semibold text-[#0B1F3A] dark:text-[#06B6D4]">{formData.fullName}</span> từ doanh nghiệp{' '}
-                <span className="font-semibold text-[#0B1F3A] dark:text-white">{formData.companyName}</span>. Chuyên gia tư vấn của VMC Group sẽ liên hệ lại qua email{' '}
-                <span className="text-[#155EEF] dark:text-[#06B6D4] font-medium">{formData.email}</span> và số điện thoại trong vòng 24 giờ làm việc.
+                {t('forms.successDetail', {
+                  fullName: formData.fullName,
+                  companyName: formData.companyName,
+                  email: formData.email
+                })}
               </p>
             </div>
           ) : (
@@ -264,18 +295,22 @@ export const ConsultationModal: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="modal-fullname" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Họ và tên người liên hệ <span className="text-rose-500">*</span>
+                    {t('forms.fullNameLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                    <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                   </label>
                   <div className="relative">
-                    <User className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+                    <User className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" aria-hidden="true" />
                     <input
                       id="modal-fullname"
                       ref={firstInputRef}
                       name="name"
                       autoComplete="name"
                       type="text"
-                      placeholder="Nguyễn Văn A"
+                      placeholder={t('forms.fullNamePlaceholder')}
                       value={formData.fullName}
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.fullName)}
+                      aria-describedby={errors.fullName ? "modal-fullname-error" : undefined}
                       onChange={(e) => {
                         setFormData({ ...formData, fullName: e.target.value });
                         if (errors.fullName) setErrors({ ...errors, fullName: undefined });
@@ -286,8 +321,8 @@ export const ConsultationModal: React.FC = () => {
                     />
                   </div>
                   {errors.fullName && (
-                    <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p id="modal-fullname-error" role="alert" className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{errors.fullName}</span>
                     </p>
                   )}
@@ -295,17 +330,21 @@ export const ConsultationModal: React.FC = () => {
 
                 <div>
                   <label htmlFor="modal-companyname" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Tên doanh nghiệp <span className="text-rose-500">*</span>
+                    {t('forms.companyNameLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                    <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                   </label>
                   <div className="relative">
-                    <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+                    <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" aria-hidden="true" />
                     <input
                       id="modal-companyname"
                       name="organization"
                       autoComplete="organization"
                       type="text"
-                      placeholder="Công ty Cổ phần / TNHH..."
+                      placeholder={t('forms.companyNamePlaceholder')}
                       value={formData.companyName}
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.companyName)}
+                      aria-describedby={errors.companyName ? "modal-companyname-error" : undefined}
                       onChange={(e) => {
                         setFormData({ ...formData, companyName: e.target.value });
                         if (errors.companyName) setErrors({ ...errors, companyName: undefined });
@@ -316,8 +355,8 @@ export const ConsultationModal: React.FC = () => {
                     />
                   </div>
                   {errors.companyName && (
-                    <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p id="modal-companyname-error" role="alert" className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{errors.companyName}</span>
                     </p>
                   )}
@@ -327,17 +366,21 @@ export const ConsultationModal: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="modal-email" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Email công tác <span className="text-rose-500">*</span>
+                    {t('forms.workEmailLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                    <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" aria-hidden="true" />
                     <input
                       id="modal-email"
                       name="email"
                       autoComplete="email"
                       type="email"
-                      placeholder="name@company.com"
+                      placeholder={t('forms.emailPlaceholder')}
                       value={formData.email}
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? "modal-email-error" : undefined}
                       onChange={(e) => {
                         setFormData({ ...formData, email: e.target.value });
                         if (errors.email) setErrors({ ...errors, email: undefined });
@@ -348,8 +391,8 @@ export const ConsultationModal: React.FC = () => {
                     />
                   </div>
                   {errors.email && (
-                    <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p id="modal-email-error" role="alert" className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{errors.email}</span>
                     </p>
                   )}
@@ -357,17 +400,21 @@ export const ConsultationModal: React.FC = () => {
 
                 <div>
                   <label htmlFor="modal-phone" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Số điện thoại <span className="text-rose-500">*</span>
+                    {t('forms.phoneLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                    <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                   </label>
                   <div className="relative">
-                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" aria-hidden="true" />
                     <input
                       id="modal-phone"
                       name="tel"
                       autoComplete="tel"
                       type="tel"
-                      placeholder="0912 345 678"
+                      placeholder={t('forms.phonePlaceholder')}
                       value={formData.phone}
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.phone)}
+                      aria-describedby={errors.phone ? "modal-phone-error" : undefined}
                       onChange={(e) => {
                         setFormData({ ...formData, phone: e.target.value });
                         if (errors.phone) setErrors({ ...errors, phone: undefined });
@@ -378,8 +425,8 @@ export const ConsultationModal: React.FC = () => {
                     />
                   </div>
                   {errors.phone && (
-                    <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p id="modal-phone-error" role="alert" className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{errors.phone}</span>
                     </p>
                   )}
@@ -389,11 +436,15 @@ export const ConsultationModal: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="modal-scale" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Quy mô nhân sự <span className="text-rose-500">*</span>
+                    {t('forms.companyScaleLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                    <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                   </label>
                   <select
                     id="modal-scale"
                     value={formData.companyScale}
+                    aria-required="true"
+                    aria-invalid={Boolean(errors.companyScale)}
+                    aria-describedby={errors.companyScale ? "modal-scale-error" : undefined}
                     onChange={(e) => {
                       setFormData({ ...formData, companyScale: e.target.value });
                       if (errors.companyScale) setErrors({ ...errors, companyScale: undefined });
@@ -402,16 +453,16 @@ export const ConsultationModal: React.FC = () => {
                       errors.companyScale ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 dark:border-slate-700 focus:ring-[#155EEF]'
                     } bg-white dark:bg-slate-900/60 text-slate-900 dark:text-white focus:outline-none focus:ring-2`}
                   >
-                    <option value="">Chọn quy mô...</option>
-                    <option value="Dưới 20 nhân sự">Dưới 20 nhân sự</option>
-                    <option value="20 - 50 nhân sự">20 - 50 nhân sự</option>
-                    <option value="50 - 150 nhân sự">50 - 150 nhân sự</option>
-                    <option value="150 - 500 nhân sự">150 - 500 nhân sự</option>
-                    <option value="Trên 500 nhân sự">Trên 500 nhân sự</option>
+                    <option value="">{t('forms.companyScalePlaceholder')}</option>
+                    <option value="Dưới 20 nhân sự">{t('forms.scaleUnder20')}</option>
+                    <option value="20 - 50 nhân sự">{t('forms.scale20to50')}</option>
+                    <option value="50 - 150 nhân sự">{t('forms.scale50to150')}</option>
+                    <option value="150 - 500 nhân sự">{t('forms.scale150to500')}</option>
+                    <option value="Trên 500 nhân sự">{t('forms.scaleAbove500')}</option>
                   </select>
                   {errors.companyScale && (
-                    <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p id="modal-scale-error" role="alert" className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{errors.companyScale}</span>
                     </p>
                   )}
@@ -419,11 +470,15 @@ export const ConsultationModal: React.FC = () => {
 
                 <div>
                   <label htmlFor="modal-industry" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Ngành nghề chính <span className="text-rose-500">*</span>
+                    {t('forms.industryLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                    <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                   </label>
                   <select
                     id="modal-industry"
                     value={formData.industry}
+                    aria-required="true"
+                    aria-invalid={Boolean(errors.industry)}
+                    aria-describedby={errors.industry ? "modal-industry-error" : undefined}
                     onChange={(e) => {
                       setFormData({ ...formData, industry: e.target.value });
                       if (errors.industry) setErrors({ ...errors, industry: undefined });
@@ -432,15 +487,15 @@ export const ConsultationModal: React.FC = () => {
                       errors.industry ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 dark:border-slate-700 focus:ring-[#155EEF]'
                     } bg-white dark:bg-slate-900/60 text-slate-900 dark:text-white focus:outline-none focus:ring-2`}
                   >
-                    <option value="">Chọn ngành nghề...</option>
+                    <option value="">{t('forms.industryPlaceholder')}</option>
                     {industriesSolutions.map((ind) => (
-                      <option key={ind.id} value={ind.name}>{ind.name}</option>
+                      <option key={ind.id} value={ind.name}>{getIndustryOptionLabel(ind.slug, ind.name)}</option>
                     ))}
-                    <option value="Khác">Ngành nghề khác</option>
+                    <option value="Khác">{t('forms.industryOther')}</option>
                   </select>
                   {errors.industry && (
-                    <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p id="modal-industry-error" role="alert" className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{errors.industry}</span>
                     </p>
                   )}
@@ -449,12 +504,12 @@ export const ConsultationModal: React.FC = () => {
 
               <div>
                 <label htmlFor="modal-need" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Nhu cầu hoặc điểm nghẽn vận hành cần giải quyết
+                  {t('forms.needDescriptionLabel')}
                 </label>
                 <textarea
                   id="modal-need"
                   rows={3}
-                  placeholder="Ví dụ: Cần đồng bộ dữ liệu khách hàng giữa phòng Marketing và Sales, hoặc muốn số hóa quy trình phê duyệt nội bộ..."
+                  placeholder={t('forms.needDescriptionPlaceholder')}
                   value={formData.needDescription}
                   onChange={(e) => setFormData({ ...formData, needDescription: e.target.value })}
                   className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/60 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#155EEF]"
@@ -462,9 +517,9 @@ export const ConsultationModal: React.FC = () => {
               </div>
 
               <div className="p-3 bg-blue-50/60 dark:bg-slate-800/60 rounded-xl border border-blue-100 dark:border-slate-700 flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-300">
-                <ShieldCheck className="w-4 h-4 text-[#155EEF] dark:text-[#06B6D4] shrink-0 mt-0.5" />
+                <ShieldCheck className="w-4 h-4 text-[#155EEF] dark:text-[#06B6D4] shrink-0 mt-0.5" aria-hidden="true" />
                 <span>
-                  Cam kết bảo mật: VMC Group tôn trọng 100% quyền riêng tư dữ liệu và ký thỏa thuận bảo mật thông tin (NDA) trước mọi buổi làm việc chuyên sâu.
+                  {t('forms.securityNotice')}
                 </span>
               </div>
 
@@ -474,15 +529,15 @@ export const ConsultationModal: React.FC = () => {
                   onClick={closeConsultationModal}
                   className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
                 >
-                  Hủy bỏ
+                  {t('forms.cancelButton')}
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className="flex items-center gap-2 px-6 py-2.5 bg-[#155EEF] hover:bg-[#1048b8] text-white text-xs font-semibold rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  <span>{isSubmitting ? 'Đang gửi...' : 'Xác nhận gửi thông tin'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>{isSubmitting ? t('forms.submittingButton') : t('forms.submitButton')}</span>
+                  <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </button>
               </div>
             </form>

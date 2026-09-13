@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useEnterprise } from '../../../context/EnterpriseContext';
+import { useI18n } from '../../../i18n/I18nContext';
 import { industriesSolutions } from '../../../data/websiteContent';
 import {
   Mail, Globe, MapPin, Phone, ShieldCheck, ArrowRight,
@@ -18,11 +19,36 @@ interface FormErrors {
 
 export const ContactPage: React.FC = () => {
   const { data, showToast } = useEnterprise();
+  const { t } = useI18n();
 
   const companyName = data?.identity?.companyName?.value || 'VMC Group';
   const email = data?.contact?.email?.value || 'vmcaitraining@gmail.com';
   const website = data?.contact?.website?.value || 'vmcgroup.com';
   const region = data?.contact?.region?.value || 'Hà Nội, Việt Nam';
+
+  // Helper for translating industry options while preserving underlying value
+  const getIndustryOptionLabel = (slug: string, fallbackName: string): string => {
+    switch (slug) {
+      case 'trade':
+        return t('forms.industryTrade');
+      case 'service':
+        return t('forms.industryService');
+      case 'education':
+        return t('forms.industryEducation');
+      case 'real-estate':
+        return t('forms.industryRealEstate');
+      case 'manufacturing':
+        return t('forms.industryManufacturing');
+      case 'distribution':
+        return t('forms.industryDistribution');
+      case 'construction':
+        return t('forms.industryConstruction');
+      case 'technology':
+        return t('forms.industryTechnology');
+      default:
+        return fallbackName;
+    }
+  };
 
   // Form states - Empty initial scale and industry as requested ("Chọn...")
   const [formData, setFormData] = useState<ConsultationFormData>({
@@ -45,31 +71,31 @@ export const ContactPage: React.FC = () => {
     const errs: FormErrors = {};
 
     if (!formData.fullName.trim()) {
-      errs.fullName = 'Vui lòng nhập họ và tên người liên hệ';
+      errs.fullName = t('forms.requiredFullName');
     }
 
     if (!formData.companyName.trim()) {
-      errs.companyName = 'Vui lòng nhập tên doanh nghiệp của bạn';
+      errs.companyName = t('forms.requiredCompanyName');
     }
 
     if (!formData.email.trim()) {
-      errs.email = 'Vui lòng nhập email công tác';
+      errs.email = t('forms.requiredEmail');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      errs.email = 'Email không đúng định dạng (ví dụ: name@company.com)';
+      errs.email = t('forms.invalidEmail');
     }
 
     if (!formData.phone.trim()) {
-      errs.phone = 'Vui lòng nhập số điện thoại liên hệ';
+      errs.phone = t('forms.requiredPhone');
     } else if (formData.phone.trim().length < 8) {
-      errs.phone = 'Số điện thoại phải có ít nhất 8 chữ số';
+      errs.phone = t('forms.invalidPhoneLength');
     }
 
     if (!formData.companyScale) {
-      errs.companyScale = 'Vui lòng chọn quy mô nhân sự của doanh nghiệp';
+      errs.companyScale = t('forms.requiredCompanyScale');
     }
 
     if (!formData.industry) {
-      errs.industry = 'Vui lòng chọn ngành nghề kinh doanh';
+      errs.industry = t('forms.requiredIndustry');
     }
 
     setErrors(errs);
@@ -80,7 +106,7 @@ export const ContactPage: React.FC = () => {
     e.preventDefault();
 
     if (!validate()) {
-      showToast('Vui lòng kiểm tra các trường bị lỗi!', 'warning');
+      showToast(t('forms.invalidFormToast'), 'warning');
       return;
     }
 
@@ -90,7 +116,7 @@ export const ContactPage: React.FC = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-      showToast('Gửi thông tin thành công! Chuyên gia VMC Group sẽ liên hệ trong 24h làm việc.', 'success');
+      showToast(t('forms.submissionSuccessToast'), 'success');
     }, 400);
   };
 
@@ -122,50 +148,58 @@ export const ContactPage: React.FC = () => {
             <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-6">
               <div className="space-y-1">
                 <div className="text-xs font-bold font-mono text-[#155EEF] dark:text-[#06B6D4] uppercase tracking-wider">
-                  PHIẾU ĐĂNG KÝ
+                  {t('forms.contactBadge')}
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-[#0B1F3A] dark:text-white">
-                  Đăng Ký Tư Vấn Giải Pháp Doanh Nghiệp
+                  {t('forms.contactTitle')}
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Điền thông tin doanh nghiệp để nhận báo cáo phân tích kiến trúc sơ bộ trong vòng 24 giờ.
+                  {t('forms.contactDesc')}
                 </p>
               </div>
 
               {isSubmitted ? (
-                <div className="p-8 text-center space-y-4 bg-emerald-50/50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800">
+                <div className="p-8 text-center space-y-4 bg-emerald-50/50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800" role="status" aria-live="polite">
                   <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-10 h-10" />
+                    <CheckCircle2 className="w-10 h-10" aria-hidden="true" />
                   </div>
-                  <h3 className="text-lg font-bold text-[#0B1F3A] dark:text-white">Tiếp nhận yêu cầu thành công!</h3>
+                  <h3 className="text-lg font-bold text-[#0B1F3A] dark:text-white">
+                    {t('forms.successTitle')}
+                  </h3>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-md mx-auto">
-                    Cảm ơn Quý khách <span className="font-semibold text-[#0B1F3A] dark:text-white">{formData.fullName}</span> từ doanh nghiệp{' '}
-                    <span className="font-semibold text-[#0B1F3A] dark:text-white">{formData.companyName}</span>. Chuyên gia tư vấn của VMC Group sẽ liên hệ lại qua email{' '}
-                    <span className="text-[#155EEF] dark:text-[#06B6D4] font-semibold">{formData.email}</span> và số điện thoại trong thời gian sớm nhất.
+                    {t('forms.successDetail', {
+                      fullName: formData.fullName,
+                      companyName: formData.companyName,
+                      email: formData.email
+                    })}
                   </p>
                   <button
                     type="button"
                     onClick={() => setIsSubmitted(false)}
                     className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
                   >
-                    Gửi yêu cầu bổ sung
+                    {t('forms.sendAdditionalRequest')}
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                <form onSubmit={handleSubmit} noValidate aria-label={t('accessibility.contactFormAriaLabel')} className="space-y-4">
                   {/* Full name & Company name */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="contact-fullname" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Họ và tên người liên hệ <span className="text-rose-500">*</span>
+                        {t('forms.fullNameLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                        <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                       </label>
                       <input
                         id="contact-fullname"
                         name="name"
                         autoComplete="name"
                         type="text"
-                        placeholder="Nguyễn Văn A"
+                        placeholder={t('forms.fullNamePlaceholder')}
                         value={formData.fullName}
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.fullName)}
+                        aria-describedby={errors.fullName ? "contact-fullname-error" : undefined}
                         onChange={(e) => {
                           setFormData({ ...formData, fullName: e.target.value });
                           if (errors.fullName) setErrors({ ...errors, fullName: undefined });
@@ -177,8 +211,8 @@ export const ContactPage: React.FC = () => {
                         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2`}
                       />
                       {errors.fullName && (
-                        <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
+                        <p id="contact-fullname-error" role="alert" className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>{errors.fullName}</span>
                         </p>
                       )}
@@ -186,15 +220,19 @@ export const ContactPage: React.FC = () => {
 
                     <div>
                       <label htmlFor="contact-companyname" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Tên doanh nghiệp <span className="text-rose-500">*</span>
+                        {t('forms.companyNameLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                        <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                       </label>
                       <input
                         id="contact-companyname"
                         name="organization"
                         autoComplete="organization"
                         type="text"
-                        placeholder="Công ty Cổ phần / TNHH..."
+                        placeholder={t('forms.companyNamePlaceholder')}
                         value={formData.companyName}
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.companyName)}
+                        aria-describedby={errors.companyName ? "contact-companyname-error" : undefined}
                         onChange={(e) => {
                           setFormData({ ...formData, companyName: e.target.value });
                           if (errors.companyName) setErrors({ ...errors, companyName: undefined });
@@ -206,8 +244,8 @@ export const ContactPage: React.FC = () => {
                         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2`}
                       />
                       {errors.companyName && (
-                        <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
+                        <p id="contact-companyname-error" role="alert" className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>{errors.companyName}</span>
                         </p>
                       )}
@@ -218,15 +256,19 @@ export const ContactPage: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="contact-email" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Email công tác <span className="text-rose-500">*</span>
+                        {t('forms.workEmailLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                        <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                       </label>
                       <input
                         id="contact-email"
                         name="email"
                         autoComplete="email"
                         type="email"
-                        placeholder="name@company.com"
+                        placeholder={t('forms.emailPlaceholder')}
                         value={formData.email}
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.email)}
+                        aria-describedby={errors.email ? "contact-email-error" : undefined}
                         onChange={(e) => {
                           setFormData({ ...formData, email: e.target.value });
                           if (errors.email) setErrors({ ...errors, email: undefined });
@@ -238,8 +280,8 @@ export const ContactPage: React.FC = () => {
                         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2`}
                       />
                       {errors.email && (
-                        <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
+                        <p id="contact-email-error" role="alert" className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>{errors.email}</span>
                         </p>
                       )}
@@ -247,15 +289,19 @@ export const ContactPage: React.FC = () => {
 
                     <div>
                       <label htmlFor="contact-phone" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Số điện thoại <span className="text-rose-500">*</span>
+                        {t('forms.phoneLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                        <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                       </label>
                       <input
                         id="contact-phone"
                         name="tel"
                         autoComplete="tel"
                         type="tel"
-                        placeholder="0912 345 678"
+                        placeholder={t('forms.phonePlaceholder')}
                         value={formData.phone}
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.phone)}
+                        aria-describedby={errors.phone ? "contact-phone-error" : undefined}
                         onChange={(e) => {
                           setFormData({ ...formData, phone: e.target.value });
                           if (errors.phone) setErrors({ ...errors, phone: undefined });
@@ -267,8 +313,8 @@ export const ContactPage: React.FC = () => {
                         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2`}
                       />
                       {errors.phone && (
-                        <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
+                        <p id="contact-phone-error" role="alert" className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>{errors.phone}</span>
                         </p>
                       )}
@@ -279,12 +325,16 @@ export const ContactPage: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="contact-scale" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Quy mô nhân sự <span className="text-rose-500">*</span>
+                        {t('forms.companyScaleLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                        <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                       </label>
                       <select
                         id="contact-scale"
                         name="organization-scale"
                         value={formData.companyScale}
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.companyScale)}
+                        aria-describedby={errors.companyScale ? "contact-scale-error" : undefined}
                         onChange={(e) => {
                           setFormData({ ...formData, companyScale: e.target.value });
                           if (errors.companyScale) setErrors({ ...errors, companyScale: undefined });
@@ -295,16 +345,16 @@ export const ContactPage: React.FC = () => {
                             : 'border-slate-300 dark:border-slate-700 focus:ring-[#155EEF]'
                         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2`}
                       >
-                        <option value="">Chọn quy mô nhân sự...</option>
-                        <option value="Dưới 20 nhân sự">Dưới 20 nhân sự</option>
-                        <option value="20 - 50 nhân sự">20 - 50 nhân sự (Đang tăng trưởng)</option>
-                        <option value="50 - 150 nhân sự">50 - 150 nhân sự (Quy mô vừa)</option>
-                        <option value="150 - 500 nhân sự">150 - 500 nhân sự (Doanh nghiệp lớn)</option>
-                        <option value="Trên 500 nhân sự">Trên 500 nhân sự (Tập đoàn)</option>
+                        <option value="">{t('forms.companyScalePlaceholder')}</option>
+                        <option value="Dưới 20 nhân sự">{t('forms.scaleUnder20')}</option>
+                        <option value="20 - 50 nhân sự">{t('forms.scale20to50')}</option>
+                        <option value="50 - 150 nhân sự">{t('forms.scale50to150')}</option>
+                        <option value="150 - 500 nhân sự">{t('forms.scale150to500')}</option>
+                        <option value="Trên 500 nhân sự">{t('forms.scaleAbove500')}</option>
                       </select>
                       {errors.companyScale && (
-                        <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
+                        <p id="contact-scale-error" role="alert" className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>{errors.companyScale}</span>
                         </p>
                       )}
@@ -312,12 +362,16 @@ export const ContactPage: React.FC = () => {
 
                     <div>
                       <label htmlFor="contact-industry" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                        Ngành nghề kinh doanh <span className="text-rose-500">*</span>
+                        {t('forms.industryLabel')} <span className="text-rose-500" aria-hidden="true">*</span>
+                        <span className="sr-only"> ({t('accessibility.formRequiredFieldAria')})</span>
                       </label>
                       <select
                         id="contact-industry"
                         name="industry"
                         value={formData.industry}
+                        aria-required="true"
+                        aria-invalid={Boolean(errors.industry)}
+                        aria-describedby={errors.industry ? "contact-industry-error" : undefined}
                         onChange={(e) => {
                           setFormData({ ...formData, industry: e.target.value });
                           if (errors.industry) setErrors({ ...errors, industry: undefined });
@@ -328,17 +382,17 @@ export const ContactPage: React.FC = () => {
                             : 'border-slate-300 dark:border-slate-700 focus:ring-[#155EEF]'
                         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2`}
                       >
-                        <option value="">Chọn ngành nghề kinh doanh...</option>
+                        <option value="">{t('forms.industryPlaceholder')}</option>
                         {industriesSolutions.map((ind) => (
                           <option key={ind.id} value={ind.name}>
-                            {ind.name}
+                            {getIndustryOptionLabel(ind.slug, ind.name)}
                           </option>
                         ))}
-                        <option value="Khác">Lĩnh vực khác</option>
+                        <option value="Khác">{t('forms.industryOther')}</option>
                       </select>
                       {errors.industry && (
-                        <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
+                        <p id="contact-industry-error" role="alert" className="text-xs text-rose-600 dark:text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>{errors.industry}</span>
                         </p>
                       )}
@@ -348,13 +402,13 @@ export const ContactPage: React.FC = () => {
                   {/* Need description */}
                   <div>
                     <label htmlFor="contact-need" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      Nhu cầu hoặc điểm nghẽn vận hành cần giải quyết
+                      {t('forms.needDescriptionLabel')}
                     </label>
                     <textarea
                       id="contact-need"
                       name="description"
                       rows={4}
-                      placeholder="Mô tả ngắn gọn về tình hình hiện tại (ví dụ: đang dùng nhiều phần mềm rời rạc, cần chuẩn hóa CRM, tự động hóa quy trình...)"
+                      placeholder={t('forms.needDescriptionPlaceholder')}
                       value={formData.needDescription}
                       onChange={(e) => setFormData({ ...formData, needDescription: e.target.value })}
                       className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#155EEF]"
@@ -367,8 +421,8 @@ export const ContactPage: React.FC = () => {
                       disabled={isSubmitting}
                       className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-[#155EEF] hover:bg-[#1048b8] text-white font-bold text-sm rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50"
                     >
-                      <span>{isSubmitting ? 'Đang xử lý...' : 'Gửi thông tin đăng ký tư vấn'}</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <span>{isSubmitting ? t('forms.contactSubmittingButton') : t('forms.contactSubmitButton')}</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </button>
                   </div>
                 </form>

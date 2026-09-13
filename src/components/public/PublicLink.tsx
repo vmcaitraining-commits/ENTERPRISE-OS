@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePublicRouter } from '../../context/PublicRouterContext';
+import { buildLocalizedPath, parsePathLocale } from '../../i18n/parser';
 
 interface PublicLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -15,6 +16,7 @@ interface PublicLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> 
  * 1. Real `<a href="...">` for standard SEO crawler indexing, middle-click and right-click "Open in new tab"
  * 2. Client-side SPA navigation via `usePublicRouter` on normal left-click (preventing full-page reload)
  * 3. Proper keyboard access, focus outline, and aria accessibility
+ * 4. Automatic locale prefix preservation for multi-language navigation
  */
 export const PublicLink: React.FC<PublicLinkProps> = ({
   href,
@@ -25,13 +27,16 @@ export const PublicLink: React.FC<PublicLinkProps> = ({
   onClick,
   ...props
 }) => {
-  const { currentPath, navigate } = usePublicRouter();
+  const { currentPath, navigate, locale } = usePublicRouter();
 
   const isExternal = href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('tel:');
+  const targetHref = isExternal ? href : buildLocalizedPath(href, locale);
+  const parsed = parsePathLocale(href);
+  const canonicalHref = parsed.canonicalPath;
 
   const isActive = exact
-    ? currentPath === href
-    : (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+    ? currentPath === canonicalHref
+    : (canonicalHref === '/' ? currentPath === '/' : currentPath.startsWith(canonicalHref));
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onClick) {
@@ -44,7 +49,7 @@ export const PublicLink: React.FC<PublicLinkProps> = ({
     }
 
     e.preventDefault();
-    navigate(href);
+    navigate(targetHref);
   };
 
   const combinedClasses = `${className} ${isActive && activeClassName ? activeClassName : ''}`.trim();
@@ -65,7 +70,7 @@ export const PublicLink: React.FC<PublicLinkProps> = ({
 
   return (
     <a
-      href={href}
+      href={targetHref}
       className={combinedClasses}
       onClick={handleClick}
       aria-current={isActive ? 'page' : undefined}
