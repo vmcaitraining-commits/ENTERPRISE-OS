@@ -1,9 +1,11 @@
 import React from 'react';
 import { usePublicRouter } from '../../../context/PublicRouterContext';
-import { aiAgentProfiles } from '../../../data/websiteContent';
+import { copilotDetailedMap } from '../../../data/aiCopilotDetailedData';
+import { CopilotDetailView } from '../ai/CopilotDetailView';
 import {
-  ArrowRight, ArrowLeft, Sparkles, CheckCircle2, AlertCircle, ShieldAlert,
-  Database, LineChart, Zap, Check, Lock, ChevronRight, Crown
+  ArrowRight, ArrowLeft, Sparkles, CheckCircle2, AlertTriangle, ShieldAlert,
+  Database, LineChart, Zap, Check, Lock, ChevronRight, ShieldCheck, FileSpreadsheet,
+  Users, Activity, PhoneCall, GitBranch, Search, DollarSign, Target
 } from 'lucide-react';
 
 export const AiAutomationPage: React.FC = () => {
@@ -12,246 +14,297 @@ export const AiAutomationPage: React.FC = () => {
   const segments = currentPath.split('/');
   const agentSlug = segments[2]; // 'ceo', 'sales', etc.
 
-  const activeAgent = aiAgentProfiles.find((a) => a.slug === agentSlug);
+  const detailedCopilot = agentSlug ? copilotDetailedMap[agentSlug] : null;
 
-  // If viewing a specific AI Agent profile
-  if (activeAgent) {
+  // If viewing a specific AI Copilot profile with full 8-section rich UI
+  if (detailedCopilot) {
     return (
-      <div className="space-y-16 pb-20 text-[#0F172A] dark:text-slate-100 transition-colors">
-        {/* Header */}
-        <section className="bg-gradient-to-b from-[#0B1F3A] to-[#0d274c] dark:from-[#060D19] dark:to-[#0B1528] text-white pt-12 pb-16 border-b border-slate-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+      <div className="space-y-12 pb-24 text-slate-900 dark:text-slate-100 transition-colors">
+        {/* Navigation Breadcrumb Bar */}
+        <section className="bg-slate-900 text-white pt-8 pb-10 border-b border-slate-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <button
               onClick={() => navigate('/ai')}
-              className="inline-flex items-center gap-2 text-xs font-semibold text-[#06B6D4] hover:text-white transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:text-white transition-colors cursor-pointer mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Quay lại Mạng lưới AI Copilot</span>
+              <span>Quay lại Mạng lưới 9 AI Copilot</span>
             </button>
-
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#155EEF]/30 text-[#06B6D4] text-xs font-bold uppercase tracking-wider border border-[#155EEF]/40">
-              <Sparkles className="w-3.5 h-3.5 text-[#06B6D4]" />
-              TRỢ LÝ CHUYÊN MÔN
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              {activeAgent.name}
-            </h1>
-
-            <p className="text-base text-slate-300 max-w-3xl leading-relaxed">
-              {activeAgent.tagline}
-            </p>
-
-            <div className="pt-2">
-              <button
-                onClick={() => openConsultationModal('consultation')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#155EEF] hover:bg-[#1048b8] text-white font-semibold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
-              >
-                <span>Đăng ký tư vấn triển khai {activeAgent.name}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
+              <span className="cursor-pointer hover:text-white" onClick={() => navigate('/')}>Trang chủ</span>
+              <span>/</span>
+              <span className="cursor-pointer hover:text-white" onClick={() => navigate('/ai')}>AI Copilot</span>
+              <span>/</span>
+              <span className="text-white font-semibold">{detailedCopilot.name}</span>
             </div>
           </div>
         </section>
 
-        {/* 8-Block Standard Template */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          {/* Block 1: AI X là gì? */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
-            <div className="flex items-center gap-2 text-[#155EEF] dark:text-[#06B6D4]">
-              <Sparkles className="w-5 h-5" />
-              <h2 className="text-lg font-bold text-[#0B1F3A] dark:text-white">1. {activeAgent.name} là gì?</h2>
-            </div>
-            <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-              {activeAgent.definition}
-            </p>
-          </div>
-
-          {/* Block 2: Vấn đề giải quyết */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
-            <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
-              <AlertCircle className="w-5 h-5" />
-              <h2 className="text-lg font-bold text-[#0B1F3A] dark:text-white">2. Bài toán vận hành doanh nghiệp cần giải quyết</h2>
-            </div>
-            <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {activeAgent.businessProblem.map((p, idx) => (
-                <li key={idx} className="p-3 bg-rose-50/60 dark:bg-rose-950/40 rounded-xl border border-rose-100 dark:border-rose-900/60 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {p}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Block 3 & 4: Dữ liệu đọc & Khả năng phân tích */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
-              <div className="flex items-center gap-2 text-[#06B6D4]">
-                <Database className="w-5 h-5" />
-                <h3 className="text-base font-bold text-[#0B1F3A] dark:text-white">3. Dữ liệu nội bộ AI được phép đọc</h3>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                {activeAgent.dataRead.map((d, idx) => (
-                  <li key={idx} className="flex items-center gap-2 p-2 bg-slate-50 dark:bg-slate-900/60 rounded-lg border border-slate-100 dark:border-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-[#06B6D4] shrink-0" />
-                    <span>{d}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
-              <div className="flex items-center gap-2 text-[#155EEF] dark:text-blue-400">
-                <LineChart className="w-5 h-5" />
-                <h3 className="text-base font-bold text-[#0B1F3A] dark:text-white">4. Năng lực phân tích chuyên sâu</h3>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                {activeAgent.analysisCapability.map((a, idx) => (
-                  <li key={idx} className="flex items-center gap-2 p-2 bg-slate-50 dark:bg-slate-900/60 rounded-lg border border-slate-100 dark:border-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-[#155EEF] dark:text-blue-400 shrink-0" />
-                    <span>{a}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Block 5 & 6: Đề xuất & Thực thi */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
-              <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
-                <Sparkles className="w-5 h-5" />
-                <h3 className="text-base font-bold text-[#0B1F3A] dark:text-white">5. Các đề xuất thông minh cho con người</h3>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                {activeAgent.proposals.map((pr, idx) => (
-                  <li key={idx} className="p-2.5 bg-amber-50/60 dark:bg-amber-950/40 rounded-lg border border-amber-100 dark:border-amber-900/60 leading-relaxed">
-                    {pr}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
-              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-                <Zap className="w-5 h-5" />
-                <h3 className="text-base font-bold text-[#0B1F3A] dark:text-white">6. Phạm vi thực thi tự động hóa</h3>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                {activeAgent.executionScope.map((ex, idx) => (
-                  <li key={idx} className="p-2.5 bg-emerald-50/60 dark:bg-emerald-950/40 rounded-lg border border-emerald-100 dark:border-emerald-900/60 leading-relaxed">
-                    {ex}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Block 7: RANH GIỚI BẢO MẬT & PHÊ DUYỆT */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-slate-900 dark:bg-[#070F1E] text-white border border-slate-800 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5 text-rose-400">
-                <ShieldAlert className="w-5 h-5" />
-                <h3 className="text-lg font-bold text-white">
-                  7. Những việc BẮT BUỘC cần con người phê duyệt (Human-in-the-Loop)
-                </h3>
-              </div>
-              <span className="text-[10px] font-mono text-rose-300 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">
-                ZERO UNCHECKED RISK
-              </span>
-            </div>
-
-            <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-900/60 text-xs sm:text-sm text-rose-100 leading-relaxed">
-              {activeAgent.approvalRequired[0]}
-            </div>
-
-            <p className="text-xs text-slate-400 italic">
-              * VMC Group tuyệt đối không cho phép AI tự ý xuất bản nội dung công khai, tự ý chuyển khoản ngân hàng, hoặc thay đổi chính sách nếu không có xác nhận của người phụ trách.
-            </p>
-          </div>
-
-          {/* Block 8: Kết quả đo lường */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-4">
-            <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-              <Check className="w-5 h-5" />
-              <h3 className="text-lg font-bold text-[#0B1F3A] dark:text-white">8. Kết quả vận hành đo lường được</h3>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {activeAgent.expectedResults.map((res, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-indigo-50/50 dark:bg-slate-900/60 border border-indigo-100 dark:border-slate-800 text-xs font-semibold text-indigo-950 dark:text-indigo-200 space-y-1">
-                  <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400 uppercase">CHỈ SỐ 0{idx + 1}</span>
-                  <p className="leading-snug">{res}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="p-8 rounded-2xl bg-gradient-to-r from-[#0B1F3A] to-[#155EEF] text-white text-center space-y-4 shadow-lg">
-            <h3 className="text-xl font-bold">
-              Trang bị {activeAgent.name} cho tổ chức của bạn
-            </h3>
-            <p className="text-xs text-slate-200 max-w-lg mx-auto">
-              Đăng ký để được VMC Group cấu hình trợ lý AI theo đúng bộ dữ liệu và quy trình nội bộ của doanh nghiệp.
-            </p>
-            <button
-              onClick={() => openConsultationModal('consultation')}
-              className="px-6 py-3 bg-white text-[#0B1F3A] hover:bg-slate-100 font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer"
-            >
-              Đăng ký tư vấn giải pháp
-            </button>
-          </div>
-        </div>
+        {/* 8-Section Standard & Specialized Architecture */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <CopilotDetailView
+            data={detailedCopilot}
+            onOpenConsultation={(topic) => openConsultationModal('consultation')}
+            onNavigate={(path) => navigate(path)}
+          />
+        </main>
       </div>
     );
   }
 
-  // General /ai Overview
+  // 9 Copilots Overview list with specific output badges
+  const copilotOverviewList = [
+    {
+      slug: 'ceo',
+      name: 'AI CEO Copilot',
+      role: 'Điều hành Cấp cao',
+      outputPreview: 'Morning Brief tổng hợp chỉ số, 2 bất thường dòng tiền & dự thảo thông báo họp giao ban.',
+      targetUser: 'CEO, Chủ tịch HĐQT, COO, Ban Thư ký',
+      icon: Activity,
+      color: 'text-amber-500'
+    },
+    {
+      slug: 'sales',
+      name: 'AI Sales Copilot',
+      role: 'Kinh doanh & Bán hàng',
+      outputPreview: 'Thẻ chấm điểm Lead (92/100 kèm 3 lý do) + Bản thảo Báo giá sơ bộ & Email gửi khách.',
+      targetUser: 'Giám đốc Kinh doanh, Trưởng nhóm Sales, Chuyên viên B2B',
+      icon: Target,
+      color: 'text-orange-500'
+    },
+    {
+      slug: 'marketing',
+      name: 'AI Marketing Copilot',
+      role: 'Tiếp thị & Tăng trưởng',
+      outputPreview: 'Bảng so sánh CAC 3 kênh + Đề xuất dồn ngân sách + Hàng đợi kiểm duyệt bài viết chuẩn brand.',
+      targetUser: 'CMO, Trưởng phòng Marketing, Media Buyer, Content Creator',
+      icon: LineChart,
+      color: 'text-blue-500'
+    },
+    {
+      slug: 'customer-service',
+      name: 'AI CSKH Copilot',
+      role: 'Hỗ trợ & Hậu mãi',
+      outputPreview: 'Phân loại Ticket P1/P2/P3 + Câu trả lời trích dẫn nguồn SOP-CS-04 + Nút chuyên viên duyệt gửi.',
+      targetUser: 'Trưởng phòng CSKH, Chuyên viên Hỗ trợ, Đội ngũ Giải quyết khiếu nại',
+      icon: Users,
+      color: 'text-indigo-500'
+    },
+    {
+      slug: 'hr',
+      name: 'AI HR Copilot',
+      role: 'Nhân sự & Hiệu suất',
+      outputPreview: 'Bảng công ngoại lệ (quên quẹt vân tay) + Onboarding checklist 5 bước + Ma trận Skill Gap.',
+      targetUser: 'CHRO, Trưởng phòng HCNS, C&B, Cán bộ Đào tạo nội bộ',
+      icon: Users,
+      color: 'text-emerald-500'
+    },
+    {
+      slug: 'finance',
+      name: 'AI Finance Copilot',
+      role: 'Kế toán & Dòng tiền',
+      outputPreview: 'Ghép giao dịch sao kê với mã đơn + Phát hiện lệch số tiền + Dự báo dòng tiền có dải bất định.',
+      targetUser: 'CFO, Kế toán trưởng, Kế toán công nợ, Thu - Chi',
+      icon: DollarSign,
+      color: 'text-teal-500'
+    },
+    {
+      slug: 'voice',
+      name: 'AI Voice Copilot',
+      role: 'Thoại Tự động Có Kiểm soát',
+      outputPreview: 'Cây hội thoại nhắc lịch bảo dưỡng, nhận diện xin dời giờ và hỗ trợ chuyển cuộc gọi sang nhân viên phù hợp theo kịch bản điều hướng.',
+      targetUser: 'COO, Quản lý Call Center, Lễ tân đặt lịch',
+      icon: PhoneCall,
+      color: 'text-cyan-500'
+    },
+    {
+      slug: 'workflow',
+      name: 'AI Workflow Copilot',
+      role: 'Tự động hóa SOP',
+      outputPreview: 'Sơ đồ luồng phát hiện điểm nghẽn đỏ (chờ 18.5h) + Đề xuất ủy quyền phụ giải tỏa 7 đơn hàng.',
+      targetUser: 'COO, Trưởng phòng QA/QC, Quản lý quy trình liên phòng ban',
+      icon: GitBranch,
+      color: 'text-rose-500'
+    },
+    {
+      slug: 'rag',
+      name: 'AI Search & RAG',
+      role: 'Tra cứu Tri thức Nội bộ',
+      outputPreview: 'Câu hỏi → Đoạn nguồn kèm số trang → Câu trả lời có kiểm chứng (Minh bạch từ chối khi thiếu nguồn).',
+      targetUser: 'Toàn thể Cán bộ Nhân viên, Pháp chế, Thư ký, Kỹ thuật',
+      icon: Search,
+      color: 'text-purple-500'
+    }
+  ];
+
+  // General /ai Overview Page
   return (
-    <div className="space-y-16 pb-20 text-[#0F172A] dark:text-slate-100 transition-colors">
-      <section className="bg-gradient-to-b from-[#0B1F3A] to-[#0d274c] dark:from-[#060D19] dark:to-[#0B1528] text-white pt-16 pb-20 border-b border-slate-800">
+    <div className="space-y-16 pb-24 text-slate-900 dark:text-slate-100 transition-colors">
+      {/* Header Banner */}
+      <section className="bg-gradient-to-b from-slate-900 to-slate-950 text-white pt-16 pb-20 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#155EEF]/30 text-[#06B6D4] text-xs font-bold uppercase tracking-wider border border-[#155EEF]/40">
-            <Sparkles className="w-3.5 h-3.5 text-[#06B6D4]" />
-            MẠNG LƯỚI AI TRỢ LÝ
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary-light text-xs font-bold uppercase tracking-wider border border-primary/30">
+            <Sparkles className="w-3.5 h-3.5" />
+            HỆ SINH THÁI 9 AI COPILOT DOANH NGHIỆP
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            AI & Tự Động Hóa Doanh Nghiệp
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Mạng Lưới AI Trợ Lý Nghiệp Vụ Có Kiểm Soát
           </h1>
-          <p className="text-base text-slate-300 max-w-3xl leading-relaxed">
-            Triết lý của VMC Group: AI không hoạt động tự do. AI làm việc dựa trên dữ liệu, vai trò, quyền hạn, sự phê duyệt của con người và nhật ký audit log minh bạch.
+          <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
+            Mỗi vị trí trợ lý được thiết kế chuyên biệt cho từng nghiệp vụ: Đọc dữ liệu sạch, tổng hợp thông tin, chuẩn bị bản thảo có trích nguồn và <strong>luôn có con người làm chốt chặn phê duyệt cuối cùng (Human-in-the-Loop)</strong>.
           </p>
+          <div className="pt-2">
+            <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs w-full">
+              <div className="text-slate-300">
+                <span className="font-semibold text-primary-light">Phân biệt vai trò:</span> Đây là <strong>Danh mục 9 Trợ lý AI Copilot chuyên trách</strong> theo vị trí tác nghiệp. Nếu doanh nghiệp cần tìm hiểu về <strong>kiến trúc giải pháp mạng lưới AI tổng thể, liên thông 11 phân hệ và ranh giới an toàn hệ thống</strong>, vui lòng xem Giải pháp Mạng lưới AI Agent.
+              </div>
+              <button
+                onClick={() => navigate('/solutions/ai-agent')}
+                className="shrink-0 inline-flex items-center gap-1 font-semibold text-[#06B6D4] hover:text-white transition-colors cursor-pointer"
+              >
+                <span>Xem Giải pháp Mạng lưới AI Agent</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {aiAgentProfiles.map((agent) => (
-            <div
-              key={agent.id}
-              onClick={() => navigate(`/ai/${agent.slug}`)}
-              className="p-6 rounded-2xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs hover:border-[#155EEF] dark:hover:border-[#06B6D4] hover:shadow-md transition-all cursor-pointer space-y-4 flex flex-col justify-between group"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-[#155EEF] dark:text-[#06B6D4] bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full">
-                    {agent.role}
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-mono">SUPERVISED</span>
-                </div>
-                <h3 className="text-base font-bold text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4] transition-colors">
-                  {agent.name}
-                </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
-                  {agent.tagline}
-                </p>
-              </div>
+      {/* Shared Governance & Guardrails Layer */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">Nguyên tắc an toàn vận hành</span>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+              Lớp Kiểm Soát & Ranh Giới An Toàn Chung (Guardrails Layer)
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+              Áp dụng xuyên suốt cho toàn bộ 9 trợ lý AI trong hệ thống doanh nghiệp:
+            </p>
+          </div>
 
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-[#155EEF] dark:text-[#06B6D4]">
-                <span>Xem cơ chế hoạt động</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                <Lock className="w-4 h-4" /> Phân quyền RBAC
               </div>
+              <p className="text-slate-600 dark:text-slate-400">
+                Chỉ đọc dữ liệu trong phạm vi chức vụ. Tuyệt đối không đọc trộm dữ liệu mật phòng ban khác.
+              </p>
             </div>
-          ))}
+
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-amber-600 font-bold text-sm">
+                <ShieldCheck className="w-4 h-4" /> Human-in-the-Loop
+              </div>
+              <p className="text-slate-600 dark:text-slate-400">
+                AI chỉ soạn thảo bản nháp. Không tự ý chuyển khoản, không tự xuất bản bài viết, không tự ký duyệt.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm">
+                <FileSpreadsheet className="w-4 h-4" /> Nhật ký Audit Log
+              </div>
+              <p className="text-slate-600 dark:text-slate-400">
+                Các hoạt động quan trọng có thể được ghi nhận vào nhật ký kiểm toán theo cấu hình hệ thống, phục vụ truy vết và đối soát.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm">
+                <Database className="w-4 h-4" /> Quản Trị Dữ Liệu
+              </div>
+              <p className="text-slate-600 dark:text-slate-400">
+                Dữ liệu được phân tách theo tenant, phạm vi truy cập và cấu hình của hệ thống. Dữ liệu được xử lý theo phạm vi quyền truy cập và chính sách của mô hình hoặc nhà cung cấp được cấu hình cho hệ thống.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9 Specialized Copilot Cards */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">Danh mục 9 Copilot</span>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
+              Khám Phá Chi Tiết Từng Vị Trí AI Copilot
+            </h2>
+          </div>
+          <div className="text-xs text-slate-500">
+            Bấm vào từng trợ lý để xem Output mẫu, Bảng so sánh trước/sau & Lộ trình Pilot theo giai đoạn
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {copilotOverviewList.map((agent) => {
+            const IconComponent = agent.icon;
+            return (
+              <div
+                key={agent.slug}
+                onClick={() => navigate(`/ai/${agent.slug}`)}
+                className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4 group"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                      {agent.role}
+                    </span>
+                    <IconComponent className={`w-5 h-5 ${agent.color}`} />
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                    {agent.name}
+                  </h3>
+
+                  {/* Output Preview Box */}
+                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-1">
+                    <span className="font-semibold text-slate-900 dark:text-white block text-[11px] text-primary">
+                      Output đặc thù của Copilot:
+                    </span>
+                    <p className="line-clamp-2 leading-relaxed italic">
+                      "{agent.outputPreview}"
+                    </p>
+                  </div>
+
+                  <div className="text-xs text-slate-500 flex items-center gap-1.5">
+                    <Users className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Dành cho: {agent.targetUser}</span>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-primary">
+                  <span>Xem 8 phần chi tiết & Output mẫu</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Global Pilot Consultation CTA */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-8 sm:p-12 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-primary/80 text-white flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-xl">
+          <div className="max-w-2xl space-y-3">
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Bạn Cần Tư Vấn Thiết Lập Một Gói Pilot 4 Tuần?
+            </h2>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              VMC Group cung cấp dịch vụ đánh giá mức độ sẵn sàng dữ liệu, số hóa kho tri thức và thiết lập các ngưỡng an toàn phê duyệt trước khi đưa AI vào hỗ trợ nhân sự thực tế.
+            </p>
+          </div>
+
+          <div className="shrink-0">
+            <button
+              onClick={() => openConsultationModal('consultation')}
+              className="px-6 py-3.5 bg-white text-slate-900 hover:bg-slate-100 font-bold text-sm rounded-xl shadow-lg transition-colors cursor-pointer flex items-center gap-2"
+            >
+              <span>Đăng ký khảo sát dữ liệu & Pilot</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </section>
     </div>

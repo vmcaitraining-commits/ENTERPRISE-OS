@@ -250,7 +250,7 @@ export const industriesSolutions: IndustrySolution[] = [
     id: 'ind_trade',
     slug: 'trade',
     name: 'Thương mại & Bán lẻ',
-    tagline: 'Kết nối bán hàng đa kênh, kiểm soát tồn kho và cá nhân hóa trải nghiệm khách mua',
+    tagline: 'Hỗ trợ kết nối bán hàng đa kênh, kiểm soát tồn kho theo cấu hình và cá nhân hóa trải nghiệm khách mua',
     iconName: 'ShoppingBag',
     characteristics: [
       'Giao dịch phát sinh liên tục với khối lượng đơn hàng lớn.',
@@ -265,18 +265,18 @@ export const industriesSolutions: IndustrySolution[] = [
     suitableModules: [
       'Scope B: CRS / CRM Thương mại & Đơn hàng',
       'Scope A: Website bán hàng & Cổng tiếp nhận Lead',
-      'Scope C: Marketing tự động nuôi dưỡng khách mua',
+      'Scope C: Marketing nuôi dưỡng khách mua theo kịch bản',
       'Scope J: Báo cáo phân tích doanh thu theo mặt hàng'
     ],
     aiCapabilities: [
       'AI đề xuất sản phẩm kèm theo (Cross-sell/Upsell) cho nhân viên tư vấn',
-      'AI phân loại khách hàng tiềm năng và dự báo mặt hàng sắp hết hàng',
-      'Tự động gửi thông báo trạng thái đơn hàng và khảo sát hài lòng'
+      'AI phân loại khách hàng tiềm năng và gợi ý ngưỡng tồn kho an toàn',
+      'Khả năng cấu hình: Gửi thông báo trạng thái đơn hàng và khảo sát hài lòng'
     ],
     deploymentRoadmap: [
       'Chuẩn hóa danh mục sản phẩm và dữ liệu khách hàng',
       'Thiết lập luồng xử lý đơn hàng từ đa kênh về một CRM',
-      'Cấu hình kịch bản CSKH tự động và báo cáo doanh số'
+      'Cấu hình kịch bản CSKH và báo cáo doanh số theo quy trình'
     ]
   },
   {
@@ -336,8 +336,8 @@ export const industriesSolutions: IndustrySolution[] = [
     ],
     aiCapabilities: [
       'AI tư vấn sơ bộ lộ trình học tập phù hợp theo nguyện vọng',
-      'Tự động phân bổ lead cho tư vấn viên theo ca trực ngay lập tức',
-      'Gửi nhắc nhở lịch học và hạn đóng học phí tự động'
+      'Hỗ trợ phân bổ lead cho tư vấn viên theo ca trực theo quy tắc',
+      'Khả năng cấu hình: Gửi nhắc nhở lịch học và hạn đóng học phí theo kịch bản'
     ],
     deploymentRoadmap: [
       'Xây dựng phễu tuyển sinh và kịch bản tư vấn học viên',
@@ -403,11 +403,11 @@ export const industriesSolutions: IndustrySolution[] = [
     aiCapabilities: [
       'AI phát hiện điểm nghẽn trong dây chuyền sản xuất qua thời gian hoàn thành task',
       'Dự báo nguy cơ chậm tiến độ để phòng điều hành kịp thời can thiệp',
-      'Tự động tổng hợp báo cáo tiến độ đơn hàng cho bộ phận kinh doanh'
+      'Hỗ trợ tổng hợp báo cáo tiến độ đơn hàng cho bộ phận kinh doanh'
     ],
     deploymentRoadmap: [
       'Khảo sát các công đoạn sản xuất và xây dựng quy trình SOP',
-      'Cấu hình phần mềm theo dõi trạng thái đơn hàng theo thời gian thực',
+      'Cấu hình luồng theo dõi trạng thái đơn hàng theo dữ liệu ghi nhận',
       'Chuyển giao cho quản đốc phân xưởng và bộ phận kế hoạch'
     ]
   },
@@ -429,18 +429,18 @@ export const industriesSolutions: IndustrySolution[] = [
     ],
     suitableModules: [
       'Scope B: CRM Quản lý Đại lý & Cổng đặt hàng đại lý (B2B Portal)',
-      'Scope E: Kiểm soát hạn mức công nợ và tự động khóa xuất hàng khi quá hạn',
+      'Scope E: Kiểm soát hạn mức công nợ và hỗ trợ khóa xuất hàng theo quy tắc cấu hình',
       'Scope D: Chăm sóc đại lý định kỳ và xử lý khiếu nại đổi trả',
       'Scope J: Báo cáo phân tích doanh thu theo vùng thị trường'
     ],
     aiCapabilities: [
       'AI cảnh báo đại lý giảm tần suất đặt hàng bất thường so với cùng kỳ',
-      'Tự động áp dụng chính sách chiết khấu theo phân hạng đại lý',
-      'Gửi nhắc nợ đối soát công nợ tự động theo chu kỳ thanh toán'
+      'Hỗ trợ áp dụng chính sách chiết khấu theo phân hạng đại lý đã cấu hình',
+      'Khả năng cấu hình: Gửi nhắc nợ đối soát công nợ theo chu kỳ thanh toán'
     ],
     deploymentRoadmap: [
       'Chuẩn hóa chính sách đại lý và danh mục bảng giá chiết khấu',
-      'Thiết lập quy tắc khóa nợ và duyệt xuất hàng liên phòng ban',
+      'Thiết lập quy tắc cảnh báo hạn mức nợ và duyệt xuất hàng liên phòng ban',
       'Hướng dẫn nhân viên kinh doanh quản lý tuyến đại lý trên hệ thống'
     ]
   },
@@ -467,7 +467,7 @@ export const industriesSolutions: IndustrySolution[] = [
       'Scope J: Báo cáo lãi/lỗ tạm tính theo từng công trình'
     ],
     aiCapabilities: [
-      'AI đối soát tiến độ thi công thực tế với kế hoạch cam kết',
+      'Kịch bản AI: Hỗ trợ đối soát tiến độ thi công thực tế với kế hoạch cam kết',
       'Cảnh báo vượt ngân sách dự toán theo từng hạng mục vật tư',
       'Hỗ trợ lập biên bản nghiệm thu theo mẫu chuẩn hóa'
     ],
@@ -501,7 +501,7 @@ export const industriesSolutions: IndustrySolution[] = [
     ],
     aiCapabilities: [
       'AI hỗ trợ tra cứu tài liệu kỹ thuật nội bộ (RAG Search)',
-      'Tự động hóa luồng tiếp nhận lỗi (Bug Report) từ khách hàng vào quy trình xử lý',
+      'Khả năng cấu hình: Luồng tiếp nhận phản hồi lỗi từ khách hàng vào quy trình xử lý',
       'Phân tích hành vi sử dụng sản phẩm để gợi ý cải tiến tính năng'
     ],
     deploymentRoadmap: [
@@ -551,9 +551,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC lãnh đạo phê duyệt: Mọi thay đổi về mục tiêu chiến lược, phân bổ ngân sách lớn, điều chỉnh chính sách toàn công ty và sa thải/bổ nhiệm nhân sự chủ chốt.'
     ],
     expectedResults: [
-      'Giảm 80% thời gian tổng hợp báo cáo điều hành cho lãnh đạo',
-      'Tăng tốc độ ra quyết định chiến lược dựa trên dữ liệu thực tế',
-      'Phát hiện và ngăn chặn rủi ro vận hành sớm trước khi phát sinh hậu quả lớn'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian tổng hợp báo cáo điều hành (Đo lường: Giờ làm việc/tuần của văn phòng lãnh đạo)',
+      'Chỉ số mục tiêu pilot: Tăng tốc độ chuẩn bị kịch bản ra quyết định dựa trên dữ liệu đối chiếu chéo',
+      'Chỉ số mục tiêu pilot: Cảnh báo sớm các chỉ số doanh số/chi phí/dòng tiền vượt ngưỡng dung sai 15%'
     ]
   },
   {
@@ -573,12 +573,12 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'Dữ liệu hồ sơ khách hàng và lịch sử tương tác trước đây',
       'Nguồn gốc lead và hành vi tìm hiểu trên website',
       'Danh mục sản phẩm, chính sách giá và chương trình khuyến mãi hiện hành',
-      'Lịch sử các thương vụ thành công tương tự trong quá khứ'
+      'Lịch sử các thương vụ tương tự trong cơ sở dữ liệu'
     ],
     analysisCapability: [
       'Chấm điểm mức độ tiềm năng (Lead Scoring) dựa trên hành vi và thông tin',
       'Phân tích thời điểm khách hàng có khả năng phản hồi cao nhất trong ngày',
-      'Nhận diện các dấu hiệu khách hàng chuẩn bị bỏ đi (Deal Churn Risk)'
+      'Nhận diện các dấu hiệu khách hàng có khả năng sụt giảm tương tác'
     ],
     proposals: [
       'Gợi ý gói giải pháp phù hợp nhất với quy mô và ngân sách của khách hàng',
@@ -594,9 +594,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Mức chiết khấu ngoài khung chuẩn, phát hành hợp đồng kinh doanh chính thức, và hủy bỏ hồ sơ khách hàng tiềm năng lớn.'
     ],
     expectedResults: [
-      'Rút ngắn 50% thời gian phản hồi lead mới đổ về',
-      'Tăng 25% tỷ lệ chuyển đổi từ cơ hội sang hợp đồng thành công',
-      'Giảm 70% thời gian thao tác giấy tờ hành chính của nhân viên bán hàng'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian phản hồi lead mới từ cổng tiếp nhận (Đo lường: Phút/lead)',
+      'Chỉ số mục tiêu pilot: Tỷ lệ hoàn thiện hồ sơ và chấm điểm độ nóng lead hợp lệ đạt ≥ 85%',
+      'Chỉ số mục tiêu pilot: Giảm thời gian chuẩn bị bản nháp báo giá sơ bộ cho nhân viên kinh doanh'
     ]
   },
   {
@@ -619,12 +619,12 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'Hành vi xem trang và tương tác nội dung của người dùng'
     ],
     analysisCapability: [
-      'Tính toán chính xác chi phí trên mỗi khách hàng thực tế (CAC) theo kênh',
+      'Tính toán chi phí trên mỗi khách hàng tiềm năng (CAC) theo kênh dữ liệu ghi nhận',
       'Đánh giá mức độ tuân thủ quy chuẩn truyền thông của các bản thảo nội dung',
       'Phân nhóm khách hàng theo sở thích và mối quan tâm để cá nhân hóa'
     ],
     proposals: [
-      'Đề xuất dịch chuyển ngân sách sang các từ khóa và kênh có tỷ lệ chốt cao',
+      'Đề xuất dịch chuyển ngân sách sang các từ khóa và kênh có tỷ lệ chuyển đổi cao',
       'Gợi ý điều chỉnh thông điệp tiêu đề landing page để tăng tỷ lệ điền form',
       'Đề xuất kịch bản email nuôi dưỡng khách hàng theo từng giai đoạn nhận thức'
     ],
@@ -637,9 +637,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Xuất bản bài viết/video lên các kênh truyền thông chính thức, kích hoạt chiến dịch quảng cáo mới và phê duyệt ngân sách Marketing.'
     ],
     expectedResults: [
-      'Tối ưu 20-30% chi phí tìm kiếm khách hàng mới (CAC)',
-      '100% nội dung truyền thông tuân thủ đúng định vị thương hiệu của VMC',
-      'Tăng gấp đôi số lượng tương tác chất lượng trên các cổng tiếp nhận'
+      'Chỉ số mục tiêu pilot: Giám sát chi phí chuyển đổi (CAC) theo từng kênh truyền thông theo kỳ đối soát tuần',
+      'Chỉ số mục tiêu pilot: Tỷ lệ nội dung nháp tuân thủ đúng quy chuẩn nhận diện thương hiệu được duyệt đạt ≥ 90%',
+      'Chỉ số mục tiêu pilot: Tăng tỷ lệ mở và phản hồi tích cực trong các luồng nuôi dưỡng khách hàng'
     ]
   },
   {
@@ -680,9 +680,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Mọi phản hồi chính thức cho các khiếu nại nghiêm trọng, chính sách bồi thường tài chính, và các cam kết ngoài hợp đồng.'
     ],
     expectedResults: [
-      'Giảm 60% thời gian phản hồi yêu cầu của khách hàng',
-      'Đảm bảo 100% câu trả lời tuân thủ đúng chính sách đã công bố',
-      'Nâng cao chỉ số hài lòng khách hàng (CSAT) lên trên 90%'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian đề xuất câu trả lời cho ticket phổ biến (Đo lường: Phút/ticket)',
+      'Chỉ số mục tiêu pilot: Tỷ lệ câu trả lời gợi ý có trích dẫn đúng tài liệu SOP được nhân viên duyệt đạt ≥ 85%',
+      'Chỉ số mục tiêu pilot: Theo dõi điểm số hài lòng khách hàng sau hỗ trợ (CSAT mục tiêu ≥ 4.5/5.0)'
     ]
   },
   {
@@ -723,9 +723,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Quyết định tuyển dụng chính thức, điều chỉnh lương/thưởng, xử lý kỷ luật và phê duyệt kết quả đánh giá năng lực cuối năm.'
     ],
     expectedResults: [
-      'Giảm 75% thời gian xử lý thủ tục chấm công và đơn từ hành chính',
-      'Chuẩn hóa 100% quy trình hội nhập cho mọi nhân sự mới gia nhập',
-      'Minh bạch hóa dữ liệu đánh giá hiệu suất, tạo động lực cho nhân tài'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian rà soát bảng chấm công ngoại lệ cuối kỳ (Đo lường: Giờ xử lý của HCNS)',
+      'Chỉ số mục tiêu pilot: Tỷ lệ tài liệu hội nhập (Onboarding Kit) được phân phối đúng tiến độ đạt 100%',
+      'Chỉ số mục tiêu pilot: Minh bạch hóa dữ liệu đánh giá hiệu suất và phát hiện khoảng trống kỹ năng'
     ]
   },
   {
@@ -766,9 +766,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Mọi lệnh chuyển tiền ra khỏi tài khoản, quyết định gia hạn nợ đặc biệt, điều chỉnh định mức ngân sách và xóa nợ khó đòi.'
     ],
     expectedResults: [
-      'Rút ngắn 90% thời gian đối soát đơn hàng và thanh toán ngân hàng',
-      'Giảm 35% tỷ lệ nợ quá hạn nhờ cơ chế nhắc nợ đúng thời điểm',
-      'Nắm bắt bức tranh dòng tiền chính xác từng ngày phục vụ ra quyết định'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian đối soát giao dịch ngân hàng với hóa đơn/đơn hàng (Đo lường: Giờ/ngày)',
+      'Chỉ số mục tiêu pilot: Tỷ lệ phát hiện và gửi cảnh báo nợ sắp đến hạn trong vòng 48h đạt ≥ 95%',
+      'Chỉ số mục tiêu pilot: Xây dựng mô phỏng dòng tiền 30 ngày có phân tách kịch bản thận trọng và cơ sở'
     ]
   },
   {
@@ -808,9 +808,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Mọi kịch bản cuộc gọi mới, chính sách gọi tự động và danh sách khách hàng được phép liên hệ.'
     ],
     expectedResults: [
-      'Giảm 80% công sức gọi điện xác nhận lịch hẹn của đội ngũ nhân viên',
-      'Tỷ lệ xác nhận lịch hẹn thành công đạt trên 85%',
-      'Toàn bộ lịch sử trao đổi được số hóa và lưu trữ minh bạch trong hồ sơ CRM'
+      'Chỉ số mục tiêu pilot: Tỷ lệ xác nhận lịch hẹn thành công theo kịch bản chuẩn hóa đạt ≥ 80%',
+      'Chỉ số mục tiêu pilot: 100% cuộc gọi có thắc mắc ngoài kịch bản được chuyển tiếp ngay đến nhân viên trực',
+      'Chỉ số mục tiêu pilot: Bóc băng và tóm tắt kết quả cuộc gọi được đồng bộ vào CRM trong vòng 3 phút'
     ]
   },
   {
@@ -851,9 +851,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Mọi sự thay đổi về cấu trúc quy trình nghiệp vụ, ngoại lệ bỏ qua bước kiểm tra và phê duyệt vượt cấp.'
     ],
     expectedResults: [
-      'Loại bỏ hoàn toàn tình trạng đùn đẩy trách nhiệm giữa các phòng ban',
-      'Rút ngắn 40% thời gian luân chuyển hồ sơ và hoàn thành đơn hàng',
-      'Đảm bảo 100% công việc được thực thi chuẩn mực theo quy chuẩn chất lượng'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian luân chuyển hồ sơ giữa các phòng ban liên thông',
+      'Chỉ số mục tiêu pilot: Tỷ lệ nhiệm vụ được thực thi đúng trình tự SOP không bị bỏ bước kiểm tra đạt ≥ 95%',
+      'Chỉ số mục tiêu pilot: Giảm thiểu thời gian chờ phê duyệt nhờ cơ chế thông báo nhắc việc tự động'
     ]
   },
   {
@@ -861,9 +861,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
     slug: 'rag',
     name: 'AI Search & RAG Tri thức nội bộ',
     role: 'Hệ thống Tra cứu Tri thức Doanh nghiệp Chính xác',
-    tagline: 'Hỏi đáp dữ liệu nội bộ không ảo giác, trích dẫn chính xác nguồn tài liệu và bảo mật phân quyền nghiêm ngặt',
+    tagline: 'Hỏi đáp dữ liệu nội bộ có kiểm chứng trích nguồn, bảo mật phân quyền nghiêm ngặt',
     iconName: 'Search',
-    definition: 'AI Search ứng dụng công nghệ Retrieval-Augmented Generation (RAG) để giúp nhân sự tra cứu thông tin trong hàng ngàn tài liệu, quy chế, hợp đồng nội bộ trong vài giây, với cam kết tuyệt đối: Chỉ trả lời dựa trên tài liệu thực tế, luôn trích dẫn nguồn và tuân thủ quyền hạn của người hỏi.',
+    definition: 'AI Search ứng dụng công nghệ Retrieval-Augmented Generation (RAG) để giúp nhân sự tra cứu thông tin trong hàng ngàn tài liệu, quy chế, hợp đồng nội bộ trong vài giây: Chỉ trả lời dựa trên tài liệu thực tế được cấp quyền, luôn trích dẫn nguồn và có người kiểm chứng.',
     businessProblem: [
       'Nhân viên mất hàng giờ tìm kiếm tài liệu, biểu mẫu, quy trình cũ trong ổ đĩa chia sẻ.',
       'Nhân sự hỏi đi hỏi lại những câu hỏi chính sách đã có trong quy chế.',
@@ -884,7 +884,7 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'Cảnh báo khi phát hiện tài liệu nội bộ đã hết hạn hiệu lực hoặc có bản cập nhật mới'
     ],
     executionScope: [
-      'Trả lời chính xác thắc mắc kèm đường link trích dẫn đến đúng trang tài liệu gốc',
+      'Trả lời thắc mắc kèm đường link trích dẫn đến đúng trang tài liệu gốc',
       'Từ chối trả lời và thông báo không đủ thẩm quyền nếu tài liệu có tính bảo mật cao',
       'Ghi nhật ký tra cứu để quản trị viên biết nhân sự đang quan tâm chủ đề gì'
     ],
@@ -892,9 +892,9 @@ export const aiAgentProfiles: AiAgentProfile[] = [
       'BẮT BUỘC phê duyệt: Cấp quyền nạp tài liệu mới vào kho tri thức AI và điều chỉnh phân hạng bảo mật của tài liệu mật.'
     ],
     expectedResults: [
-      'Rút ngắn 90% thời gian tra cứu chính sách và quy trình nội bộ',
-      'Triệt tiêu hoàn toàn hiện tượng AI bịa đặt thông tin nhờ cơ chế RAG có kiểm chứng',
-      'Bảo vệ 100% dữ liệu mật theo phân quyền vai trò doanh nghiệp'
+      'Chỉ số mục tiêu pilot: Rút ngắn thời gian tra cứu chính sách và quy trình nội bộ (Đo lường: Phút/lần tra cứu)',
+      'Chỉ số mục tiêu pilot: Kiểm soát tỷ lệ câu trả lời có trích dẫn nguồn kiểm chứng đạt ≥ 98%',
+      'Chỉ số mục tiêu pilot: Kiểm soát quyền truy cập tài liệu mật theo phân quyền vai trò doanh nghiệp (0% rò rỉ ngoài quyền)'
     ]
   }
 ];
@@ -1125,10 +1125,10 @@ export const needSolutions: NeedSolution[] = [
       requiresApproval: 'Bắt buộc phê duyệt đối với các báo giá có chiết khấu ngoài khung quy định, chuyển giao tài khoản trọng yếu, hoặc hủy/xóa hồ sơ khách hàng.'
     },
     systemConnections: [
-      'Kết nối Phân hệ Website (Scope A): Nhận dữ liệu đăng ký và form lead tức thì theo thời gian thực.',
-      'Kết nối Phân hệ Tài chính - Kế toán (Scope E): Đối soát thanh toán, hợp đồng và tình trạng xuất hóa đơn.',
-      'Kết nối Phân hệ CSKH (Scope C): Chuyển giao thông tin khách hàng sau khi chốt hợp đồng để chăm sóc liên tục.',
-      'Kết nối Phân hệ Báo cáo & BI (Scope H): Cung cấp chỉ số doanh thu phễu và tỷ lệ chuyển đổi cho ban lãnh đạo.'
+      'Kết nối Phân hệ Website & Cổng thông tin (Scope A): Hỗ trợ nhận dữ liệu đăng ký và form lead theo luồng đồng bộ API.',
+      'Kết nối Phân hệ Kế toán & Quản trị tài chính (Scope E): Đối soát thanh toán, hợp đồng và tình trạng xuất hóa đơn.',
+      'Kết nối Phân hệ Chăm sóc khách hàng & Dịch vụ (Scope D): Chuyển giao thông tin khách hàng sau khi chốt hợp đồng để chăm sóc liên tục.',
+      'Kết nối Phân hệ Báo cáo & Business Intelligence (Scope J): Cung cấp chỉ số doanh thu phễu và tỷ lệ chuyển đổi cho ban lãnh đạo.'
     ],
     reportTypes: [
       'Báo cáo số lượng và cơ cấu nguồn gốc lead theo thời gian',
@@ -1175,7 +1175,7 @@ export const needSolutions: NeedSolution[] = [
       { title: 'AI Sales & AI Marketing Copilot', description: 'Phân tích chân dung khách hàng, chấm điểm cơ hội, đề xuất thông điệp tiếp cận và tối ưu chi phí thu hút lead.' },
       { title: 'AI CSKH & AI Voice', description: 'Gợi ý giải pháp xử lý khiếu nại, phân tích cảm xúc cuộc gọi và hỗ trợ nhân viên phản hồi đúng chuẩn mực tổ chức.' },
       { title: 'AI HR & AI Finance', description: 'Đối soát công chuẩn hóa, sàng lọc hồ sơ ứng viên, rà soát tính hợp lệ của đề nghị thanh toán và đối chiếu thu chi.' },
-      { title: 'AI Search / RAG Tri thức nội bộ', description: 'Truy vấn tức thì mọi quy chế, chính sách, tài liệu sản phẩm theo ngữ nghĩa tự nhiên với độ chính xác cao.' }
+      { title: 'AI Search / RAG Tri thức nội bộ', description: 'Hỗ trợ tra cứu nhanh các quy chế, chính sách, tài liệu sản phẩm theo ngữ nghĩa tự nhiên trong phạm vi tài liệu được cấp quyền.' }
     ],
     aiAssistance: {
       reads: 'Chỉ đọc các tài liệu và trường dữ liệu đã được cấu hình trong phạm vi quyền hạn của từng Agent.',
@@ -1185,9 +1185,9 @@ export const needSolutions: NeedSolution[] = [
       requiresApproval: 'Bắt buộc phê duyệt đối với bất kỳ hành động nào tác động ra bên ngoài (gửi thư cho khách, xuất quỹ, thay đổi chính sách, ký duyệt hồ sơ).'
     },
     systemConnections: [
-      'Kết nối toàn diện 11 phân hệ lõi của AI ENTERPRISE từ Website đến Bảo mật.',
-      'Giao diện tích hợp trực tiếp trong Không gian làm việc (Workspace) của từng cán bộ nhân viên.',
-      'Kết nối với cơ chế phân quyền trung tâm (Scope K) để kiểm soát dữ liệu đầu vào.'
+      'Định tuyến và kết nối toàn diện 11 phân hệ lõi của AI ENTERPRISE (Scope A đến Scope K).',
+      'Tích hợp trực tiếp vào Không gian làm việc cá nhân (Workspace) theo từng phân quyền chức danh.',
+      'Kết nối chặt chẽ với Hệ thống Phân quyền đa tầng, Kiểm toán & Bảo mật (Scope K) để cô lập dữ liệu đầu vào.'
     ],
     reportTypes: [
       'Báo cáo tần suất sử dụng và loại tác vụ của từng AI Agent',
@@ -1198,53 +1198,53 @@ export const needSolutions: NeedSolution[] = [
       rbac: 'Mỗi AI Agent kế thừa chính xác phân quyền của người đang đăng nhập, không thể đọc dữ liệu vượt quyền người dùng.',
       auditLog: 'Mọi câu hỏi, câu trả lời, đề xuất và hành động của AI đều được lưu vết đầy đủ trong nhật ký hệ thống.',
       approvalMechanism: 'Nguyên tắc Human-in-the-loop bắt buộc: con người là mắt xích quyết định cuối cùng trước khi hành động diễn ra.',
-      dataScope: 'Dữ liệu huấn luyện và truy xuất được cô lập tuyệt đối, không chia sẻ cho các mô hình AI công cộng bên ngoài.'
+      dataScope: 'Dữ liệu được xử lý theo phạm vi quyền truy cập và chính sách của mô hình hoặc nhà cung cấp được cấu hình cho hệ thống.'
     }
   },
   {
     id: 'need_voice',
     slug: 'voice',
-    name: 'AI Voice Cuộc gọi Thông minh',
-    tagline: 'Giải pháp ghi nhận, bóc băng hội thoại và hỗ trợ phân tích tương tác thoại đa kênh trong hoạt động kinh doanh & CSKH',
+    name: 'AI Voice Bóc băng & Phân tích Cuộc gọi',
+    tagline: 'Giải pháp ghi âm, bóc băng hội thoại đa người nói và tự động tạo tóm tắt, trích xuất việc cần làm vào CRM',
     iconName: 'Mic',
-    coreValue: 'Số hóa dữ liệu cuộc gọi thoại thành văn bản có cấu trúc, giúp doanh nghiệp quản lý chất lượng tư vấn, thấu hiểu nhu cầu khách hàng và tự động cập nhật hệ thống CRM.',
+    coreValue: 'Số hóa dữ liệu cuộc gọi thoại thành văn bản có cấu trúc, giúp doanh nghiệp quản trị chất lượng tư vấn, thấu hiểu nhu cầu khách hàng và tự động cập nhật hệ thống CRM không cần gõ tay.',
     problems: [
       'Nội dung cuộc gọi giữa nhân viên và khách hàng thường bị thất thoát sau khi cúp máy, quản lý không nắm được cam kết thực tế.',
       'Nhân viên mất 15-30 phút sau mỗi cuộc gọi dài để nhớ lại và gõ ghi chú tóm tắt vào hệ thống CRM, dễ sót thông tin quan trọng.',
       'Khó đánh giá chất lượng tư vấn của đội ngũ một cách khách quan; thường chỉ phát hiện vấn đề khi khách hàng đã khiếu nại.',
       'Nhân sự mới gặp khó khăn trong việc nắm bắt kịch bản xử lý các tình huống phức tạp trong khi đang đàm thoại.'
     ],
-    solutionOverview: 'AI Voice là phân hệ định hướng tích hợp sâu vào quy trình tổng đài thoại của doanh nghiệp: tự động chuyển âm thanh thành văn bản (Speech-to-Text), phân tích cảm xúc, trích xuất nhu cầu trọng tâm, soạn bản tóm tắt (Post-call Summary) và gợi ý bước hành động kế tiếp.',
+    solutionOverview: 'AI Voice là giải pháp hỗ trợ phân tích và kiểm soát chất lượng cuộc gọi: hỗ trợ chuyển đổi âm thanh thành văn bản tiếng Việt có cấu trúc, phân tách người nói, nhận diện sắc thái hội thoại, trích xuất điểm chính, soạn bản tóm tắt gợi ý (Post-call Summary) và đề xuất nhiệm vụ sang CRM.',
     dataTypes: [
       'Tệp ghi âm cuộc gọi (được mã hóa và lưu trữ an toàn)',
       'Bản bóc băng hội thoại đầy đủ (Call Transcript phân tách từng người nói)',
       'Bản tóm tắt cuộc gọi (Nội dung chính, Nhu cầu khách hàng, Thỏa thuận đạt được, Việc cần làm)',
-      'Chỉ số đánh giá cuộc gọi (Thời lượng, Cảm xúc khách hàng, Mức độ tuân thủ kịch bản tư vấn)'
+      'Chỉ số đánh giá cuộc gọi (Thời lượng, Sắc thái hội thoại, Mức độ tuân thủ kịch bản tư vấn)'
     ],
     operatingWorkflow: {
       input: 'Cuộc gọi thoại giữa nhân sự và khách hàng kết thúc (hoặc luồng âm thanh thời gian thực).',
       process: 'Công nghệ chuyển đổi giọng nói sang văn bản tiếng Việt bóc băng chi tiết từng câu thoại.',
-      aiAutomation: 'AI phân tích nội dung, trích xuất các ý chính, nhận diện cảm xúc và tự động tạo bản tóm tắt giao dịch.',
+      aiAutomation: 'AI phân tích nội dung, trích xuất các ý chính, nhận diện sắc thái và tự động tạo bản tóm tắt gợi ý.',
       humanControl: 'Nhân viên phụ trách kiểm tra lại bản tóm tắt, bổ sung chi tiết (nếu có) và xác nhận lưu vào hồ sơ CRM.',
-      output: 'Hồ sơ Customer 360 trên CRS/CRM được cập nhật tức thì với toàn bộ lịch sử tương tác và nhiệm vụ follow-up tiếp theo.'
+      output: 'Hồ sơ Customer 360 trên CRS/CRM được cập nhật theo quy trình xác nhận với lịch sử tương tác và nhiệm vụ đề xuất tiếp theo.'
     },
     keyFeatures: [
       { title: 'Tự động bóc băng hội thoại (Speech-to-Text)', description: 'Chuyển đổi âm thanh cuộc gọi tiếng Việt sang văn bản có cấu trúc, phân tách rõ lời thoại của tư vấn viên và khách hàng.' },
       { title: 'Tóm tắt nội dung sau cuộc gọi (Post-call Summary)', description: 'AI tự động trích xuất các điểm cốt lõi: nhu cầu chính, ngân sách dự kiến, các rào cản từ chối và thỏa thuận đã đạt.' },
       { title: 'Gợi ý hành động kế tiếp (Next Best Action)', description: 'Đề xuất thời gian gọi lại, tài liệu báo giá cần gửi hoặc kích hoạt yêu cầu hỗ trợ kỹ thuật theo nội dung trao đổi.' },
-      { title: 'Phân tích cảm xúc & Đánh giá chất lượng', description: 'Định hướng nhận diện mức độ hài lòng của khách hàng và rà soát việc tuân thủ các quy tắc ứng xử chuẩn mực.' },
+      { title: 'Nhận diện sắc thái & Đánh giá tuân thủ quy trình', description: 'Hỗ trợ nhận diện sắc thái trao đổi và rà soát việc tuân thủ các quy chuẩn giao tiếp theo kịch bản SOP.' },
       { title: 'Đồng bộ tự động vào Timeline CRM', description: 'Gắn trực tiếp bản ghi và tóm tắt vào hồ sơ khách hàng tương ứng, không cần sao chép thủ công.' }
     ],
     aiAssistance: {
       reads: 'Tệp ghi âm cuộc gọi và dữ liệu hồ sơ khách hàng hiện có trên hệ thống.',
-      analyzes: 'Từ khóa chính, ngữ điệu, cảm xúc tích cực/tiêu cực, các cam kết về giá hoặc tiến độ xuất hiện trong hội thoại.',
+      analyzes: 'Từ khóa chính, ngữ cảnh hội thoại, sắc thái trao đổi thuận lợi hoặc cần lưu ý, các cam kết về giá hoặc tiến độ xuất hiện trong hội thoại.',
       proposes: 'Bản tóm tắt cuộc gọi, danh mục các việc cần thực hiện tiếp theo (Follow-up Tasks) và kịch bản gửi tin nhắn/email tiếp nối.',
       executes: 'Soạn thảo bản tóm tắt nháp và gắn vào hồ sơ khách hàng trên giao diện CRM.',
-      requiresApproval: 'Nhân viên xác nhận nội dung tóm tắt trước khi chính thức lưu vào lịch sử giao dịch vĩnh viễn; việc kích hoạt cuộc gọi tự động (nếu triển khai) phải tuân thủ nghiêm ngặt quy định pháp luật.'
+      requiresApproval: 'Nhân viên xác nhận nội dung tóm tắt trước khi chính thức lưu vào lịch sử giao dịch; việc kích hoạt cuộc gọi tự động (nếu triển khai) phải tuân thủ nghiêm ngặt quy định pháp luật.'
     },
     systemConnections: [
-      'Kết nối trực tiếp Phân hệ CRS / CRM (Scope B): Cập nhật Customer 360 và lịch sử tương tác.',
-      'Kết nối Phân hệ CSKH (Scope C): Quản lý chất lượng phục vụ và xử lý khiếu nại.',
+      'Kết nối trực tiếp Phân hệ CRS / CRM & Bán hàng (Scope B): Cập nhật Customer 360 và lịch sử tương tác.',
+      'Kết nối Phân hệ Chăm sóc khách hàng & Dịch vụ (Scope D): Quản lý chất lượng phục vụ và xử lý khiếu nại.',
       'Định hướng tích hợp với các hệ thống tổng đài SIP/VoIP nội bộ của doanh nghiệp theo chuẩn API.'
     ],
     reportTypes: [
@@ -1272,7 +1272,7 @@ export const needSolutions: NeedSolution[] = [
       'Quy trình phê duyệt (nghỉ phép, tạm ứng, duyệt hợp đồng, duyệt chiết khấu) bị chậm trễ do qua nhiều kênh chat và giấy tờ.',
       'Khó phát hiện nút thắt cổ chai: Quản lý không biết hồ sơ đang kẹt ở bàn ai và chậm trễ bao lâu so với quy định SOP.'
     ],
-    solutionOverview: 'Phân hệ Tự động hóa Quy trình của AI ENTERPRISE thiết lập dòng chảy công việc chuẩn mực theo mô hình: Kích hoạt (Trigger) → Điều kiện (Condition) → Hành động (Action) → Phê duyệt (Approval) → Kết quả (Result) → Nhật ký (Log). Giúp doanh nghiệp vận hành nhịp nhàng như một cỗ máy chính xác.',
+    solutionOverview: 'Phân hệ Tự động hóa Quy trình của AI ENTERPRISE thiết lập dòng chảy công việc chuẩn mực theo mô hình: Kích hoạt (Trigger) → Điều kiện (Condition) → Hành động (Action) → Phê duyệt (Approval) → Kết quả (Result) → Nhật ký (Log). Giúp doanh nghiệp vận hành nhịp nhàng, có kiểm soát và rõ ràng trách nhiệm liên phòng ban.',
     dataTypes: [
       'Định nghĩa quy trình SOP (Danh sách bước, Người phụ trách, Thời hạn SLA, Điều kiện rẽ nhánh)',
       'Trạng thái các luồng công việc đang chạy (Đang xử lý, Chờ duyệt, Hoàn thành, Bị từ chối)',
@@ -1291,7 +1291,7 @@ export const needSolutions: NeedSolution[] = [
       { title: 'Quy trình Phê duyệt Đa cấp (Multi-level Approval)', description: 'Hỗ trợ duyệt tuần tự hoặc song song, cấu hình ngưỡng thẩm quyền theo giá trị tài chính hoặc cấp bậc nhân sự.' },
       { title: 'Tự động luân chuyển hồ sơ liên phòng ban', description: 'Dữ liệu từ Sales tự động kích hoạt tiến trình sang Kế toán, Kho và CSKH ngay khi trạng thái thay đổi.' },
       { title: 'Kiểm soát SLA & Cảnh báo trễ hạn', description: 'Tự động gửi thông báo nhắc nhở khi công việc sắp đến hạn hoặc chuyển quyền xử lý cho cấp cao hơn khi quá hạn quy định.' },
-      { title: 'Nhật ký thực thi minh bạch (Execution Log)', description: 'Theo dõi chi tiết từng giây: ai đã làm gì, ở bước nào, kết quả ra sao và lý do từ chối (nếu có).' }
+      { title: 'Nhật ký thực thi minh bạch (Execution Log)', description: 'Theo dõi chi tiết mốc thời gian: ai đã làm gì, ở bước nào, kết quả ra sao và lý do từ chối (nếu có).' }
     ],
     aiAssistance: {
       reads: 'Quy chế quy trình nội bộ, dữ liệu phiếu yêu cầu và lịch sử phê duyệt các trường hợp tương tự.',
@@ -1301,9 +1301,9 @@ export const needSolutions: NeedSolution[] = [
       requiresApproval: 'Mọi điểm chốt chặn tài chính, pháp lý hoặc điều chỉnh quyền hạn nhân sự đều bắt buộc phải có sự phê duyệt trực tiếp của con người.'
     },
     systemConnections: [
-      'Liên kết trực tiếp với Phân hệ Quy trình & Vận hành (Scope D).',
-      'Kết nối Phân hệ Nhân sự (Scope F) để xác định cây phân cấp báo cáo và phân quyền duyệt.',
-      'Kết nối Phân hệ CRS/CRM (Scope B) và Tài chính (Scope E) cho các luồng xử lý giao dịch.'
+      'Liên kết trực tiếp với Phân hệ Quản lý công việc & Quy trình (Scope G).',
+      'Kết nối Phân hệ Quản trị nhân sự & Đào tạo (Scope F) để xác định cây phân cấp báo cáo và phân quyền duyệt.',
+      'Kết nối Phân hệ CRS/CRM & Bán hàng (Scope B) và Kế toán & Quản trị tài chính (Scope E) cho các luồng xử lý giao dịch.'
     ],
     reportTypes: [
       'Báo cáo thời gian hoàn thành trung bình của từng loại quy trình',
@@ -1312,7 +1312,7 @@ export const needSolutions: NeedSolution[] = [
     ],
     securityAndGovernance: {
       rbac: 'Phân quyền chặt chẽ ai được phép tạo luồng, ai được quyền duyệt và ai chỉ được quyền xem tiến độ.',
-      auditLog: 'Lưu giữ vĩnh viễn mọi hành động duyệt/hủy duyệt cùng mốc thời gian chính xác để phục vụ hậu kiểm.',
+      auditLog: 'Lưu giữ nhật ký kiểm toán cho các hành động duyệt/hủy duyệt cùng mốc thời gian phục vụ công tác hậu kiểm.',
       approvalMechanism: 'Không có bất kỳ quy trình tự động nào được phép tự ý bỏ qua các chốt chặn phê duyệt đã được quy định trong chính sách công ty.',
       dataScope: 'Hồ sơ công việc chỉ hiển thị cho các cá nhân và bộ phận nằm trong chuỗi trách nhiệm của quy trình đó.'
     }
@@ -1330,7 +1330,7 @@ export const needSolutions: NeedSolution[] = [
       'Nội dung, hình ảnh, thông điệp trên website khó cập nhật; mỗi lần sửa đổi phải phụ thuộc hoàn toàn vào đơn vị thiết kế web thuê ngoài.',
       'Không đo lường được hiệu quả thực sự: Không biết khách hàng truy cập từ chiến dịch nào và sau đó có trở thành hợp đồng hay không.'
     ],
-    solutionOverview: 'Trong kiến trúc AI ENTERPRISE, Phân hệ Website (Scope A) được xây dựng hợp nhất với hệ thống quản trị: mọi biểu mẫu đăng ký, thông tin liên hệ và lượt tương tác đều được đồng bộ thời gian thực vào CRS/CRM, kích hoạt ngay lập tức quy trình chăm sóc khách hàng.',
+    solutionOverview: 'Trong kiến trúc AI ENTERPRISE, Phân hệ Website (Scope A) được xây dựng kết nối chặt chẽ với hệ thống quản trị: các biểu mẫu đăng ký, thông tin liên hệ và lượt tương tác được hỗ trợ đồng bộ theo luồng API vào CRS/CRM để kích hoạt quy trình chăm sóc khách hàng.',
     dataTypes: [
       'Thông tin thương hiệu, hồ sơ doanh nghiệp và nhận diện số (Logo, Màu sắc, Phông chữ)',
       'Kho nội dung, bài viết, tài liệu sản phẩm và hình ảnh/video chính thống',
@@ -1341,11 +1341,11 @@ export const needSolutions: NeedSolution[] = [
       input: 'Khách truy cập vào website doanh nghiệp, xem thông tin và điền biểu mẫu liên hệ hoặc đăng ký tư vấn.',
       process: 'Hệ thống xác thực dữ liệu đầu vào, ngăn chặn spam, gán nhãn nguồn gốc chiến dịch (UTM tags).',
       aiAutomation: 'AI hỗ trợ kiểm tra tính hợp lệ của thông tin, phân loại sơ bộ ngành nghề/nhu cầu của khách và đẩy vào CRS.',
-      humanControl: 'Tư vấn viên nhận thông báo ngay lập tức trên Workspace và tiếp nhận chăm sóc theo quy trình.',
+      humanControl: 'Tư vấn viên nhận thông báo trên Workspace theo cấu hình hàng đợi và tiếp nhận chăm sóc theo quy trình.',
       output: 'Dữ liệu được lưu trữ an toàn trong hồ sơ Customer 360, hình thành hành trình khách hàng từ lần chạm đầu tiên.'
     },
     keyFeatures: [
-      { title: 'Đồng bộ biểu mẫu trực tiếp vào CRS / CRM', description: 'Khách hàng gửi yêu cầu tư vấn là dữ liệu có mặt ngay trên hệ thống nội bộ, không qua các bước trung gian thủ công.' },
+      { title: 'Đồng bộ biểu mẫu trực tiếp vào CRS / CRM', description: 'Hỗ trợ đồng bộ thông tin đăng ký vào hệ thống nội bộ, giảm thiểu các bước sao chép trung gian thủ công.' },
       { title: 'Quản trị nội dung & Nhận diện tập trung', description: 'Đồng bộ thông tin doanh nghiệp, tầm nhìn, dịch vụ trực tiếp từ phân hệ quản trị Admin của AI ENTERPRISE.' },
       { title: 'Hỗ trợ cấu hình Landing Page chuyên biệt', description: 'Dễ dàng triển khai các trang chuyên đề phục vụ chiến dịch giới thiệu giải pháp theo từng ngành nghề hoặc sự kiện.' },
       { title: 'Tối ưu trải nghiệm hiển thị đa thiết bị', description: 'Giao diện tương thích hoàn hảo trên máy tính để bàn, máy tính bảng và điện thoại di động với tốc độ tải nhanh chóng.' },
@@ -1359,9 +1359,9 @@ export const needSolutions: NeedSolution[] = [
       requiresApproval: 'Mọi nội dung xuất bản mới lên website hoặc các thay đổi về giá/chính sách đều phải được quản trị viên duyệt trước khi công khai.'
     },
     systemConnections: [
-      'Kết nối trực tiếp Phân hệ Quản trị Admin: Quản lý thông tin doanh nghiệp và nhận diện thương hiệu.',
-      'Kết nối Phân hệ CRS/CRM (Scope B): Đẩy dữ liệu lead và kích hoạt đường ống bán hàng tức thì.',
-      'Kết nối Phân hệ Marketing (Scope B): Đo lường tỷ lệ chuyển đổi của các chiến dịch trực tuyến.'
+      'Kết nối trực tiếp Phân hệ Quản trị, Phân quyền & Bảo mật hệ thống (Scope K): Quản lý cấu hình doanh nghiệp và nhận diện thương hiệu.',
+      'Kết nối Phân hệ CRS / CRM & Bán hàng (Scope B): Hỗ trợ chuyển tiếp dữ liệu lead vào đường ống bán hàng theo phân luồng.',
+      'Kết nối Phân hệ Tiếp thị số & Chiến dịch (Scope C): Đo lường tỷ lệ chuyển đổi của các chiến dịch trực tuyến.'
     ],
     reportTypes: [
       'Báo cáo số lượng lượt đăng ký biểu mẫu theo ngày/tuần/tháng',
@@ -1381,14 +1381,14 @@ export const needSolutions: NeedSolution[] = [
     name: 'Báo cáo & BI Thời gian thực',
     tagline: 'Trung tâm dữ liệu điều hành đa chiều, trực quan hóa chỉ số KPI/OKR và dự báo xu hướng vận hành',
     iconName: 'BarChart3',
-    coreValue: 'Xóa bỏ việc chờ đợi báo cáo tổng hợp cuối tháng bằng văn bản Excel thủ công; cung cấp cho nhà lãnh đạo cái nhìn thời gian thực về sức khỏe doanh nghiệp để ra quyết định dựa trên dữ liệu chuẩn xác.',
+    coreValue: 'Xóa bỏ việc chờ đợi báo cáo tổng hợp cuối tháng bằng văn bản Excel thủ công; hỗ trợ nhà lãnh đạo theo dõi các chỉ số sức khỏe doanh nghiệp đa chiều theo luồng dữ liệu định kỳ và tức thời để ra quyết định dựa trên số liệu.',
     problems: [
       'Lãnh đạo phải đợi 1-2 tuần sau khi hết tháng mới có số liệu tổng hợp từ các phòng ban, khiến các quyết định điều hành luôn bị chậm trễ.',
       'Số liệu giữa các phòng ban bị vênh nhau (Doanh số kinh doanh báo một đằng, số liệu kế toán thu về một nẻo, tồn kho thực tế lại khác).',
       'Mất nhiều công sức nhân sự chỉ để cắt dán số liệu từ nhiều file Excel rời rạc vào một trang chiếu để họp.',
       'Thiếu khả năng cảnh báo sớm: Khi phát hiện doanh thu sụt giảm hoặc chi phí vượt định mức thì hậu quả đã xảy ra.'
     ],
-    solutionOverview: 'Phân hệ Báo cáo & BI (Scope H) trong AI ENTERPRISE đóng vai trò là trung tâm thần kinh dữ liệu: kết nối dòng chảy thông tin từ tất cả 11 phân hệ, tự động tính toán các chỉ số đo lường hiệu quả (KPIs), hiển thị bảng điều khiển trực quan và đưa ra cảnh báo kịp thời.',
+    solutionOverview: 'Phân hệ Báo cáo & Business Intelligence (Scope J) trong AI ENTERPRISE đóng vai trò là trung tâm thần kinh dữ liệu: kết nối dòng chảy thông tin từ tất cả 11 phân hệ, tự động tính toán các chỉ số đo lường hiệu quả (KPIs), hiển thị bảng điều khiển trực quan và đưa ra cảnh báo kịp thời.',
     dataTypes: [
       'Dữ liệu chỉ số kinh doanh & doanh thu (Doanh số theo kỳ, Giá trị trung bình đơn, Tỷ lệ chốt)',
       'Dữ liệu chỉ số vận hành & năng suất (Số lượng tác vụ hoàn thành, Thời gian xử lý quy trình SLA)',
@@ -1398,10 +1398,10 @@ export const needSolutions: NeedSolution[] = [
     ],
     operatingWorkflow: {
       input: 'Dữ liệu phát sinh liên tục từ các hoạt động thực tế: đơn hàng tạo mới, cuộc gọi hoàn tất, phiếu duyệt được ký, chứng từ được xuất.',
-      process: 'Động cơ dữ liệu tự động làm sạch, tổng hợp theo thời gian thực và đồng bộ vào các khối chỉ số quản trị.',
+      process: 'Động cơ dữ liệu hỗ trợ làm sạch, tổng hợp theo luồng phát sinh và đồng bộ vào các khối chỉ số quản trị.',
       aiAutomation: 'AI phát hiện các biến động bất thường (doanh số giảm đột ngột ở một nhóm ngành, chi phí tăng cao bất thường) và tạo thông báo.',
       humanControl: 'Nhà quản lý xem xét bảng điều khiển, đào sâu (drill-down) vào các dữ liệu thành phần và đưa ra quyết định chỉ đạo.',
-      output: 'Báo cáo điều hành tự động cập nhật liên tục, không cần chờ nhân viên tổng hợp thủ công.'
+      output: 'Báo cáo điều hành được hỗ trợ cập nhật theo luồng dữ liệu phát sinh, giảm thiểu công tác tổng hợp thủ công.'
     },
     keyFeatures: [
       { title: 'Bảng điều khiển Tổng quan (Executive Dashboard)', description: 'Hiển thị các chỉ số trọng yếu nhất của toàn doanh nghiệp trên một màn hình duy nhất dành cho cấp lãnh đạo.' },
@@ -1418,9 +1418,9 @@ export const needSolutions: NeedSolution[] = [
       requiresApproval: 'Mọi hành động can thiệp điều chỉnh ngân sách hay chính sách căn cứ trên số liệu đều thuộc thẩm quyền của ban giám đốc.'
     },
     systemConnections: [
-      'Tổng hợp dữ liệu từ toàn bộ các Phân hệ chức năng của AI ENTERPRISE (Scope B, C, D, E, F, G).',
+      'Tổng hợp dữ liệu từ toàn bộ các Phân hệ chức năng của AI ENTERPRISE (Scope A, B, C, D, E, F, G, H, I, K).',
       'Kết nối với Không gian làm việc của lãnh đạo (Executive Workspace) để hiển thị báo cáo điều hành.',
-      'Cung cấp số liệu nền tảng cho Trợ lý AI CEO phân tích và đưa ra khuyến nghị.'
+      'Cung cấp số liệu nền tảng cho Trợ lý AI CEO (Scope I) phân tích và đưa ra khuyến nghị.'
     ],
     reportTypes: [
       'Báo cáo Doanh thu & Phễu bán hàng thời gian thực',
@@ -1432,7 +1432,7 @@ export const needSolutions: NeedSolution[] = [
       rbac: 'Phân quyền truy cập báo cáo theo cấp bậc quản lý nghiêm ngặt; mỗi cấp chỉ được xem số liệu trong phạm vi quản lý của mình.',
       auditLog: 'Ghi nhật ký mọi lượt xem báo cáo chiến lược và lượt xuất dữ liệu thống kê ra khỏi hệ thống.',
       approvalMechanism: 'Các bảng chỉ tiêu và công thức tính toán KPI/OKR được phê duyệt chính thức bởi Ban điều hành.',
-      dataScope: 'Toàn bộ dữ liệu báo cáo được tính toán trực tiếp từ cơ sở dữ liệu riêng của doanh nghiệp, cam kết bảo mật tuyệt đối.'
+      dataScope: 'Toàn bộ dữ liệu báo cáo được tính toán trực tiếp từ cơ sở dữ liệu riêng của doanh nghiệp, đảm bảo an toàn thông tin theo chính sách quản trị.'
     }
   }
 ];

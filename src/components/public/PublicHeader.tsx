@@ -3,6 +3,7 @@ import { usePublicRouter } from '../../context/PublicRouterContext';
 import { useEnterprise } from '../../context/EnterpriseContext';
 import { useTheme } from '../../context/ThemeContext';
 import { PublicLink } from './PublicLink';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   NAV_DEPARTMENTS,
   NAV_NEEDS,
@@ -282,7 +283,7 @@ export const PublicHeader: React.FC = () => {
                             6 Nguyên tắc cốt lõi
                           </div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Dữ liệu riêng biệt, không ảo giác, kiểm soát rủi ro
+                            Dữ liệu riêng biệt, trích dẫn nguồn kiểm chứng, kiểm soát rủi ro
                           </div>
                         </div>
                       </PublicLink>
@@ -549,7 +550,12 @@ export const PublicHeader: React.FC = () => {
           </div>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Desktop Language Switcher */}
+            <div className="hidden sm:block">
+              <LanguageSwitcher variant="desktop" />
+            </div>
+
             {/* Theme Toggle Button & Dropdown */}
             <div className="relative" ref={themeMenuRef}>
               <button
@@ -904,6 +910,9 @@ export const PublicHeader: React.FC = () => {
             >
               Về VMC Group
             </PublicLink>
+
+            {/* Mobile Language Selector */}
+            <LanguageSwitcher variant="mobile" onItemSelect={closeAllMenus} />
 
             {/* Mobile Theme Selector */}
             <div className="pt-3 border-t border-slate-200 dark:border-slate-800">

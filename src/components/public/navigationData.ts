@@ -68,5 +68,5 @@ export const NAV_AI_AGENTS: NavAiAgentItem[] = [
   { name: 'AI Finance Copilot', path: '/ai/finance', desc: 'Dòng tiền & đối soát hóa đơn', icon: CreditCard },
   { name: 'AI Voice Copilot', path: '/ai/voice', desc: 'Thoại nhắc lịch có kiểm soát', icon: Mic },
   { name: 'AI Workflow Copilot', path: '/ai/workflow', desc: 'Tự động hóa SOP liên phòng', icon: Workflow },
-  { name: 'AI Search / RAG Copilot', path: '/ai/rag', desc: 'Tra cứu tri thức không ảo giác', icon: Search }
+  { name: 'AI Search / RAG Copilot', path: '/ai/rag', desc: 'Tra cứu tri thức trích dẫn nguồn', icon: Search }
 ];

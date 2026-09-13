@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { PublicRoute, ConsultationFormData } from '../types/website';
+import { LocaleCode } from '../i18n/types';
+import { parsePathLocale, buildLocalizedPath } from '../i18n/parser';
+import { DEFAULT_LOCALE, isSupportedLocale, isLocalePublished, setStoredLocale } from '../i18n/registry';
 
 const routeSeoMap: Record<string, { title: string; description: string }> = {
   '/': {
@@ -43,12 +46,12 @@ const routeSeoMap: Record<string, { title: string; description: string }> = {
     description: 'Hồ sơ khách hàng 360, đường ống pipeline, nhật ký tương tác, báo giá hợp đồng và đối soát doanh thu.'
   },
   '/solutions/ai-agent': {
-    title: 'Mạng Lưới AI Agent Nghiệp Vụ Chuyên Trách | VMC Group',
-    description: 'Hệ thống 9 trợ lý AI đồng hành theo từng vị trí nghiệp vụ, phân tích sâu và vận hành có phê duyệt của con người.'
+    title: 'Giải Pháp Kiến Trúc Mạng Lưới AI Agent Doanh Nghiệp | VMC Group',
+    description: 'Kiến trúc giải pháp mạng lưới AI Agent chuyên trách, nguyên tắc Human-in-the-Loop và cơ chế kiểm soát dữ liệu RBAC.'
   },
   '/solutions/voice': {
-    title: 'AI Voice Cuộc Gọi Thông Minh | Bóc Băng & Phân Tích Hội Thoại - VMC Group',
-    description: 'Tự động bóc băng hội thoại tiếng Việt, tóm tắt sau cuộc gọi, phân tích cảm xúc và đồng bộ trực tiếp vào CRM.'
+    title: 'Giải Pháp AI Voice Tổng Đài & Bóc Băng Cuộc Gọi | VMC Group',
+    description: 'Giải pháp tổng thể bóc băng hội thoại tiếng Việt, tích hợp tổng đài VoIP/CRM, tóm tắt sau cuộc gọi và tự động đề xuất task.'
   },
   '/solutions/automation': {
     title: 'Tự Động Hóa Quy Trình (Workflow Automation) SOP | VMC Group',
@@ -158,12 +161,15 @@ const routeSeoMap: Record<string, { title: string; description: string }> = {
 
 interface RouterContextType {
   currentPath: string;
+  locale: LocaleCode;
+  changeLocale: (newLocale: LocaleCode) => void;
   navigate: (path: string, options?: { scrollToTop?: boolean }) => void;
   isAdminView: boolean;
   setIsAdminView: (isAdmin: boolean) => void;
   isConsultationModalOpen: boolean;
   consultationModalType: 'consultation' | 'assessment' | 'booking';
-  openConsultationModal: (type?: 'consultation' | 'assessment' | 'booking') => void;
+  consultationDefaultIndustry?: string;
+  openConsultationModal: (type?: 'consultation' | 'assessment' | 'booking', initialIndustry?: string) => void;
   closeConsultationModal: () => void;
   submitConsultation: (data: ConsultationFormData) => void;
 }
@@ -172,7 +178,7 @@ const RouterContext = createContext<RouterContextType | undefined>(undefined);
 
 export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialize path from window.location.pathname or hash fallback
-  const getInitialPath = (): string => {
+  const getInitialRawPath = (): string => {
     if (typeof window === 'undefined') return '/';
     const hash = window.location.hash.replace('#', '');
     if (hash && hash.startsWith('/')) return hash;
@@ -181,20 +187,25 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return '/';
   };
 
-  const [currentPath, setCurrentPath] = useState<string>(getInitialPath);
+  const initialParsed = parsePathLocale(getInitialRawPath());
+  const [currentPath, setCurrentPath] = useState<string>(initialParsed.canonicalPath);
+  const [locale, setLocale] = useState<LocaleCode>(initialParsed.locale);
   const [isAdminView, setIsAdminView] = useState<boolean>(() => {
-    return getInitialPath() === '/admin';
+    return initialParsed.canonicalPath === '/admin';
   });
 
   const [isConsultationModalOpen, setIsConsultationModalOpen] = useState(false);
   const [consultationModalType, setConsultationModalType] = useState<'consultation' | 'assessment' | 'booking'>('consultation');
+  const [consultationDefaultIndustry, setConsultationDefaultIndustry] = useState<string | undefined>(undefined);
 
   // Handle browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
-      const newPath = getInitialPath();
-      setCurrentPath(newPath);
-      setIsAdminView(newPath === '/admin');
+      const rawPath = getInitialRawPath();
+      const parsed = parsePathLocale(rawPath);
+      setCurrentPath(parsed.canonicalPath);
+      setLocale(parsed.locale);
+      setIsAdminView(parsed.canonicalPath === '/admin');
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -205,18 +216,28 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     };
   }, []);
 
-  // Update dynamic document title and meta description when currentPath changes
+  // Update dynamic document title, meta tags, canonical link and breadcrumb structured data when currentPath or locale changes
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
     // Remove any trailing anchor for title lookup
     const basePath = currentPath.split('#')[0] || '/';
+    const isPublished = isLocalePublished(locale);
+    const isKnownRoute = Boolean(routeSeoMap[basePath]);
+
     const seo = routeSeoMap[basePath] || {
-      title: 'VMC AI Enterprise — Thông Tin Doanh Nghiệp',
-      description: 'Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.'
+      title: isKnownRoute
+        ? 'VMC Group | Hệ Thống Doanh Nghiệp Vận Hành Bằng AI'
+        : 'Trang Không Tìm Thấy (404) | VMC Group',
+      description: isKnownRoute
+        ? 'Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.'
+        : 'Trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển hướng.'
     };
 
     document.title = seo.title;
+
+    // Update html lang attribute
+    document.documentElement.lang = locale;
 
     // Update meta description
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -231,51 +252,184 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (ogDesc) {
       ogDesc.setAttribute('content', seo.description);
     }
-  }, [currentPath]);
+
+    // Phase 1 Safety Hardening for Meta Robots:
+    // If locale is NOT published (draft 'en', planned 'zh-CN', 'ja', 'ko', 'de', 'fr', 'es') OR route is 404:
+    // MUST apply: noindex, nofollow
+    // When locale is PUBLISHED (e.g. 'vi'):
+    // MUST restore: index, follow
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.setAttribute('name', 'robots');
+      document.head.appendChild(robotsMeta);
+    }
+
+    if (!isPublished || !isKnownRoute) {
+      robotsMeta.setAttribute('content', 'noindex, nofollow');
+    } else {
+      robotsMeta.setAttribute('content', 'index, follow');
+    }
+
+    // Dynamic Canonical URL:
+    // For published locales: https://vmcgroup.com${basePath === '/' ? '/' : basePath}
+    // For unpublished test locales: MUST NOT let search engines treat unpublished route as official canonical!
+    // Always anchor canonical to the official published Vietnamese version.
+    const canonicalHref = `https://vmcgroup.com${basePath === '/' ? '/' : basePath}`;
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', canonicalHref);
+
+    // Dynamic og:url
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (!ogUrl) {
+      ogUrl = document.createElement('meta');
+      ogUrl.setAttribute('property', 'og:url');
+      document.head.appendChild(ogUrl);
+    }
+    ogUrl.setAttribute('content', canonicalHref);
+
+    // Ensure NO hreflang tags exist for unpublished locales
+    const existingHreflangs = document.querySelectorAll('link[rel="alternate"][hreflang]');
+    existingHreflangs.forEach((el) => el.remove());
+
+    // Dynamic BreadcrumbList structured data for deep public pages
+    const existingBreadcrumb = document.getElementById('route-breadcrumb-schema');
+    if (basePath === '/') {
+      if (existingBreadcrumb) {
+        existingBreadcrumb.remove();
+      }
+    } else {
+      const segments = basePath.split('/').filter(Boolean);
+      const itemListElement = [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Trang chủ',
+          item: `https://vmcgroup.com${locale === DEFAULT_LOCALE ? '/' : `/${locale}`}`
+        }
+      ];
+
+      let runningPath = '';
+      segments.forEach((seg, idx) => {
+        runningPath += `/${seg}`;
+        const matchedSeo = routeSeoMap[runningPath];
+        const segTitle = matchedSeo
+          ? matchedSeo.title.split('|')[0].trim()
+          : seg.charAt(0).toUpperCase() + seg.slice(1);
+
+        const localizedItemPath = buildLocalizedPath(runningPath, locale);
+        itemListElement.push({
+          '@type': 'ListItem',
+          position: idx + 2,
+          name: segTitle,
+          item: `https://vmcgroup.com${localizedItemPath}`
+        });
+      });
+
+      const breadcrumbData = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement
+      };
+
+      let scriptTag = existingBreadcrumb as HTMLScriptElement | null;
+      if (!scriptTag) {
+        scriptTag = document.createElement('script');
+        scriptTag.id = 'route-breadcrumb-schema';
+        scriptTag.type = 'application/ld+json';
+        document.head.appendChild(scriptTag);
+      }
+      scriptTag.textContent = JSON.stringify(breadcrumbData);
+    }
+  }, [currentPath, locale]);
 
   const navigate = useCallback((path: string, options: { scrollToTop?: boolean } = { scrollToTop: true }) => {
     let cleanPath = path;
     if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
 
-    // Check if path contains anchor (e.g. /ai-enterprise#architecture)
-    const [pathOnly, anchor] = cleanPath.split('#');
+    const parsed = parsePathLocale(cleanPath);
 
-    setCurrentPath(pathOnly);
-    if (pathOnly === '/admin') {
+    // If navigation specifies a locale prefix (e.g. /en/solutions/crm) use it,
+    // otherwise preserve current locale
+    const targetLocale = parsed.hasLocalePrefix ? parsed.locale : locale;
+    const targetCanonical = parsed.canonicalPath;
+
+    setCurrentPath(targetCanonical);
+    if (targetCanonical === '/admin') {
       setIsAdminView(true);
+      try {
+        window.history.pushState({}, '', '/admin');
+      } catch {
+        window.location.hash = '/admin';
+      }
     } else {
       setIsAdminView(false);
+      setLocale(targetLocale);
+      const browserUrl = buildLocalizedPath(targetCanonical, targetLocale, parsed.anchor);
+      try {
+        window.history.pushState({}, '', browserUrl);
+      } catch {
+        window.location.hash = browserUrl;
+      }
     }
 
-    try {
-      window.history.pushState({}, '', cleanPath);
-    } catch {
-      window.location.hash = cleanPath;
-    }
+    const prefersReducedMotion = typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scrollBehavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
 
-    if (anchor) {
-      // Smooth scroll to anchor element with header offset
+    if (parsed.anchor) {
+      // Scroll to anchor element with header offset
       setTimeout(() => {
-        const el = document.getElementById(anchor);
+        const el = document.getElementById(parsed.anchor!);
         if (el) {
           const headerOffset = 80;
           const elementPosition = el.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
           window.scrollTo({
             top: Math.max(0, offsetPosition),
-            behavior: 'smooth'
+            behavior: scrollBehavior
           });
         } else if (options.scrollToTop !== false) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: scrollBehavior });
         }
       }, 120);
     } else if (options.scrollToTop !== false) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: scrollBehavior });
     }
-  }, []);
+  }, [locale]);
 
-  const openConsultationModal = (type: 'consultation' | 'assessment' | 'booking' = 'consultation') => {
+  const changeLocale = useCallback((newLocale: LocaleCode) => {
+    if (!isSupportedLocale(newLocale) || newLocale === locale) return;
+    
+    // Explicit user preference persistence
+    setStoredLocale(newLocale);
+    setLocale(newLocale);
+
+    if (!isAdminView) {
+      const [cleanCanonical, inlineAnchor] = currentPath.split('#');
+      const windowHash = typeof window !== 'undefined' && window.location.hash
+        ? window.location.hash.replace(/^#/, '')
+        : undefined;
+      const effectiveAnchor = windowHash && !windowHash.startsWith('/') ? windowHash : inlineAnchor;
+
+      const browserUrl = buildLocalizedPath(cleanCanonical, newLocale, effectiveAnchor);
+      try {
+        window.history.pushState({}, '', browserUrl);
+      } catch {
+        window.location.hash = browserUrl;
+      }
+    }
+  }, [locale, currentPath, isAdminView]);
+
+  const openConsultationModal = (type: 'consultation' | 'assessment' | 'booking' = 'consultation', initialIndustry?: string) => {
     setConsultationModalType(type);
+    setConsultationDefaultIndustry(initialIndustry);
     setIsConsultationModalOpen(true);
   };
 
@@ -291,11 +445,14 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     <RouterContext.Provider
       value={{
         currentPath,
+        locale,
+        changeLocale,
         navigate,
         isAdminView,
         setIsAdminView,
         isConsultationModalOpen,
         consultationModalType,
+        consultationDefaultIndustry,
         openConsultationModal,
         closeConsultationModal,
         submitConsultation

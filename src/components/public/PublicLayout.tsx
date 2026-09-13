@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { usePublicRouter } from '../../context/PublicRouterContext';
 import { PublicHeader } from './PublicHeader';
 import { PublicFooter } from './PublicFooter';
@@ -6,15 +6,26 @@ import { ConsultationModal } from './ConsultationModal';
 import { CustomCursor } from './CustomCursor';
 import { Toast } from '../common/Toast';
 import { HomePage } from './pages/HomePage';
-import { AiEnterprisePage } from './pages/AiEnterprisePage';
-import { SolutionsPage } from './pages/SolutionsPage';
-import { IndustriesPage } from './pages/IndustriesPage';
-import { AiAutomationPage } from './pages/AiAutomationPage';
-import { CapabilitiesPage } from './pages/CapabilitiesPage';
-import { ResourcesPage } from './pages/ResourcesPage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage } from './pages/ContactPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+
+// Route-level code splitting for non-homepage views
+const AiEnterprisePage = lazy(() => import('./pages/AiEnterprisePage').then((m) => ({ default: m.AiEnterprisePage })));
+const SolutionsPage = lazy(() => import('./pages/SolutionsPage').then((m) => ({ default: m.SolutionsPage })));
+const IndustriesPage = lazy(() => import('./pages/IndustriesPage').then((m) => ({ default: m.IndustriesPage })));
+const AiAutomationPage = lazy(() => import('./pages/AiAutomationPage').then((m) => ({ default: m.AiAutomationPage })));
+const CapabilitiesPage = lazy(() => import('./pages/CapabilitiesPage').then((m) => ({ default: m.CapabilitiesPage })));
+const ResourcesPage = lazy(() => import('./pages/ResourcesPage').then((m) => ({ default: m.ResourcesPage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })));
+const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
+
+const PageLoadingFallback: React.FC = () => (
+  <div className="min-h-[50vh] flex items-center justify-center p-8 text-[#0F172A] dark:text-white">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-8 h-8 border-3 border-[#155EEF] border-t-transparent rounded-full animate-spin" />
+      <span className="text-xs font-mono text-slate-500 dark:text-slate-400">Đang tải nội dung...</span>
+    </div>
+  </div>
+);
 
 export const PublicLayout: React.FC = () => {
   const { currentPath } = usePublicRouter();
@@ -23,32 +34,38 @@ export const PublicLayout: React.FC = () => {
     if (currentPath === '/') {
       return <HomePage />;
     }
-    if (currentPath.startsWith('/ai-enterprise')) {
-      return <AiEnterprisePage />;
-    }
-    if (currentPath.startsWith('/solutions')) {
-      return <SolutionsPage />;
-    }
-    if (currentPath.startsWith('/industries')) {
-      return <IndustriesPage />;
-    }
-    if (currentPath.startsWith('/ai')) {
-      return <AiAutomationPage />;
-    }
-    if (currentPath.startsWith('/capabilities')) {
-      return <CapabilitiesPage />;
-    }
-    if (currentPath.startsWith('/resources')) {
-      return <ResourcesPage />;
-    }
-    if (currentPath.startsWith('/about')) {
-      return <AboutPage />;
-    }
-    if (currentPath.startsWith('/contact')) {
-      return <ContactPage />;
-    }
-    // Unmatched public routes
-    return <NotFoundPage />;
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        {(() => {
+          if (currentPath.startsWith('/ai-enterprise')) {
+            return <AiEnterprisePage />;
+          }
+          if (currentPath.startsWith('/solutions')) {
+            return <SolutionsPage />;
+          }
+          if (currentPath.startsWith('/industries')) {
+            return <IndustriesPage />;
+          }
+          if (currentPath.startsWith('/ai')) {
+            return <AiAutomationPage />;
+          }
+          if (currentPath.startsWith('/capabilities')) {
+            return <CapabilitiesPage />;
+          }
+          if (currentPath.startsWith('/resources')) {
+            return <ResourcesPage />;
+          }
+          if (currentPath.startsWith('/about')) {
+            return <AboutPage />;
+          }
+          if (currentPath.startsWith('/contact')) {
+            return <ContactPage />;
+          }
+          // Unmatched public routes
+          return <NotFoundPage />;
+        })()}
+      </Suspense>
+    );
   };
 
   return (
