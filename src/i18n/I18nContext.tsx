@@ -45,12 +45,14 @@ const interpolate = (text: string, params?: Record<string, string | number>): st
 interface I18nProviderProps {
   children: React.ReactNode;
   initialLocale?: LocaleCode;
+  currentPath?: string;
   onLocaleChange?: (locale: LocaleCode) => void;
 }
 
 export const I18nProvider: React.FC<I18nProviderProps> = ({
   children,
   initialLocale = DEFAULT_LOCALE,
+  currentPath,
   onLocaleChange
 }) => {
   const [locale, setLocaleState] = useState<LocaleCode>(() => {
@@ -66,12 +68,12 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     }
   }, [initialLocale]);
 
-  // Preload core namespaces when locale changes
+  // Preload core global namespaces and route-specific namespace when locale or route changes
   useEffect(() => {
     let mounted = true;
     setIsLoading(true);
 
-    preloadCoreNamespaces(locale).finally(() => {
+    preloadCoreNamespaces(locale, currentPath).finally(() => {
       if (mounted) {
         setIsLoading(false);
         setVersion((v) => v + 1);
@@ -86,7 +88,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     return () => {
       mounted = false;
     };
-  }, [locale]);
+  }, [locale, currentPath]);
 
   const setLocale = useCallback((newLocale: LocaleCode) => {
     if (!isSupportedLocale(newLocale)) return;

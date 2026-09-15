@@ -24,7 +24,11 @@ export type TranslationNamespace =
   | 'ai'
   | 'seo'
   | 'aiEnterprise'
-  | 'aiCopilots';
+  | 'aiCopilots'
+  | 'capabilities'
+  | 'resources'
+  | 'about'
+  | 'contact';
 
 export type TranslationDictionary = Record<string, any>;
 

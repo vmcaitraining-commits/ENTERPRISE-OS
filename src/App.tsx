@@ -15,7 +15,7 @@ const AdminPortal = lazy(() =>
 );
 
 const AppRouterSwitcher: React.FC = () => {
-  const { isAdminView, locale, changeLocale } = usePublicRouter();
+  const { isAdminView, locale, changeLocale, currentPath } = usePublicRouter();
 
   if (isAdminView) {
     return (
@@ -35,7 +35,7 @@ const AppRouterSwitcher: React.FC = () => {
   }
 
   return (
-    <I18nProvider initialLocale={locale} onLocaleChange={changeLocale}>
+    <I18nProvider initialLocale={locale} currentPath={currentPath} onLocaleChange={changeLocale}>
       <PublicLayout />
     </I18nProvider>
   );

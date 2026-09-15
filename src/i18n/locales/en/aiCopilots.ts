@@ -1497,7 +1497,7 @@ const enAiCopilots: TranslationDictionary = {
           after: {
             process: 'System enforces gating: subsequent steps remain locked until mandatory validation fields and attachments are verified.',
             timeSpent: 'Automated gate check',
-            humanRole: 'Ensures 100% of dossiers comply with certified quality standards before dispatch.'
+            humanRole: 'Ensures 100% of dossiers comply with committed quality standards before dispatch.'
           }
         }
       ],

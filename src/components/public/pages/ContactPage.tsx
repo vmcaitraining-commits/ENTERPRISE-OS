@@ -3,8 +3,8 @@ import { useEnterprise } from '../../../context/EnterpriseContext';
 import { useI18n } from '../../../i18n/I18nContext';
 import { industriesSolutions } from '../../../data/websiteContent';
 import {
-  Mail, Globe, MapPin, Phone, ShieldCheck, ArrowRight,
-  CheckCircle2, Building2, User, Sparkles, AlertCircle
+  Mail, Globe, MapPin, ShieldCheck, ArrowRight,
+  CheckCircle2, AlertCircle
 } from 'lucide-react';
 import { ConsultationFormData } from '../../../types/website';
 
@@ -19,12 +19,11 @@ interface FormErrors {
 
 export const ContactPage: React.FC = () => {
   const { data, showToast } = useEnterprise();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
-  const companyName = data?.identity?.companyName?.value || 'VMC Group';
   const email = data?.contact?.email?.value || 'vmcaitraining@gmail.com';
   const website = data?.contact?.website?.value || 'vmcgroup.com';
-  const region = data?.contact?.region?.value || 'Hà Nội, Việt Nam';
+  const region = locale === 'en' ? 'Hanoi, Vietnam' : (data?.contact?.region?.value || 'Hà Nội, Việt Nam');
 
   // Helper for translating industry options while preserving underlying value
   const getIndustryOptionLabel = (slug: string, fallbackName: string): string => {
@@ -50,7 +49,7 @@ export const ContactPage: React.FC = () => {
     }
   };
 
-  // Form states - Empty initial scale and industry as requested ("Chọn...")
+  // Form states
   const [formData, setFormData] = useState<ConsultationFormData>({
     fullName: '',
     email: '',
@@ -112,7 +111,6 @@ export const ContactPage: React.FC = () => {
 
     setIsSubmitting(true);
 
-    // Simulated local safe submission: Giữ dữ liệu, không tự gửi mạng thật ra bên ngoài
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -126,13 +124,13 @@ export const ContactPage: React.FC = () => {
       <section className="bg-gradient-to-b from-[#0B1F3A] to-[#0d274c] dark:from-[#060D19] dark:to-[#0B1528] text-white pt-16 pb-20 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="inline-block px-3 py-1 rounded-md bg-[#155EEF]/30 text-[#06B6D4] text-xs font-bold uppercase tracking-wider border border-[#155EEF]/40">
-            KẾT NỐI VỚI KIẾN TRÚC SƯ
+            {t('contact.badge')}
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Liên hệ & Đăng ký Tư vấn Kiến trúc
+            {t('contact.title')}
           </h1>
           <p className="text-base text-slate-300 max-w-3xl leading-relaxed">
-            Đội ngũ tư vấn kiến trúc của VMC Group sẵn sàng lắng nghe bài toán vận hành của doanh nghiệp và đề xuất phương án chuyển đổi tối ưu.
+            {t('contact.subtitle')}
           </p>
         </div>
       </section>
@@ -143,7 +141,7 @@ export const ContactPage: React.FC = () => {
       */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Contact Form: 8 cols on desktop (lg:col-span-8), appears FIRST on mobile */}
+          {/* Contact Form */}
           <div className="lg:col-span-8 order-1 lg:order-2">
             <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-6">
               <div className="space-y-1">
@@ -321,7 +319,7 @@ export const ContactPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Scale & Industry with "Chọn..." default option */}
+                  {/* Scale & Industry */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="contact-scale" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
@@ -430,12 +428,12 @@ export const ContactPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Left / Secondary on Mobile: Contact Info (4 cols on desktop, order-2 on mobile) */}
+          {/* Contact Info Card */}
           <div className="lg:col-span-4 order-2 lg:order-1 space-y-6">
             <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0D182E] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-6">
-              <h2 className="text-xl font-bold text-[#0B1F3A] dark:text-white">Thông tin Trụ sở & Liên hệ</h2>
+              <h2 className="text-xl font-bold text-[#0B1F3A] dark:text-white">{t('contact.cardTitle')}</h2>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                Vui lòng gửi thông tin qua biểu mẫu hoặc kết nối trực tiếp qua email chính thức của VMC Group để được phản hồi và đặt lịch làm việc.
+                {t('contact.cardDesc')}
               </p>
 
               <div className="space-y-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 pt-2">
@@ -444,7 +442,7 @@ export const ContactPage: React.FC = () => {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-semibold block text-xs text-slate-500 dark:text-slate-400 uppercase">Khu vực / Địa bàn:</span>
+                    <span className="font-semibold block text-xs text-slate-500 dark:text-slate-400 uppercase">{t('contact.regionLabel')}</span>
                     <span className="font-medium text-[#0B1F3A] dark:text-white">{region}</span>
                   </div>
                 </div>
@@ -454,7 +452,7 @@ export const ContactPage: React.FC = () => {
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-semibold block text-xs text-slate-500 dark:text-slate-400 uppercase">Email công tác:</span>
+                    <span className="font-semibold block text-xs text-slate-500 dark:text-slate-400 uppercase">{t('contact.emailLabel')}</span>
                     <a href={`mailto:${email}`} className="font-medium text-[#155EEF] dark:text-[#06B6D4] hover:underline">
                       {email}
                     </a>
@@ -466,7 +464,7 @@ export const ContactPage: React.FC = () => {
                     <Globe className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-semibold block text-xs text-slate-500 dark:text-slate-400 uppercase">Website chính thức:</span>
+                    <span className="font-semibold block text-xs text-slate-500 dark:text-slate-400 uppercase">{t('contact.websiteLabel')}</span>
                     <a href={`https://${website}`} target="_blank" rel="noreferrer" className="font-medium text-[#0B1F3A] dark:text-white hover:underline">
                       {website}
                     </a>
@@ -476,7 +474,7 @@ export const ContactPage: React.FC = () => {
 
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-start gap-2.5 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <span>Cam kết bảo mật: Mọi thông tin liên hệ được xử lý theo quy định bảo mật và thỏa thuận NDA.</span>
+                <span>{t('contact.ndaPledge')}</span>
               </div>
             </div>
           </div>

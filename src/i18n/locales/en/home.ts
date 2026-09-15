@@ -336,7 +336,7 @@ export default {
         tabLabel: 'Finance: Liquidity & Receivables',
         roleTitle: 'AI Finance Copilot monitoring liquidity and receivables',
         scenario: 'Cash flow forecasting surfaces 3 major receivable tranches due within the next 7 business days.',
-        humanRule: 'MANDATORY: No funds disbursement or budget allocation adjustment is ever executed automatically without certified finance sign-off.',
+        humanRule: 'MANDATORY: No funds disbursement or budget allocation adjustment is ever executed automatically without authorized finance sign-off.',
         steps: [
           { title: '1. Internal Data Retrieval', description: 'Audits verified bank balances, accounts receivable (AR) schedule, and accounts payable (AP).', subDetail: 'Sources: Banking & Debt Ledger' },
           { title: '2. Contextual Analysis', description: 'Simulates 14-day cash variance: Surfaces potential liquidity tension if receivables experience delay.', subDetail: 'Predictive Confidence: High' },

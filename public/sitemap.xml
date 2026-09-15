@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Public Routes -->
+  <!-- ============================================================ -->
+  <!-- TIẾNG VIỆT PUBLIC ROUTES (PUBLISHED) -->
+  <!-- ============================================================ -->
   <url>
     <loc>https://vmcgroup.com/</loc>
     <changefreq>weekly</changefreq>
@@ -46,41 +48,149 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Department Solutions -->
-  <url><loc>https://vmcgroup.com/solutions/sales</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/marketing</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/customer-service</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/hr</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/finance</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/management</loc><priority>0.8</priority></url>
-
-  <!-- Key Need Solutions -->
-  <url><loc>https://vmcgroup.com/solutions/crm</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/ai-agent</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/voice</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/automation</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/website</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/solutions/bi</loc><priority>0.8</priority></url>
-
-  <!-- Industry Solutions -->
-  <url><loc>https://vmcgroup.com/industries/trade</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/service</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/education</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/real-estate</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/manufacturing</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/distribution</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/construction</loc><priority>0.7</priority></url>
-  <url><loc>https://vmcgroup.com/industries/technology</loc><priority>0.7</priority></url>
-
-  <!-- 9 AI Copilots Profiles -->
-  <url><loc>https://vmcgroup.com/ai/ceo</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/sales</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/marketing</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/customer-service</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/hr</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/finance</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/voice</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/workflow</loc><priority>0.8</priority></url>
-  <url><loc>https://vmcgroup.com/ai/rag</loc><priority>0.8</priority></url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/sales</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/marketing</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/customer-service</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/hr</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/finance</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/management</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/crm</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/ai-agent</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/voice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/automation</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/website</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/solutions/bi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/trade</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/service</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/education</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/real-estate</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/manufacturing</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/distribution</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/construction</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/industries/technology</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/ceo</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/sales</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/marketing</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/customer-service</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/hr</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/finance</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/voice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/workflow</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vmcgroup.com/ai/rag</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

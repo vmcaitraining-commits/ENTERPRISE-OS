@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
+    "generate:sitemap": "tsx scripts/generate_sitemap.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

@@ -14,6 +14,10 @@ export const namespaceLoaders: Record<string, Record<string, () => Promise<{ def
     solutions: () => import('./locales/vi/solutions'),
     industries: () => import('./locales/vi/industries'),
     aiCopilots: () => import('./locales/vi/aiCopilots'),
+    capabilities: () => import('./locales/vi/capabilities'),
+    resources: () => import('./locales/vi/resources'),
+    about: () => import('./locales/vi/about'),
+    contact: () => import('./locales/vi/contact'),
   },
   en: {
     common: () => import('./locales/en/common'),
@@ -26,6 +30,10 @@ export const namespaceLoaders: Record<string, Record<string, () => Promise<{ def
     solutions: () => import('./locales/en/solutions'),
     industries: () => import('./locales/en/industries'),
     aiCopilots: () => import('./locales/en/aiCopilots'),
+    capabilities: () => import('./locales/en/capabilities'),
+    resources: () => import('./locales/en/resources'),
+    about: () => import('./locales/en/about'),
+    contact: () => import('./locales/en/contact'),
   }
 };
 
@@ -92,21 +100,63 @@ export const loadNamespace = async (
 };
 
 /**
- * Preloads foundational namespaces for the active locale
+ * Global core namespaces required across all pages (navigation, forms, accessibility, 404)
  */
-export const preloadCoreNamespaces = async (locale: LocaleCode): Promise<void> => {
-  await Promise.all([
-    loadNamespace(locale, 'common'),
-    loadNamespace(locale, 'nav'),
-    loadNamespace(locale, 'forms'),
-    loadNamespace(locale, 'accessibility'),
-    loadNamespace(locale, 'notFound'),
-    loadNamespace(locale, 'home'),
-    loadNamespace(locale, 'aiEnterprise'),
-    loadNamespace(locale, 'solutions'),
-    loadNamespace(locale, 'industries'),
-    loadNamespace(locale, 'aiCopilots')
-  ]);
+export const CORE_GLOBAL_NAMESPACES: TranslationNamespace[] = [
+  'common',
+  'nav',
+  'forms',
+  'accessibility',
+  'notFound'
+];
+
+/**
+ * Page-specific namespaces lazy-loaded on demand per route
+ */
+export const PAGE_SPECIFIC_NAMESPACES: TranslationNamespace[] = [
+  'home',
+  'aiEnterprise',
+  'solutions',
+  'industries',
+  'aiCopilots',
+  'capabilities',
+  'resources',
+  'about',
+  'contact'
+];
+
+/**
+ * Resolves the required translation namespace for a given canonical route path
+ */
+export const getRouteNamespace = (path?: string): TranslationNamespace | null => {
+  if (!path) return 'home';
+  const cleanPath = path.split('?')[0].split('#')[0];
+  if (cleanPath === '/' || cleanPath === '') return 'home';
+  if (cleanPath.startsWith('/ai-enterprise')) return 'aiEnterprise';
+  if (cleanPath.startsWith('/solutions')) return 'solutions';
+  if (cleanPath.startsWith('/industries')) return 'industries';
+  if (cleanPath.startsWith('/ai')) return 'aiCopilots';
+  if (cleanPath.startsWith('/capabilities')) return 'capabilities';
+  if (cleanPath.startsWith('/resources')) return 'resources';
+  if (cleanPath.startsWith('/about')) return 'about';
+  if (cleanPath.startsWith('/contact')) return 'contact';
+  return null;
+};
+
+/**
+ * Preloads foundational global namespaces for the active locale,
+ * and lazy-loads the target route's namespace on demand.
+ */
+export const preloadCoreNamespaces = async (
+  locale: LocaleCode,
+  currentPath?: string
+): Promise<void> => {
+  const namespaces: TranslationNamespace[] = [...CORE_GLOBAL_NAMESPACES];
+  const routeNs = getRouteNamespace(currentPath);
+  if (routeNs && !namespaces.includes(routeNs)) {
+    namespaces.push(routeNs);
+  }
+  await Promise.all(namespaces.map((ns) => loadNamespace(locale, ns)));
 };
 
 /**

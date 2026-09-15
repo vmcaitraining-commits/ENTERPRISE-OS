@@ -57,7 +57,7 @@ export default {
   themeToggleAria: 'Toggle Light / Dark theme',
 
   // Language Controls
-  languageSelect: 'Language / Ngôn ngữ',
+  languageSelect: 'Language',
   languageSwitchAria: 'Select language',
   currentLanguage: 'Current language',
 

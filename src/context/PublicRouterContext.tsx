@@ -2,9 +2,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { PublicRoute, ConsultationFormData } from '../types/website';
 import { LocaleCode } from '../i18n/types';
 import { parsePathLocale, buildLocalizedPath } from '../i18n/parser';
-import { DEFAULT_LOCALE, isSupportedLocale, isLocalePublished, setStoredLocale } from '../i18n/registry';
+import { DEFAULT_LOCALE, isSupportedLocale, isLocalePublished, getPublishedLocales, setStoredLocale } from '../i18n/registry';
 
-const routeSeoMap: Record<string, { title: string; description: string }> = {
+export const routeSeoMap: Record<string, { title: string; description: string }> = {
   '/': {
     title: 'VMC Group | Kiến Trúc Sư Hệ Thống Doanh Nghiệp Vận Hành Bằng AI',
     description: 'VMC Group xây dựng hệ điều hành doanh nghiệp vận hành bằng AI, kết nối Con người, Dữ liệu, Quy trình, Phần mềm và AI Agent trên một nền tảng thống nhất.'
@@ -159,6 +159,161 @@ const routeSeoMap: Record<string, { title: string; description: string }> = {
   }
 };
 
+export const routeSeoMapEn: Record<string, { title: string; description: string }> = {
+  '/': {
+    title: 'VMC Group | Enterprise AI Systems Architect',
+    description: 'VMC Group builds enterprise operating systems powered by AI, connecting People, Data, Processes, Software, and AI Agents on a unified platform.'
+  },
+  '/ai-enterprise': {
+    title: 'AI ENTERPRISE | Unified 11-Module Operating System - VMC Group',
+    description: 'Reference architecture uniting 11 functional modules from Portal, CRM, Customer Service, Operations, Finance to Security and RBAC.'
+  },
+  '/solutions': {
+    title: 'Enterprise Operational Solutions | VMC Group',
+    description: 'Comprehensive overview of departmental and transformational enterprise operational solutions by VMC Group.'
+  },
+  '/solutions/sales': {
+    title: 'Sales & Customer Pipeline Solutions | VMC Group',
+    description: '360-degree customer records, omnichannel sales pipelines, quoting, and standardized revenue operations.'
+  },
+  '/solutions/marketing': {
+    title: 'Omnichannel Marketing & Growth Solutions | VMC Group',
+    description: 'Campaign tracking, customer acquisition cost (CAC) optimization, and direct data integration with sales pipelines.'
+  },
+  '/solutions/customer-service': {
+    title: 'Customer Service & SLA Ticket Management Solutions | VMC Group',
+    description: 'Omnichannel intake, automated complaint ticket routing, SLA monitoring, and customer satisfaction tracking.'
+  },
+  '/solutions/hr': {
+    title: 'HR Management & Automated Payroll Solutions | VMC Group',
+    description: 'Centralized employee profiles, automated timekeeping, payroll reconciliation, and digital onboarding workflows.'
+  },
+  '/solutions/finance': {
+    title: 'Financial Accounting & Cashflow Management Solutions | VMC Group',
+    description: 'Revenue/expense tracking, customer accounts receivable, advance approval workflows, and operational budget controls.'
+  },
+  '/solutions/management': {
+    title: 'Executive Management & Goal Tracking Solutions | VMC Group',
+    description: 'Executive dashboards for leadership teams, OKR/KPI milestone tracking, and timely operational risk alerts.'
+  },
+  '/solutions/crm': {
+    title: 'Enterprise CRS / CRM | 360 Customer Records & Sales Pipeline - VMC Group',
+    description: 'Comprehensive customer 360, visual pipeline stages, interaction logs, contract quoting, and revenue reconciliation.'
+  },
+  '/solutions/ai-agent': {
+    title: 'Enterprise AI Agent Network Architecture | VMC Group',
+    description: 'Specialized business AI agent network architecture, Human-in-the-Loop governance, and RBAC data access controls.'
+  },
+  '/solutions/voice': {
+    title: 'AI Voice Switchboard & Call Transcription Solutions | VMC Group',
+    description: 'Automated Vietnamese conversation transcription, VoIP/CRM integration, post-call summarization, and action item extraction.'
+  },
+  '/solutions/automation': {
+    title: 'SOP Workflow Automation Engine | VMC Group',
+    description: 'Cross-departmental automation engine built on Trigger - Condition - Action - Approval - Log logic.'
+  },
+  '/solutions/website': {
+    title: 'Enterprise Website Unified with CRM Core | VMC Group',
+    description: 'Public web portal directly connected to internal CRM for automatic lead sync and transparent conversion measurement.'
+  },
+  '/solutions/bi': {
+    title: 'Real-Time Reports & Executive BI Center | VMC Group',
+    description: 'Continuous reporting dashboards covering KPI/OKR, revenue, cashflow, staffing, and team operational productivity.'
+  },
+  '/industries': {
+    title: 'Targeted Solutions Across 8 Core Industries | VMC Group',
+    description: 'Tailored configurations for Trade, Services, Education, Real Estate, Manufacturing, Distribution, Construction, and Technology.'
+  },
+  '/industries/trade': {
+    title: 'Retail & Commercial Enterprise Solutions | VMC Group',
+    description: 'Omnichannel lead management, inventory status, order fulfillment, and transaction lifecycles for commerce.'
+  },
+  '/industries/service': {
+    title: 'Professional Service Enterprise Solutions | VMC Group',
+    description: 'Service contract administration, phased project milestones, and transparent operational resource utilization.'
+  },
+  '/industries/education': {
+    title: 'Education & Admissions Enterprise Solutions | VMC Group',
+    description: 'Prospective student pipeline, advisory scheduling, tuition payment progress, and learner lifecycle records.'
+  },
+  '/industries/real-estate': {
+    title: 'Real Estate & Brokerage Project Solutions | VMC Group',
+    description: 'Property inventory allocation, equitable agent lead distribution, and transaction commission reconciliation.'
+  },
+  '/industries/manufacturing': {
+    title: 'Manufacturing & Order Processing Solutions | VMC Group',
+    description: 'Order-based production progress, raw materials inventory synchronization, and direct manufacturing unit costs.'
+  },
+  '/industries/distribution': {
+    title: 'Distribution & Agency Channel Management Solutions | VMC Group',
+    description: 'Dealer pricing policies, volume discounts, credit exposure thresholds, and delivery fulfillment tracking.'
+  },
+  '/industries/construction': {
+    title: 'Construction & Project Site Management Solutions | VMC Group',
+    description: 'Bidding records, phased stage acceptance, actual site expense control, and subcontractor administration.'
+  },
+  '/industries/technology': {
+    title: 'Technology & Digital Service Enterprise Solutions | VMC Group',
+    description: 'B2B client pipeline, recurring software subscriptions (MRR), and continuous technical support operations.'
+  },
+  '/ai': {
+    title: 'Network of 9 Specialized Business AI Copilots | VMC Group',
+    description: 'Explore 9 AI Copilots assisting personnel: AI CEO, Sales, Marketing, Customer Service, HR, Finance, Voice, Workflow, RAG.'
+  },
+  '/ai/ceo': {
+    title: 'AI CEO Copilot - Executive Operations Assistant | VMC Group',
+    description: 'Multi-dimensional enterprise health synthesis, cashflow bottleneck detection, and operational risk alerts.'
+  },
+  '/ai/sales': {
+    title: 'AI Sales Copilot - Lead Qualification & Pipeline Assistant | VMC Group',
+    description: 'Potential lead scoring, contextual advisory scripts, and automated customer follow-up task generation.'
+  },
+  '/ai/marketing': {
+    title: 'AI Marketing Copilot - Campaign Optimization Assistant | VMC Group',
+    description: 'Audience persona analysis, messaging suggestions, and customer acquisition cost (CAC) optimization.'
+  },
+  '/ai/customer-service': {
+    title: 'AI Customer Service Copilot - Ticket & SLA Assistant | VMC Group',
+    description: 'Complaint resolution suggestions, urgency classification, and standardized customer response drafting.'
+  },
+  '/ai/hr': {
+    title: 'AI HR Copilot - Recruitment & People Operations Assistant | VMC Group',
+    description: 'Resume screening, automated timesheet verification, and structured performance evaluation drafting.'
+  },
+  '/ai/finance': {
+    title: 'AI Finance Copilot - Cashflow Governance Assistant | VMC Group',
+    description: 'Invoice and voucher reconciliation, operational expense audits, and periodic cashflow forecast reporting.'
+  },
+  '/ai/voice': {
+    title: 'AI Voice Copilot - Voice Call Intelligence Assistant | VMC Group',
+    description: 'Automated transcription, post-call structured summary generation, and interaction history sync to CRM.'
+  },
+  '/ai/workflow': {
+    title: 'AI Workflow Copilot - Digital SOP Automation Assistant | VMC Group',
+    description: 'Process bottleneck identification, task allocation suggestions, and SLA deadline breach warnings.'
+  },
+  '/ai/rag': {
+    title: 'AI Search / RAG - Internal Knowledge Retrieval Assistant | VMC Group',
+    description: 'Accurate natural-language queries across enterprise policies, digital SOPs, and operational documentation.'
+  },
+  '/capabilities': {
+    title: 'Execution Capabilities & 6-Phase Delivery Model | VMC Group',
+    description: '8 core capability pillars and verifiable 6-phase deployment roadmap for practical AI ENTERPRISE handover.'
+  },
+  '/resources': {
+    title: 'Operational Resources & Data Confidentiality Framework | VMC Group',
+    description: 'System architectural diagrams, sample digital SOP templates, enterprise data privacy principles, and classified FAQ.'
+  },
+  '/about': {
+    title: 'About VMC Group | Vision, Mission & Operating Principles',
+    description: 'Enterprise profile of VMC Group, pragmatic AI operational philosophy, and 6 core system implementation standards.'
+  },
+  '/contact': {
+    title: 'Contact & Architecture Consultation Registration | VMC Group',
+    description: 'Submit an operational assessment request and schedule enterprise architectural consultation with VMC Group.'
+  }
+};
+
 interface RouterContextType {
   currentPath: string;
   locale: LocaleCode;
@@ -225,13 +380,14 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const isPublished = isLocalePublished(locale);
     const isKnownRoute = Boolean(routeSeoMap[basePath]);
 
-    const seo = routeSeoMap[basePath] || {
+    const activeSeoMap = locale === 'en' ? routeSeoMapEn : routeSeoMap;
+    const seo = activeSeoMap[basePath] || routeSeoMap[basePath] || {
       title: isKnownRoute
-        ? 'VMC Group | Hệ Thống Doanh Nghiệp Vận Hành Bằng AI'
-        : 'Trang Không Tìm Thấy (404) | VMC Group',
+        ? (locale === 'en' ? 'VMC Group | Enterprise AI Operating System' : 'VMC Group | Hệ Thống Doanh Nghiệp Vận Hành Bằng AI')
+        : (locale === 'en' ? 'Page Not Found (404) | VMC Group' : 'Trang Không Tìm Thấy (404) | VMC Group'),
       description: isKnownRoute
-        ? 'Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.'
-        : 'Trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển hướng.'
+        ? (locale === 'en' ? 'Public website VMCGROUP.COM and VMC Group Enterprise AI Operating System.' : 'Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.')
+        : (locale === 'en' ? 'The requested page does not exist or has been redirected.' : 'Trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển hướng.')
     };
 
     document.title = seo.title;
@@ -272,10 +428,11 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
 
     // Dynamic Canonical URL:
-    // For published locales: https://vmcgroup.com${basePath === '/' ? '/' : basePath}
-    // For unpublished test locales: MUST NOT let search engines treat unpublished route as official canonical!
-    // Always anchor canonical to the official published Vietnamese version.
-    const canonicalHref = `https://vmcgroup.com${basePath === '/' ? '/' : basePath}`;
+    // VI: /solutions/crm -> https://vmcgroup.com/solutions/crm
+    // EN: /en/solutions/crm -> https://vmcgroup.com/en/solutions/crm
+    const canonicalHref = locale === 'en'
+      ? `https://vmcgroup.com${basePath === '/' ? '/en' : `/en${basePath}`}`
+      : `https://vmcgroup.com${basePath === '/' ? '/' : basePath}`;
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -293,9 +450,31 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
     ogUrl.setAttribute('content', canonicalHref);
 
-    // Ensure NO hreflang tags exist for unpublished locales
+    // Dynamic Hreflang links:
+    // Only published locales may be advertised via hreflang to search engines.
+    // When a locale is 'draft' or 'planned' (e.g. draft English prior to human approval),
+    // emitting hreflang pointing to a 'noindex, nofollow' URL triggers search engine crawl conflict errors.
     const existingHreflangs = document.querySelectorAll('link[rel="alternate"][hreflang]');
     existingHreflangs.forEach((el) => el.remove());
+
+    const publishedLocales = getPublishedLocales();
+    if (isKnownRoute && publishedLocales.length > 1) {
+      publishedLocales.forEach((pub) => {
+        const localizedPath = buildLocalizedPath(basePath, pub.code);
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'alternate');
+        link.setAttribute('hreflang', pub.code);
+        link.setAttribute('href', `https://vmcgroup.com${localizedPath}`);
+        document.head.appendChild(link);
+      });
+
+      const defaultPath = buildLocalizedPath(basePath, DEFAULT_LOCALE);
+      const xDefaultLink = document.createElement('link');
+      xDefaultLink.setAttribute('rel', 'alternate');
+      xDefaultLink.setAttribute('hreflang', 'x-default');
+      xDefaultLink.setAttribute('href', `https://vmcgroup.com${defaultPath}`);
+      document.head.appendChild(xDefaultLink);
+    }
 
     // Dynamic BreadcrumbList structured data for deep public pages
     const existingBreadcrumb = document.getElementById('route-breadcrumb-schema');
@@ -309,7 +488,7 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         {
           '@type': 'ListItem',
           position: 1,
-          name: 'Trang chủ',
+          name: locale === 'en' ? 'Home' : 'Trang chủ',
           item: `https://vmcgroup.com${locale === DEFAULT_LOCALE ? '/' : `/${locale}`}`
         }
       ];
@@ -317,7 +496,7 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
       let runningPath = '';
       segments.forEach((seg, idx) => {
         runningPath += `/${seg}`;
-        const matchedSeo = routeSeoMap[runningPath];
+        const matchedSeo = activeSeoMap[runningPath] || routeSeoMap[runningPath];
         const segTitle = matchedSeo
           ? matchedSeo.title.split('|')[0].trim()
           : seg.charAt(0).toUpperCase() + seg.slice(1);
