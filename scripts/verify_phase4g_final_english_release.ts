@@ -561,27 +561,27 @@ if (parsedAdmin.canonicalPath !== '/admin' || parsedAdmin.hasLocalePrefix) {
   log('  ✓ Admin route (/admin) verified un-prefixed without locale pollution.');
 }
 
-// Publication status check
+// Publication status check (English is now officially published following Human Approval)
 const enLocaleConfig = SUPPORTED_LOCALES.en;
-if (enLocaleConfig.status !== 'draft') {
+if (enLocaleConfig.status !== 'published') {
   issues.push({
     section: 'Publication Governance',
     type: 'ERROR',
-    message: `English publication status must remain 'draft' during audit, got '${enLocaleConfig.status}'`
+    message: `English publication status must be 'published' following Human Approval, got '${enLocaleConfig.status}'`
   });
 } else {
-  log(`  ✓ English publication status verified: "${enLocaleConfig.status}" (AI_TRANSLATED / NEEDS_REVIEW).`);
+  log(`  ✓ English publication status verified: "${enLocaleConfig.status}" (HUMAN APPROVAL CONFIRMED).`);
 }
 
 const isEnPublished = isLocalePublished('en');
-if (isEnPublished !== false) {
+if (isEnPublished !== true) {
   issues.push({
     section: 'Publication Governance',
     type: 'ERROR',
-    message: `isLocalePublished('en') must return false until human sign-off`
+    message: `isLocalePublished('en') must return true following Human Approval`
   });
 } else {
-  log('  ✓ isLocalePublished("en") returns false — protected by technical publication gate.\n');
+  log('  ✓ isLocalePublished("en") returns true — English is officially published.\n');
 }
 
 // -----------------------------------------------------------------------------

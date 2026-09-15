@@ -17,7 +17,7 @@ export const SUPPORTED_LOCALES: Record<LocaleCode, LocaleMetadata> = {
     name: 'English',
     nativeName: 'English',
     flag: '🇺🇸',
-    status: 'draft', // Critical Phase 1 safety rule: English is NOT published yet
+    status: 'published', // Formally approved by Human Approver for public release
     direction: 'ltr',
     isDefault: false
   },
