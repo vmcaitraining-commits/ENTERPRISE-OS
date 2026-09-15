@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePublicRouter } from '../../../context/PublicRouterContext';
+import { useI18n } from '../../../i18n';
 import { copilotDetailedMap } from '../../../data/aiCopilotDetailedData';
 import { CopilotDetailView } from '../ai/CopilotDetailView';
 import {
@@ -10,6 +11,7 @@ import {
 
 export const AiAutomationPage: React.FC = () => {
   const { currentPath, navigate, openConsultationModal } = usePublicRouter();
+  const { t } = useI18n();
 
   const segments = currentPath.split('/');
   const agentSlug = segments[2]; // 'ceo', 'sales', etc.
@@ -18,6 +20,7 @@ export const AiAutomationPage: React.FC = () => {
 
   // If viewing a specific AI Copilot profile with full 8-section rich UI
   if (detailedCopilot) {
+    const localizedCopilotName = t(`aiCopilots.copilots.${detailedCopilot.slug}.name`, detailedCopilot.name);
     return (
       <div className="space-y-12 pb-24 text-slate-900 dark:text-slate-100 transition-colors">
         {/* Navigation Breadcrumb Bar */}
@@ -28,14 +31,14 @@ export const AiAutomationPage: React.FC = () => {
               className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:text-white transition-colors cursor-pointer mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Quay lại Mạng lưới 9 AI Copilot</span>
+              <span>{t('aiCopilots.detail.backToNetwork', 'Quay lại Mạng lưới 9 AI Copilot')}</span>
             </button>
             <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
-              <span className="cursor-pointer hover:text-white" onClick={() => navigate('/')}>Trang chủ</span>
+              <span className="cursor-pointer hover:text-white" onClick={() => navigate('/')}>{t('nav.home', 'Trang chủ')}</span>
               <span>/</span>
-              <span className="cursor-pointer hover:text-white" onClick={() => navigate('/ai')}>AI Copilot</span>
+              <span className="cursor-pointer hover:text-white" onClick={() => navigate('/ai')}>{t('nav.aiCopilot', 'AI Copilot')}</span>
               <span>/</span>
-              <span className="text-white font-semibold">{detailedCopilot.name}</span>
+              <span className="text-white font-semibold">{localizedCopilotName}</span>
             </div>
           </div>
         </section>

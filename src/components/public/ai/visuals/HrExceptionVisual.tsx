@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { 
-  Users, AlertCircle, CheckSquare, BarChart, Bell, CheckCircle2, 
-  ChevronRight, Calendar, Sparkles, ShieldCheck 
+  Users, AlertCircle, Bell, CheckCircle2, ShieldCheck 
 } from 'lucide-react';
+import { useI18n } from '../../../../i18n/I18nContext';
 
 export const HrExceptionVisual: React.FC = () => {
+  const { t, tRaw } = useI18n();
   const [activeView, setActiveView] = useState<'exceptions' | 'onboarding' | 'skillgap'>('exceptions');
   const [remindedList, setRemindedList] = useState<number[]>([]);
 
-  const exceptions = [
+  const defaultExceptions = [
     {
       id: 1,
       name: 'Nguyễn Văn An',
@@ -38,7 +39,7 @@ export const HrExceptionVisual: React.FC = () => {
     }
   ];
 
-  const onboardingSteps = [
+  const defaultOnboardingSteps = [
     { step: 1, title: 'Ký hợp đồng & Nhận trang thiết bị làm việc', date: 'Ngày 1', status: 'completed' },
     { step: 2, title: 'Hoàn thành khóa học văn hóa & quy chế công ty', date: 'Ngày 3', status: 'completed' },
     { step: 3, title: 'Gặp gỡ Mentor & Thiết lập mục tiêu thử việc (KPIs)', date: 'Ngày 7', status: 'completed' },
@@ -46,11 +47,15 @@ export const HrExceptionVisual: React.FC = () => {
     { step: 5, title: 'Hội đồng nhân sự nghiệm thu thử việc chính thức', date: 'Ngày 60', status: 'upcoming' }
   ];
 
-  const skillGaps = [
+  const defaultSkillGaps = [
     { skill: 'Kỹ năng đàm phán hợp đồng lớn (B2B)', dept: 'Kinh doanh', current: 65, benchmark: 90, gap: '-25%' },
     { skill: 'Sử dụng công cụ quản lý dự án Jira/SOP', dept: 'Kỹ thuật', current: 78, benchmark: 85, gap: '-7%' },
     { skill: 'Kiểm soát tuân thủ thuế & hóa đơn điện tử', dept: 'Kế toán', current: 88, benchmark: 90, gap: '-2%' }
   ];
+
+  const exceptions = tRaw<typeof defaultExceptions>('aiCopilots.visuals.hr.exceptionsSection.items') || defaultExceptions;
+  const onboardingSteps = tRaw<typeof defaultOnboardingSteps>('aiCopilots.visuals.hr.onboardingSection.steps') || defaultOnboardingSteps;
+  const skillGaps = tRaw<typeof defaultSkillGaps>('aiCopilots.visuals.hr.skillgapSection.items') || defaultSkillGaps;
 
   const toggleRemind = (id: number) => {
     if (remindedList.includes(id)) {
@@ -67,15 +72,18 @@ export const HrExceptionVisual: React.FC = () => {
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
-              <Users className="w-3.5 h-3.5" /> Quản trị Nhân sự & Hiệu suất [Minh họa]
+              <Users className="w-3.5 h-3.5" />
+              {t('aiCopilots.visuals.hr.badge', 'Quản trị Nhân sự & Hiệu suất [Minh họa]')}
             </span>
-            <span className="text-xs text-slate-500">Kỳ công kịch bản mô phỏng</span>
+            <span className="text-xs text-slate-500">
+              {t('aiCopilots.visuals.hr.subnote', 'Kỳ công kịch bản mô phỏng')}
+            </span>
             <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-              [Dữ liệu minh họa]
+              {t('aiCopilots.visuals.hr.simulatedBadge', '[Dữ liệu minh họa]')}
             </span>
           </div>
           <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-1">
-            Bảng Ngoại Lệ Chấm Công, Onboarding & Khoảng Trống Kỹ Năng
+            {t('aiCopilots.visuals.hr.title', 'Bảng Ngoại Lệ Chấm Công, Onboarding & Khoảng Trống Kỹ Năng')}
           </h4>
         </div>
 
@@ -89,7 +97,7 @@ export const HrExceptionVisual: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400'
             }`}
           >
-            Bảng công ngoại lệ (3) [Minh họa]
+            {t('aiCopilots.visuals.hr.tabs.exceptions', 'Bảng công ngoại lệ (3) [Minh họa]')}
           </button>
           <button
             onClick={() => setActiveView('onboarding')}
@@ -99,7 +107,7 @@ export const HrExceptionVisual: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400'
             }`}
           >
-            Onboarding [Minh họa]
+            {t('aiCopilots.visuals.hr.tabs.onboarding', 'Onboarding [Minh họa]')}
           </button>
           <button
             onClick={() => setActiveView('skillgap')}
@@ -109,7 +117,7 @@ export const HrExceptionVisual: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400'
             }`}
           >
-            Khoảng trống kỹ năng [Minh họa]
+            {t('aiCopilots.visuals.hr.tabs.skillgap', 'Khoảng trống kỹ năng [Minh họa]')}
           </button>
         </div>
       </div>
@@ -119,8 +127,12 @@ export const HrExceptionVisual: React.FC = () => {
         {activeView === 'exceptions' && (
           <div className="space-y-3 text-xs">
             <div className="flex items-center justify-between text-slate-500">
-              <span>Phát hiện 3 trường hợp bất thường cần nhân sự bổ sung minh chứng:</span>
-              <span className="text-amber-600 font-medium">Hạn chốt giải trình: 25 hàng tháng</span>
+              <span>
+                {t('aiCopilots.visuals.hr.exceptionsSection.subtitle', 'Phát hiện 3 trường hợp bất thường cần nhân sự bổ sung minh chứng:')}
+              </span>
+              <span className="text-amber-600 font-medium">
+                {t('aiCopilots.visuals.hr.exceptionsSection.deadlineNotice', 'Hạn chốt giải trình: 25 hàng tháng')}
+              </span>
             </div>
 
             <div className="space-y-2">
@@ -139,13 +151,15 @@ export const HrExceptionVisual: React.FC = () => {
                         <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px]">
                           {exc.dept}
                         </span>
-                        <span className="text-slate-400">• Ngày: {exc.date}</span>
+                        <span className="text-slate-400">
+                          • {t('aiCopilots.visuals.hr.exceptionsSection.datePrefix', 'Ngày:')} {exc.date}
+                        </span>
                       </div>
                       <div className="text-rose-600 dark:text-rose-400 font-medium mt-1 flex items-center gap-1">
                         <AlertCircle className="w-3.5 h-3.5" /> {exc.issue}
                       </div>
                       <div className="text-slate-500 mt-0.5">
-                        Đề xuất AI: {exc.suggestedAction}
+                        {t('aiCopilots.visuals.hr.exceptionsSection.aiSuggestionPrefix', 'Đề xuất AI:')} {exc.suggestedAction}
                       </div>
                     </div>
 
@@ -159,11 +173,13 @@ export const HrExceptionVisual: React.FC = () => {
                     >
                       {isReminded ? (
                         <>
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Đã gửi tin nhắn nhắc
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          {t('aiCopilots.visuals.hr.exceptionsSection.remindedBtn', 'Đã gửi tin nhắn nhắc')}
                         </>
                       ) : (
                         <>
-                          <Bell className="w-3.5 h-3.5" /> Nhắc nộp giải trình
+                          <Bell className="w-3.5 h-3.5" />
+                          {t('aiCopilots.visuals.hr.exceptionsSection.remindBtn', 'Nhắc nộp giải trình')}
                         </>
                       )}
                     </button>
@@ -179,12 +195,14 @@ export const HrExceptionVisual: React.FC = () => {
             <div className="p-3 bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/70 dark:border-blue-900/40 rounded-xl flex items-center justify-between">
               <div>
                 <span className="font-bold text-slate-900 dark:text-white text-sm">
-                  Lê Hoàng Nam - Kỹ sư Triển khai ERP (Mới vào 12 ngày)
+                  {t('aiCopilots.visuals.hr.onboardingSection.employeeName', 'Lê Hoàng Nam - Kỹ sư Triển khai ERP (Mới vào 12 ngày)')}
                 </span>
-                <p className="text-slate-500 mt-0.5">Mentor phụ trách: Vũ Tuấn Minh (Trưởng nhóm Triển khai)</p>
+                <p className="text-slate-500 mt-0.5">
+                  {t('aiCopilots.visuals.hr.onboardingSection.mentor', 'Mentor phụ trách: Vũ Tuấn Minh (Trưởng nhóm Triển khai)')}
+                </p>
               </div>
               <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">
-                Tiến độ: 3/5 bước (Đúng hạn)
+                {t('aiCopilots.visuals.hr.onboardingSection.progressBadge', 'Tiến độ: 3/5 bước (Đúng hạn)')}
               </span>
             </div>
 
@@ -222,7 +240,7 @@ export const HrExceptionVisual: React.FC = () => {
         {activeView === 'skillgap' && (
           <div className="space-y-3 text-xs">
             <div className="text-slate-500">
-              Đối chiếu năng lực thực tế qua KPI so với Khung năng lực chuẩn (Skill Matrix):
+              {t('aiCopilots.visuals.hr.skillgapSection.subtitle', 'Đối chiếu năng lực thực tế qua KPI so với Khung năng lực chuẩn (Skill Matrix):')}
             </div>
 
             <div className="space-y-3">
@@ -230,14 +248,20 @@ export const HrExceptionVisual: React.FC = () => {
                 <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1.5">
                   <div className="flex justify-between font-semibold text-slate-900 dark:text-white">
                     <span>{item.skill} ({item.dept})</span>
-                    <span className="text-rose-600 dark:text-rose-400 font-bold">Chênh lệch: {item.gap}</span>
+                    <span className="text-rose-600 dark:text-rose-400 font-bold">
+                      {t('aiCopilots.visuals.hr.skillgapSection.gapPrefix', 'Chênh lệch:')} {item.gap}
+                    </span>
                   </div>
                   <div className="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden flex">
                     <div className="bg-primary h-full rounded-full" style={{ width: `${item.current}%` }} />
                   </div>
                   <div className="flex justify-between text-[11px] text-slate-500">
-                    <span>Hiện tại: {item.current}%</span>
-                    <span>Chuẩn yêu cầu: {item.benchmark}%</span>
+                    <span>
+                      {t('aiCopilots.visuals.hr.skillgapSection.currentPrefix', 'Hiện tại:')} {item.current}%
+                    </span>
+                    <span>
+                      {t('aiCopilots.visuals.hr.skillgapSection.benchmarkPrefix', 'Chuẩn yêu cầu:')} {item.benchmark}%
+                    </span>
                   </div>
                 </div>
               ))}
@@ -249,7 +273,9 @@ export const HrExceptionVisual: React.FC = () => {
       {/* Safety Notice Footer */}
       <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
         <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-        <span>Điểm chốt chặn: AI không tự ý trừ lương hay quyết định sa thải. Chuyên viên C&B chốt công và Lãnh đạo ký duyệt.</span>
+        <span>
+          {t('aiCopilots.visuals.hr.checkpointNotice', 'Điểm chốt chặn: AI không tự ý trừ lương hay quyết định sa thải. Chuyên viên C&B chốt công và Lãnh đạo ký duyệt.')}
+        </span>
       </div>
     </div>
   );

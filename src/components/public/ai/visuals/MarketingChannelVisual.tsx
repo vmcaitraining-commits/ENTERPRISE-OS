@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
 import { 
   BarChart3, ArrowUpRight, ArrowDownRight, Layers, FileCheck, CheckCircle2,
-  Clock, AlertCircle, ArrowRight, ShieldCheck
+  ShieldCheck
 } from 'lucide-react';
+import { useI18n } from '../../../../i18n/I18nContext';
+
+interface ChannelItem {
+  name: string;
+  spend: string;
+  validLeads: number;
+  cac: string;
+  conversionToDeal: string;
+  trend: 'up' | 'down';
+  recommendation: string;
+}
+
+interface ContentQueueItem {
+  id: number;
+  title: string;
+  channel: string;
+  wordCount: string;
+  complianceScore: string;
+  complianceNotes: string;
+  status: string;
+}
 
 export const MarketingChannelVisual: React.FC = () => {
+  const { t, tRaw } = useI18n();
   const [approvedPosts, setApprovedPosts] = useState<number[]>([]);
   const [budgetApproved, setBudgetApproved] = useState<boolean>(false);
 
-  const channels = [
+  const defaultChannels: ChannelItem[] = [
     {
       name: 'Google Search Ads',
       spend: '45.0 Triệu',
@@ -38,7 +60,7 @@ export const MarketingChannelVisual: React.FC = () => {
     }
   ];
 
-  const contentQueue = [
+  const defaultContentQueue: ContentQueueItem[] = [
     {
       id: 1,
       title: '5 Dấu hiệu doanh nghiệp cần chuẩn hóa SOP trước khi mua ERP',
@@ -59,6 +81,9 @@ export const MarketingChannelVisual: React.FC = () => {
     }
   ];
 
+  const channels = tRaw<ChannelItem[]>('aiCopilots.visuals.marketing.channels') || defaultChannels;
+  const contentQueue = tRaw<ContentQueueItem[]>('aiCopilots.visuals.marketing.contentQueue') || defaultContentQueue;
+
   const toggleApprove = (id: number) => {
     if (approvedPosts.includes(id)) {
       setApprovedPosts(approvedPosts.filter(item => item !== id));
@@ -74,15 +99,17 @@ export const MarketingChannelVisual: React.FC = () => {
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 flex items-center gap-1">
-              <BarChart3 className="w-3.5 h-3.5" /> Báo cáo hiệu quả kênh [Minh họa]
+              <BarChart3 className="w-3.5 h-3.5" /> {t('aiCopilots.visuals.marketing.reportBadge', 'Báo cáo hiệu quả kênh [Minh họa]')}
             </span>
-            <span className="text-xs text-slate-500">Đối chiếu chi phí vs CRM khi được cấu hình</span>
+            <span className="text-xs text-slate-500">
+              {t('aiCopilots.visuals.marketing.reconciledNotice', 'Đối chiếu chi phí vs CRM khi được cấu hình')}
+            </span>
             <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-              [Dữ liệu minh họa]
+              {t('aiCopilots.visuals.marketing.simulatedBadge', '[Dữ liệu minh họa]')}
             </span>
           </div>
           <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-1">
-            So Sánh Hiệu Quả Kênh & Hàng Đợi Duyệt Nội Dung
+            {t('aiCopilots.visuals.marketing.title', 'So Sánh Hiệu Quả Kênh & Hàng Đợi Duyệt Nội Dung')}
           </h4>
         </div>
       </div>
@@ -91,21 +118,23 @@ export const MarketingChannelVisual: React.FC = () => {
       <div>
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-            1. So sánh chi phí tìm kiếm khách hàng (CAC) và tỷ lệ tạo hợp đồng [Minh họa]:
+            {t('aiCopilots.visuals.marketing.tableSectionTitle', '1. So sánh chi phí tìm kiếm khách hàng (CAC) và tỷ lệ tạo hợp đồng [Minh họa]:')}
           </span>
-          <span className="text-xs text-slate-500">Dữ liệu kịch bản minh họa</span>
+          <span className="text-xs text-slate-500">
+            {t('aiCopilots.visuals.marketing.scenarioNote', 'Dữ liệu kịch bản minh họa')}
+          </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 font-semibold border-y border-slate-200 dark:border-slate-700">
               <tr>
-                <th className="py-2.5 px-3">Kênh quảng cáo</th>
-                <th className="py-2.5 px-3">Chi tiêu</th>
-                <th className="py-2.5 px-3">Lead hợp lệ</th>
-                <th className="py-2.5 px-3">Chi phí / Lead (CAC)</th>
-                <th className="py-2.5 px-3">Chuyển đổi Deal</th>
-                <th className="py-2.5 px-3">Đề xuất AI</th>
+                <th className="py-2.5 px-3">{t('aiCopilots.visuals.marketing.tableHeaders.channel', 'Kênh quảng cáo')}</th>
+                <th className="py-2.5 px-3">{t('aiCopilots.visuals.marketing.tableHeaders.spend', 'Chi tiêu')}</th>
+                <th className="py-2.5 px-3">{t('aiCopilots.visuals.marketing.tableHeaders.validLeads', 'Lead hợp lệ')}</th>
+                <th className="py-2.5 px-3">{t('aiCopilots.visuals.marketing.tableHeaders.cac', 'Chi phí / Lead (CAC)')}</th>
+                <th className="py-2.5 px-3">{t('aiCopilots.visuals.marketing.tableHeaders.conversion', 'Chuyển đổi Deal')}</th>
+                <th className="py-2.5 px-3">{t('aiCopilots.visuals.marketing.tableHeaders.recommendation', 'Đề xuất AI')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -142,10 +171,10 @@ export const MarketingChannelVisual: React.FC = () => {
         <div className="mt-3 p-3 bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/70 dark:border-blue-900/40 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div>
             <span className="font-semibold text-blue-900 dark:text-blue-300">
-              Đề xuất phân bổ ngân sách [Kịch bản tham khảo]:
+              {t('aiCopilots.visuals.marketing.budgetProposal.title', 'Đề xuất phân bổ ngân sách [Kịch bản tham khảo]:')}
             </span>
             <span className="text-slate-700 dark:text-slate-300 ml-1.5">
-              Dịch chuyển 20.000.000 VNĐ từ Meta sang Google Search để gia tăng lead chuyển đổi cao [Kịch bản minh họa].
+              {t('aiCopilots.visuals.marketing.budgetProposal.desc', 'Dịch chuyển 20.000.000 VNĐ từ Meta sang Google Search để gia tăng lead chuyển đổi cao [Kịch bản minh họa].')}
             </span>
           </div>
           <div>
@@ -154,11 +183,11 @@ export const MarketingChannelVisual: React.FC = () => {
                 onClick={() => setBudgetApproved(true)}
                 className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors shrink-0 shadow-xs"
               >
-                Duyệt đề xuất ngân sách
+                {t('aiCopilots.visuals.marketing.budgetProposal.approveBtn', 'Duyệt đề xuất ngân sách')}
               </button>
             ) : (
               <span className="flex items-center gap-1 text-emerald-600 font-semibold">
-                <CheckCircle2 className="w-4 h-4" /> Đã duyệt kịch bản ngân sách
+                <CheckCircle2 className="w-4 h-4" /> {t('aiCopilots.visuals.marketing.budgetProposal.approvedNotice', 'Đã duyệt kịch bản ngân sách')}
               </span>
             )}
           </div>
@@ -169,9 +198,11 @@ export const MarketingChannelVisual: React.FC = () => {
       <div>
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-primary" /> 2. Hàng đợi kiểm duyệt nội dung (Content Approval Queue) [Minh họa]:
+            <Layers className="w-3.5 h-3.5 text-primary" /> {t('aiCopilots.visuals.marketing.queueSectionTitle', '2. Hàng đợi kiểm duyệt nội dung (Content Approval Queue) [Minh họa]:')}
           </span>
-          <span className="text-xs text-slate-500">2 bài viết mẫu đang chờ Trưởng phòng duyệt</span>
+          <span className="text-xs text-slate-500">
+            {t('aiCopilots.visuals.marketing.queuePendingCount', '2 bài viết mẫu đang chờ Trưởng phòng duyệt')}
+          </span>
         </div>
 
         <div className="space-y-2.5">
@@ -192,12 +223,12 @@ export const MarketingChannelVisual: React.FC = () => {
                     </span>
                   </div>
                   <div className="text-slate-500 flex items-center gap-3">
-                    <span>Độ dài: {post.wordCount}</span>
+                    <span>{t('aiCopilots.visuals.marketing.lengthLabel', 'Độ dài:')} {post.wordCount}</span>
                     <span>•</span>
                     <span className="text-emerald-600 font-medium">{post.complianceScore}</span>
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 italic">
-                    Ghi chú rà soát: {post.complianceNotes}
+                    {t('aiCopilots.visuals.marketing.reviewNotesLabel', 'Ghi chú rà soát:')} {post.complianceNotes}
                   </p>
                 </div>
 
@@ -212,11 +243,11 @@ export const MarketingChannelVisual: React.FC = () => {
                   >
                     {isApproved ? (
                       <>
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Đã duyệt xuất bản
+                        <CheckCircle2 className="w-3.5 h-3.5" /> {t('aiCopilots.visuals.marketing.approvedPostNotice', 'Đã duyệt xuất bản')}
                       </>
                     ) : (
                       <>
-                        <FileCheck className="w-3.5 h-3.5" /> Duyệt xuất bản
+                        <FileCheck className="w-3.5 h-3.5" /> {t('aiCopilots.visuals.marketing.approvePostBtn', 'Duyệt xuất bản')}
                       </>
                     )}
                   </button>
@@ -230,8 +261,9 @@ export const MarketingChannelVisual: React.FC = () => {
       {/* Safety Notice Footer */}
       <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
         <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-        <span>Điểm chốt chặn: AI không tự xuất bản bài viết lên blog hay thay đổi số tiền trên tài khoản quảng cáo.</span>
+        <span>{t('aiCopilots.visuals.marketing.checkpointNotice', 'Điểm chốt chặn: AI không tự xuất bản bài viết lên blog hay thay đổi số tiền trên tài khoản quảng cáo.')}</span>
       </div>
     </div>
   );
 };
+

@@ -13,6 +13,7 @@ export const namespaceLoaders: Record<string, Record<string, () => Promise<{ def
     aiEnterprise: () => import('./locales/vi/aiEnterprise'),
     solutions: () => import('./locales/vi/solutions'),
     industries: () => import('./locales/vi/industries'),
+    aiCopilots: () => import('./locales/vi/aiCopilots'),
   },
   en: {
     common: () => import('./locales/en/common'),
@@ -24,6 +25,7 @@ export const namespaceLoaders: Record<string, Record<string, () => Promise<{ def
     aiEnterprise: () => import('./locales/en/aiEnterprise'),
     solutions: () => import('./locales/en/solutions'),
     industries: () => import('./locales/en/industries'),
+    aiCopilots: () => import('./locales/en/aiCopilots'),
   }
 };
 
@@ -102,7 +104,8 @@ export const preloadCoreNamespaces = async (locale: LocaleCode): Promise<void> =
     loadNamespace(locale, 'home'),
     loadNamespace(locale, 'aiEnterprise'),
     loadNamespace(locale, 'solutions'),
-    loadNamespace(locale, 'industries')
+    loadNamespace(locale, 'industries'),
+    loadNamespace(locale, 'aiCopilots')
   ]);
 };
 
