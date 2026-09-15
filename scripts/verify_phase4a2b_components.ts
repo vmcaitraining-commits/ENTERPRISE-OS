@@ -26,9 +26,15 @@ filesToCheck.forEach((relPath) => {
 // Specific checks for ConsultationModal.tsx
 const modalContent = fs.readFileSync(path.resolve(process.cwd(), 'src/components/public/ConsultationModal.tsx'), 'utf8');
 const modalExpectedKeys = [
-  'forms.consultationBadge',
-  'forms.consultationTitle',
-  'forms.consultationDesc',
+  'forms.generalBadge',
+  'forms.assessmentBadge',
+  'forms.bookingBadge',
+  'forms.generalTitle',
+  'forms.assessmentTitle',
+  'forms.bookingTitle',
+  'forms.generalDesc',
+  'forms.assessmentDesc',
+  'forms.bookingDesc',
   'forms.fullNameLabel',
   'forms.fullNamePlaceholder',
   'forms.companyNameLabel',
@@ -47,8 +53,8 @@ const modalExpectedKeys = [
   'forms.submittingButton',
   'forms.successTitle',
   'forms.successDetail',
-  'forms.closeModalButton',
-  'accessibility.closeModalAria',
+  'forms.cancelButton',
+  'accessibility.closeConsultationModalAria',
   'accessibility.formRequiredFieldAria'
 ];
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { usePublicRouter } from '../../../context/PublicRouterContext';
-import { detailedIndustriesData } from '../../../data/industryDetailedData';
+import { useI18n } from '../../../i18n';
+import { detailedIndustriesData, IndustryDetailedConfig } from '../../../data/industryDetailedData';
 import { IndustryDetailView } from './IndustryDetailView';
 import {
   ArrowRight,
@@ -14,7 +15,6 @@ import {
   Truck,
   HardHat,
   Code2,
-  Sparkles,
   HelpCircle,
   ShieldCheck
 } from 'lucide-react';
@@ -32,6 +32,7 @@ const industryVisualIcons: Record<string, React.ReactNode> = {
 
 export const IndustriesPage: React.FC = () => {
   const { currentPath, navigate, openConsultationModal } = usePublicRouter();
+  const { t, tRaw } = useI18n();
 
   const segments = currentPath.split('/');
   const indSlug = segments[2]; // 'trade', 'service', etc.
@@ -41,7 +42,18 @@ export const IndustriesPage: React.FC = () => {
     return <IndustryDetailView industrySlug={indSlug} />;
   }
 
-  const allIndustries = Object.values(detailedIndustriesData);
+  const localizedSectors = tRaw<Record<string, IndustryDetailedConfig>>('industries.sectors') || detailedIndustriesData;
+  const allIndustries = Object.keys(detailedIndustriesData).map((slug) => {
+    const loc = localizedSectors?.[slug];
+    const fallback = detailedIndustriesData[slug];
+    return {
+      slug,
+      name: loc?.name || fallback.name,
+      tagline: loc?.tagline || fallback.tagline,
+      sectorCode: loc?.sectorCode || fallback.sectorCode,
+      journeyVisualFlow: loc?.journeyVisualFlow || fallback.journeyVisualFlow
+    };
+  });
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30 selection:text-indigo-200 space-y-16 pb-24">
@@ -50,20 +62,20 @@ export const IndustriesPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-slate-300">
             <Layers className="w-3.5 h-3.5 text-indigo-400" />
-            <span>KIẾN TRÚC NGHIỆP VỤ CHUYÊN BIỆT</span>
+            <span>{t('industries.overview.badge')}</span>
             <span className="text-slate-600">|</span>
-            <span className="text-emerald-400">8 Nhóm Ngành Cốt Lõi</span>
+            <span className="text-emerald-400">{t('industries.overview.badgeSubtitle')}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Giải Pháp AI ENTERPRISE <br className="hidden sm:inline" />
+            {t('industries.overview.title')} <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-emerald-400">
-              Theo 8 Ngành Trọng Tâm
+              {t('industries.overview.titleHighlight')}
             </span>
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Không áp đặt một bộ card chung chung. Mỗi ngành nghề có một câu chuyện vận hành, điểm nghẽn đặc thù và cấu hình phân hệ riêng biệt nhằm giải quyết đúng bài toán kinh doanh.
+            {t('industries.overview.subtitle')}
           </p>
         </div>
       </section>
@@ -73,20 +85,20 @@ export const IndustriesPage: React.FC = () => {
         <div className="flex items-center justify-between pb-6 border-b border-slate-800/80 mb-8">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-              Danh Sách 8 Ngành Nghề Được Cấu Hình Chuẩn Hóa
+              {t('industries.overview.sectionHeader')}
             </h2>
             <p className="text-sm text-slate-400 mt-1">
-              Bấm vào từng ngành để xem một ngày vận hành, điểm nghẽn trên hành trình và demo AI tương ứng.
+              {t('industries.overview.sectionSubheader')}
             </p>
           </div>
           <span className="hidden sm:inline-block px-3 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs font-mono text-slate-400">
-            8 / 8 Tuyến Ngành
+            {t('industries.overview.sectorCounter')}
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {allIndustries.map((ind) => {
-            const flowSummary = ind.journeyVisualFlow.map((s) => s.title).join(' → ');
+            const flowSummary = ind.journeyVisualFlow.map((s: { title: string }) => s.title).join(' → ');
 
             return (
               <div
@@ -116,7 +128,7 @@ export const IndustriesPage: React.FC = () => {
                   {/* Visual Flow Teaser */}
                   <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80">
                     <span className="text-[10px] font-mono uppercase text-slate-400 block mb-1">
-                      Hành trình dòng chảy:
+                      {t('industries.overview.flowLabel')}
                     </span>
                     <div className="text-xs font-mono text-emerald-300/90 line-clamp-2">
                       {flowSummary}
@@ -125,7 +137,7 @@ export const IndustriesPage: React.FC = () => {
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between text-xs font-semibold text-indigo-400 group-hover:text-indigo-300">
-                  <span>Khám phá chi tiết ngành</span>
+                  <span>{t('industries.overview.exploreCardLink')}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -140,27 +152,27 @@ export const IndustriesPage: React.FC = () => {
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-mono font-medium">
               <HelpCircle className="w-3.5 h-3.5" />
-              NGÀNH NGHỀ ĐẶC THÙ KHÁC
+              {t('industries.overview.survey.badge')}
             </div>
             <h3 className="text-2xl font-bold text-white tracking-tight">
-              Doanh nghiệp của bạn thuộc ngành nghề khác?
+              {t('industries.overview.survey.title')}
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              VMC Group cung cấp dịch vụ khảo sát hiện trạng và thiết kế cấu trúc vận hành riêng cho các ngành đặc thù (Y tế, Nông nghiệp công nghệ cao, Logistics, Tài chính - Bảo hiểm...) với quy trình đánh giá 1-1 bảo mật.
+              {t('industries.overview.survey.description')}
             </p>
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400 pt-1">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Bảo mật dữ liệu kinh doanh theo cam kết NDA chính thức</span>
+              <span>{t('industries.overview.survey.ndaBadge')}</span>
             </div>
           </div>
 
           <div className="shrink-0 w-full md:w-auto">
             <button
               type="button"
-              onClick={() => openConsultationModal('assessment', 'Ngành nghề khác (Yêu cầu khảo sát)')}
+              onClick={() => openConsultationModal('assessment', t('industries.overview.survey.preselectedOption'))}
               className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold text-sm transition-all shadow-lg shadow-indigo-950/50 cursor-pointer"
             >
-              <span>Yêu cầu khảo sát kiến trúc chuyên biệt</span>
+              <span>{t('industries.overview.survey.ctaButton')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

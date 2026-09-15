@@ -1,14 +1,13 @@
 import React from 'react';
 import { usePublicRouter } from '../../../context/PublicRouterContext';
-import { detailedIndustriesData } from '../../../data/industryDetailedData';
-import { industriesSolutions } from '../../../data/websiteContent';
+import { useI18n } from '../../../i18n';
+import { detailedIndustriesData, IndustryDetailedConfig } from '../../../data/industryDetailedData';
 import { IndustryJourneyVisual } from '../industries/IndustryJourneyVisual';
 import { IndustryAiDemo } from '../industries/IndustryAiDemo';
 import {
   ArrowRight,
   Clock,
   CheckCircle2,
-  Calendar,
   Layers,
   ChevronRight,
   Sparkles,
@@ -41,9 +40,11 @@ const industryIconMap: Record<string, React.ReactNode> = {
 
 export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industrySlug }) => {
   const { navigate, openConsultationModal } = usePublicRouter();
+  const { t, tRaw } = useI18n();
 
-  const data = detailedIndustriesData[industrySlug] || detailedIndustriesData['trade'];
-  const baseOverview = industriesSolutions.find((i) => i.slug === industrySlug) || industriesSolutions[0];
+  const localizedData = tRaw<IndustryDetailedConfig>(`industries.sectors.${industrySlug}`);
+  const fallbackData = detailedIndustriesData[industrySlug] || detailedIndustriesData['trade'];
+  const data: IndustryDetailedConfig = localizedData || fallbackData;
 
   const handleOpenConsultation = () => {
     openConsultationModal('consultation', data.name);
@@ -60,7 +61,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
               onClick={() => navigate('/industries')}
               className="hover:text-indigo-400 transition-colors cursor-pointer"
             >
-              Ngành triển khai
+              {t('industries.detail.breadcrumb')}
             </button>
             <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
             <span className="text-slate-200 font-medium">{data.name}</span>
@@ -72,11 +73,11 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
                 {industryIconMap[industrySlug]}
                 <span className="font-semibold text-white">{data.sectorCode}</span>
                 <span className="text-slate-500">|</span>
-                <span>Kiến trúc Vận hành Chuyên ngành</span>
+                <span>{t('industries.detail.architectureBadge')}</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                Giải Pháp Doanh Nghiệp <br className="hidden sm:inline" />
+                {t('industries.detail.titlePrefix')} <br className="hidden sm:inline" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-emerald-400">
                   {data.name}
                 </span>
@@ -88,7 +89,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
 
               {/* Problem summary card */}
               <div className="p-4 sm:p-5 rounded-xl bg-slate-900/90 border border-slate-800 text-sm text-slate-300 leading-relaxed">
-                <span className="font-semibold text-white block mb-1">Thực trạng vận hành phổ biến:</span>
+                <span className="font-semibold text-white block mb-1">{t('industries.detail.problemSummaryHeading')}</span>
                 {data.heroProblemSummary}
               </div>
 
@@ -99,7 +100,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
                   onClick={handleOpenConsultation}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold text-sm transition-all shadow-lg shadow-indigo-950/50 cursor-pointer"
                 >
-                  <span>Khảo sát hiện trạng ngành {data.name}</span>
+                  <span>{t('industries.detail.surveyCta', { name: data.name })}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -111,7 +112,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
                   }}
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm border border-slate-700/80 transition-all cursor-pointer"
                 >
-                  <span>Xem một ngày vận hành</span>
+                  <span>{t('industries.detail.viewDailyCta')}</span>
                 </button>
               </div>
             </div>
@@ -121,37 +122,37 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
               <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 shadow-2xl space-y-5">
                 <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                   <span className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                    BỐI CẢNH VẬN HÀNH THỰC TẾ
+                    {t('industries.detail.snapshot.heading')}
                   </span>
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    Kịch bản chuẩn hóa
+                    {t('industries.detail.snapshot.badge')}
                   </span>
                 </div>
 
                 <div className="space-y-4 text-xs font-mono">
                   <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80">
-                    <div className="text-slate-400 mb-1">Khối lượng giao dịch/ngày:</div>
+                    <div className="text-slate-400 mb-1">{t('industries.detail.snapshot.dailyVolumeLabel')}</div>
                     <div className="text-white font-semibold text-sm">{data.operatingSnapshot.dailyVolume}</div>
                   </div>
 
                   <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80">
-                    <div className="text-slate-400 mb-1">Kênh tương tác chủ đạo:</div>
+                    <div className="text-slate-400 mb-1">{t('industries.detail.snapshot.primaryChannelsLabel')}</div>
                     <div className="text-slate-200 text-sm font-medium">{data.operatingSnapshot.primaryChannels}</div>
                   </div>
 
                   <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80">
-                    <div className="text-slate-400 mb-1">Ràng buộc sống còn:</div>
+                    <div className="text-slate-400 mb-1">{t('industries.detail.snapshot.keyConstraintLabel')}</div>
                     <div className="text-amber-300 text-sm font-medium">{data.operatingSnapshot.keyConstraint}</div>
                   </div>
 
                   <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80">
-                    <div className="text-slate-400 mb-1">Lưu ý tuân thủ:</div>
+                    <div className="text-slate-400 mb-1">{t('industries.detail.snapshot.complianceNoteLabel')}</div>
                     <div className="text-slate-300 text-xs font-sans leading-relaxed">{data.operatingSnapshot.complianceNote}</div>
                   </div>
                 </div>
 
                 <div className="pt-2 text-[11px] text-slate-500 font-mono italic">
-                  * Mô phỏng cấu trúc thông tin tác nghiệp theo chuẩn VMC AI ENTERPRISE.
+                  {t('industries.detail.snapshot.disclaimer')}
                 </div>
               </div>
             </div>
@@ -165,18 +166,18 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono font-medium mb-3">
               <Clock className="w-3.5 h-3.5" />
-              MỘT NGÀY TÁC NGHIỆP THỰC TẾ
+              {t('industries.detail.daily.badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
-              Dòng Chảy Công Việc Từ Sáng Đến Tối
+              {t('industries.detail.daily.heading')}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base mt-2">
-              Khác với việc quản lý rời rạc qua chat và file Excel, mọi mắt xích trong ngày của {data.name} đều được kết nối liền mạch.
+              {t('industries.detail.daily.subheading', { name: data.name })}
             </p>
           </div>
 
           <div className="relative border-l-2 border-slate-800 ml-4 md:ml-32 space-y-10">
-            {data.dailyOperation.map((item, idx) => (
+            {data.dailyOperation.map((item: { time: string; title: string; actor: string; desc: string; systemAction: string }, idx: number) => (
               <div key={idx} className="relative pl-6 md:pl-8 group">
                 {/* Timeline node badge */}
                 <div className="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-slate-900 border-2 border-indigo-500 flex items-center justify-center text-xs font-mono font-bold text-indigo-300 group-hover:scale-110 transition-transform shadow-md shadow-indigo-950">
@@ -196,7 +197,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
                     </span>
                     <h3 className="text-base sm:text-lg font-bold text-white">{item.title}</h3>
                     <span className="text-xs font-mono px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                      Vai trò: {item.actor}
+                      {t('industries.detail.daily.actorLabel')}: {item.actor}
                     </span>
                   </div>
 
@@ -204,7 +205,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
 
                   <div className="pt-3 border-t border-slate-800/80 flex items-start gap-2 text-xs text-emerald-300/90 font-mono">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span>Hành động hệ thống: {item.systemAction}</span>
+                    <span>{t('industries.detail.daily.systemActionLabel')}: {item.systemAction}</span>
                   </div>
                 </div>
               </div>
@@ -226,18 +227,18 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium mb-3">
               <Layers className="w-3.5 h-3.5" />
-              CẤU HÌNH PHÂN HỆ TẬP TRUNG
+              {t('industries.detail.modules.badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
-              Các Module Cốt Lõi Cho Ngành {data.name}
+              {t('industries.detail.modules.heading', { name: data.name })}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base mt-2">
-              Không triển khai dàn trải tính năng thừa. Hệ thống kích hoạt chính xác các phân hệ giải quyết đúng bài toán nghiệp vụ của ngành.
+              {t('industries.detail.modules.subheading')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {data.configuredModules.map((mod, i) => (
+            {data.configuredModules.map((mod: { scope: string; moduleName: string; inputData: string; coreProcess: string; outputData: string }, i: number) => (
               <div
                 key={i}
                 className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-all flex flex-col justify-between"
@@ -247,24 +248,24 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
                     <span className="px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-300 font-mono text-xs font-semibold border border-indigo-500/20">
                       {mod.scope}
                     </span>
-                    <span className="text-xs font-mono text-slate-400">Khả năng liên thông</span>
+                    <span className="text-xs font-mono text-slate-400">{t('industries.detail.modules.interopLabel')}</span>
                   </div>
 
                   <h3 className="text-lg font-bold text-white tracking-tight">{mod.moduleName}</h3>
 
                   <div className="space-y-2.5 text-xs text-slate-300 font-mono">
                     <div className="bg-slate-950 p-3 rounded border border-slate-800/80">
-                      <span className="text-slate-400 block mb-1 font-semibold text-[11px] uppercase">Dữ liệu đầu vào:</span>
+                      <span className="text-slate-400 block mb-1 font-semibold text-[11px] uppercase">{t('industries.detail.modules.inputDataLabel')}</span>
                       <span>{mod.inputData}</span>
                     </div>
 
                     <div className="bg-slate-950 p-3 rounded border border-slate-800/80">
-                      <span className="text-indigo-400 block mb-1 font-semibold text-[11px] uppercase">Quy trình xử lý cốt lõi:</span>
+                      <span className="text-indigo-400 block mb-1 font-semibold text-[11px] uppercase">{t('industries.detail.modules.coreProcessLabel')}</span>
                       <span className="font-sans text-xs text-slate-200">{mod.coreProcess}</span>
                     </div>
 
                     <div className="bg-slate-950 p-3 rounded border border-slate-800/80">
-                      <span className="text-emerald-400 block mb-1 font-semibold text-[11px] uppercase">Đầu ra & Chốt kiểm soát:</span>
+                      <span className="text-emerald-400 block mb-1 font-semibold text-[11px] uppercase">{t('industries.detail.modules.outputDataLabel')}</span>
                       <span className="font-sans text-xs text-slate-200">{mod.outputData}</span>
                     </div>
                   </div>
@@ -288,43 +289,43 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-medium mb-3">
               <BarChart3 className="w-3.5 h-3.5" />
-              ĐO LƯỜNG HIỆU QUẢ THỰC TẾ
+              {t('industries.detail.kpi.badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
-              Chỉ Số Vận Hành Cốt Lõi Nên Theo Dõi
+              {t('industries.detail.kpi.heading')}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base mt-2">
-              Các chỉ số này phản ánh sức khỏe vận hành và năng lực phục vụ của doanh nghiệp, có thể theo dõi trực tiếp trên phân hệ Scope J.
+              {t('industries.detail.kpi.subheading')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {data.trackedKpis.map((kpi, idx) => (
+            {data.trackedKpis.map((kpi: { frequency: string; metric: string; formula: string; targetBenchmark: string; businessImpact: string }, idx: number) => (
               <div
                 key={idx}
                 className="bg-slate-900 rounded-xl p-6 border border-slate-800 flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs font-mono text-slate-400 pb-2 border-b border-slate-800">
-                    <span>Chỉ số #{idx + 1}</span>
+                    <span>{t('industries.detail.kpi.kpiIndexLabel')} #{idx + 1}</span>
                     <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300">{kpi.frequency}</span>
                   </div>
 
                   <h3 className="text-base font-bold text-white">{kpi.metric}</h3>
 
                   <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300">
-                    <span className="text-slate-400 block mb-0.5 text-[10px] uppercase">Cách tính:</span>
+                    <span className="text-slate-400 block mb-0.5 text-[10px] uppercase">{t('industries.detail.kpi.formulaLabel')}</span>
                     <span>{kpi.formula}</span>
                   </div>
 
                   <div className="p-2.5 rounded bg-indigo-950/40 border border-indigo-500/20 text-xs font-mono text-indigo-300">
-                    <span className="text-indigo-400 block mb-0.5 text-[10px] uppercase">Mục tiêu khuyến nghị:</span>
+                    <span className="text-indigo-400 block mb-0.5 text-[10px] uppercase">{t('industries.detail.kpi.benchmarkLabel')}</span>
                     <span className="font-bold text-sm text-indigo-200">{kpi.targetBenchmark}</span>
                   </div>
                 </div>
 
                 <div className="pt-3 border-t border-slate-800 text-xs text-slate-400 leading-relaxed">
-                  <strong className="text-slate-200 block mb-0.5">Tác động kinh doanh:</strong>
+                  <strong className="text-slate-200 block mb-0.5">{t('industries.detail.kpi.businessImpactLabel')}</strong>
                   {kpi.businessImpact}
                 </div>
               </div>
@@ -332,7 +333,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
           </div>
 
           <div className="mt-4 text-xs font-mono text-slate-500 text-center">
-            * Dữ liệu mô phỏng phục vụ minh họa phương pháp luận quản trị chỉ số.
+            {t('industries.detail.kpi.disclaimer')}
           </div>
         </div>
       </section>
@@ -343,18 +344,18 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono font-medium mb-3">
               <GitCommit className="w-3.5 h-3.5" />
-              LỘ TRÌNH TRIỂN KHAI THỰC TẾ
+              {t('industries.detail.roadmap.badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
-              3 Giai Đoạn Vận Hành Chắc Chắn
+              {t('industries.detail.roadmap.heading')}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base mt-2">
-              Triển khai theo phương pháp cuốn chiếu có kiểm soát: chuẩn hóa dữ liệu trước, tự động hóa quy trình sau, kích hoạt AI tối ưu.
+              {t('industries.detail.roadmap.subheading')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {data.threeStageRoadmap.map((phase, idx) => (
+            {data.threeStageRoadmap.map((phase: { phase: string; timeline: string; title: string; focus: string; deliverables: string[] }, idx: number) => (
               <div
                 key={idx}
                 className="bg-slate-900 border border-slate-800 rounded-xl p-6 flex flex-col justify-between space-y-4 relative"
@@ -373,10 +374,10 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
 
                   <div className="pt-2">
                     <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2">
-                      Kết quả bàn giao then chốt:
+                      {t('industries.detail.roadmap.deliverablesLabel')}
                     </span>
                     <ul className="space-y-1.5">
-                      {phase.deliverables.map((item, dIdx) => (
+                      {phase.deliverables.map((item: string, dIdx: number) => (
                         <li key={dIdx} className="flex items-start gap-2 text-xs text-slate-300">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                           <span>{item}</span>
@@ -396,15 +397,15 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-mono">
             <Sparkles className="w-3.5 h-3.5" />
-            KHẢO SÁT CHUYÊN BIỆT THEO NGÀNH {data.name.toUpperCase()}
+            {t('industries.detail.cta.badge', { nameUpper: data.name.toUpperCase() })}
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Sẵn Sàng Chuẩn Hóa Vận Hành Cho Doanh Nghiệp Của Bạn?
+            {t('industries.detail.cta.heading')}
           </h2>
 
           <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Đội ngũ chuyên gia VMC Group sẽ cùng bạn rà soát các điểm nghẽn thực tế và thiết kế cấu hình module phù hợp với quy mô hiện tại.
+            {t('industries.detail.cta.description')}
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -413,7 +414,7 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
               onClick={handleOpenConsultation}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold text-base transition-all shadow-xl shadow-indigo-950/60 cursor-pointer"
             >
-              <span>Đăng ký tư vấn chuyên sâu ngành {data.name}</span>
+              <span>{t('industries.detail.cta.submitButton', { name: data.name })}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -422,12 +423,12 @@ export const IndustryDetailView: React.FC<IndustryDetailViewProps> = ({ industry
               onClick={() => navigate('/industries')}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-base border border-slate-700 transition-all cursor-pointer"
             >
-              <span>Khám phá 7 ngành nghề khác</span>
+              <span>{t('industries.detail.cta.exploreOtherButton')}</span>
             </button>
           </div>
 
           <div className="text-xs font-mono text-slate-500 pt-2">
-            Ngành "{data.name}" sẽ được giữ sẵn trong mẫu đăng ký khảo sát.
+            {t('industries.detail.cta.preselectedNote', { name: data.name })}
           </div>
         </div>
       </section>

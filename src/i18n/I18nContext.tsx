@@ -5,12 +5,14 @@ import { loadNamespace, getLoadedDictionary, preloadCoreNamespaces } from './loa
 
 export interface I18nContextType {
   locale: LocaleCode;
+  language: LocaleCode;
   setLocale: (newLocale: LocaleCode) => void;
   t: (
     key: string,
     defaultTextOrParams?: string | Record<string, string | number>,
     params?: Record<string, string | number>
   ) => string;
+  tRaw: <T = any>(key: string, defaultValue?: T) => T;
   hasTranslation: (key: string) => boolean;
   isLoading: boolean;
   fallbackLocale: LocaleCode;
@@ -147,6 +149,49 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     [locale]
   );
 
+  /**
+   * Helper to retrieve raw translation structures (arrays, objects) with fallback
+   * Deep-clones non-primitive values to prevent mutation of loaded dictionary singletons.
+   */
+  const tRaw = useCallback(
+    <T = any,>(key: string, defaultValue?: T): T => {
+      const [namespace, ...keyParts] = key.split('.');
+      const subKey = keyParts.join('.');
+
+      const cloneValue = (v: any): any => {
+        if (v === null || typeof v !== 'object') return v;
+        if (Array.isArray(v)) {
+          return v.map(cloneValue);
+        }
+        return { ...v };
+      };
+
+      // Tier 1: Look in current locale
+      const currentDict = getLoadedDictionary(locale, namespace as any);
+      const val = subKey ? resolveObjectPath(currentDict, subKey) : currentDict[key];
+      if (val !== undefined && val !== null) {
+        return cloneValue(val) as T;
+      }
+
+      // Tier 2: Fallback to Vietnamese dictionary
+      if (locale !== DEFAULT_LOCALE) {
+        const fallbackDict = getLoadedDictionary(DEFAULT_LOCALE, namespace as any);
+        const fallbackVal = subKey ? resolveObjectPath(fallbackDict, subKey) : fallbackDict[key];
+        if (fallbackVal !== undefined && fallbackVal !== null) {
+          return cloneValue(fallbackVal) as T;
+        }
+      }
+
+      // Tier 3: Default value provided
+      if (defaultValue !== undefined) {
+        return defaultValue;
+      }
+
+      return undefined as unknown as T;
+    },
+    [locale]
+  );
+
   const hasTranslation = useCallback(
     (key: string): boolean => {
       const [namespace, ...keyParts] = key.split('.');
@@ -162,8 +207,10 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     <I18nContext.Provider
       value={{
         locale,
+        language: locale,
         setLocale,
         t,
+        tRaw,
         hasTranslation,
         isLoading,
         fallbackLocale: DEFAULT_LOCALE,

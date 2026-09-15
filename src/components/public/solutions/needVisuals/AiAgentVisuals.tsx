@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useI18n } from '../../../../i18n';
 import {
   User, Bot, Database, FileCheck, ShieldCheck, History,
   ArrowRight, CheckCircle2, XCircle, AlertTriangle, Cpu, Lock,
@@ -6,51 +7,65 @@ import {
 } from 'lucide-react';
 
 export const AiAgentVisuals: React.FC = () => {
+  const { t, language } = useI18n();
+  const isEn = language === 'en';
   const [activeStep, setActiveStep] = useState<number>(4); // step 4: Phê duyệt con người
   const [isApproved, setIsApproved] = useState<boolean | null>(null);
 
   const steps = [
     {
       id: 1,
-      title: '1. Cán bộ nhân viên (User)',
+      title: isEn ? '1. Enterprise Staff (User)' : '1. Cán bộ nhân viên (User)',
       icon: User,
-      badge: 'Tác nhân kích hoạt',
-      desc: 'Người dùng gửi câu hỏi nghiệp vụ hoặc lệnh tác vụ từ Workspace (VD: "Soạn thảo biên bản đối soát hợp đồng cho khách hàng An Phát").'
+      badge: isEn ? 'Initiating Agent' : 'Tác nhân kích hoạt',
+      desc: isEn
+        ? 'User submits an operational inquiry or prompt from Workspace (e.g., "Draft contract reconciliation record for An Phat client").'
+        : 'Người dùng gửi câu hỏi nghiệp vụ hoặc lệnh tác vụ từ Workspace (VD: "Soạn thảo biên bản đối soát hợp đồng cho khách hàng An Phát").'
     },
     {
       id: 2,
-      title: '2. AI Agent chuyên trách',
+      title: isEn ? '2. Specialized AI Agent' : '2. AI Agent chuyên trách',
       icon: Bot,
-      badge: 'Phân giải ngữ nghĩa',
-      desc: 'Agent bóc tách ý định (Intent), xác định phân hệ liên quan (Scope B CRM + Scope E Kế toán) và ranh giới quyền hạn được giao.'
+      badge: isEn ? 'Semantic Parsing' : 'Phân giải ngữ nghĩa',
+      desc: isEn
+        ? 'Agent parses intent, determines related scopes (Scope B CRM + Scope E Finance) and assigned permission boundaries.'
+        : 'Agent bóc tách ý định (Intent), xác định phân hệ liên quan (Scope B CRM + Scope E Kế toán) và ranh giới quyền hạn được giao.'
     },
     {
       id: 3,
-      title: '3. Dữ liệu được cấp (RBAC)',
+      title: isEn ? '3. Granted Context (RBAC)' : '3. Dữ liệu được cấp (RBAC)',
       icon: Database,
-      badge: 'Cô lập dữ liệu cục bộ',
-      desc: 'Hệ thống kiểm tra Token phân quyền: Agent CHỈ được nạp dữ liệu khách hàng An Phát mà nhân viên này phụ trách; tuyệt đối không rò rỉ dữ liệu ngoài phạm vi.'
+      badge: isEn ? 'Local Data Isolation' : 'Cô lập dữ liệu cục bộ',
+      desc: isEn
+        ? 'System validates authorization token: Agent only loads An Phat client data assigned to this staff; prevents data leakage outside scope.'
+        : 'Hệ thống kiểm tra Token phân quyền: Agent CHỈ được nạp dữ liệu khách hàng An Phát mà nhân viên này phụ trách; hỗ trợ hạn chế rò rỉ dữ liệu ngoài phạm vi.'
     },
     {
       id: 4,
-      title: '4. Đề xuất có cấu trúc',
+      title: isEn ? '4. Structured Proposal' : '4. Đề xuất có cấu trúc',
       icon: FileCheck,
-      badge: 'Dự thảo giải pháp',
-      desc: 'Agent tổng hợp thông tin, tính toán số liệu và soạn thảo bản đề xuất hoàn chỉnh dạng nháp gửi đến màn hình người có thẩm quyền.'
+      badge: isEn ? 'Draft Solution' : 'Dự thảo giải pháp',
+      desc: isEn
+        ? 'Agent synthesizes context, calculates figures, and compiles a complete draft proposal sent to the authorized reviewer dashboard.'
+        : 'Agent tổng hợp thông tin, tính toán số liệu và soạn thảo bản đề xuất hoàn chỉnh dạng nháp gửi đến màn hình người có thẩm quyền.'
     },
     {
       id: 5,
-      title: '5. Phê duyệt con người (Gate)',
+      title: isEn ? '5. Human Approval Gate' : '5. Phê duyệt con người (Gate)',
       icon: ShieldCheck,
-      badge: 'Chốt chặn bắt buộc',
-      desc: 'Quản trị viên kiểm tra từng điều khoản, số tiền và bấm Phê duyệt hoặc Yêu cầu chỉnh sửa. AI không được tự động phát tán ra ngoài.'
+      badge: isEn ? 'Mandatory Gate' : 'Chốt chặn bắt buộc',
+      desc: isEn
+        ? 'Manager verifies every clause, amount, and clicks Approve or Request Revision. AI cannot dispatch externally without sign-off.'
+        : 'Quản trị viên kiểm tra từng điều khoản, số tiền và bấm Phê duyệt hoặc Yêu cầu chỉnh sửa. AI không được tự động phát tán ra ngoài.'
     },
     {
       id: 6,
-      title: '6. Thực thi & Audit Log',
+      title: isEn ? '6. Execution & Audit Log' : '6. Thực thi & Audit Log',
       icon: History,
-      badge: 'Lưu vết kiểm toán',
-      desc: 'Hành động được ghi nhận vào cơ sở dữ liệu, gửi email chính thức và lưu nhật ký kiểm toán có cấu trúc (Audit Log).'
+      badge: isEn ? 'Audit Trail' : 'Lưu vết kiểm toán',
+      desc: isEn
+        ? 'Action is executed into database, official email dispatched, and structured audit log persisted with immutable timestamps.'
+        : 'Hành động được ghi nhận vào cơ sở dữ liệu, gửi email chính thức và lưu nhật ký kiểm toán có cấu trúc (Audit Log).'
     }
   ];
 
@@ -62,12 +77,16 @@ export const AiAgentVisuals: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-cyan-400 border border-blue-200 dark:border-blue-800">
-                Kiến trúc Kiểm soát Mạng lưới AI
+                {isEn ? 'AI Network Control Architecture' : 'Kiến trúc Kiểm soát Mạng lưới AI'}
               </span>
-              <span className="text-[11px] font-mono text-slate-400">[Mô hình minh họa]</span>
+              <span className="text-[11px] font-mono text-slate-400">
+                {t('solutions.visuals.common.illustrativeScenario')}
+              </span>
             </div>
             <h3 className="text-base sm:text-lg font-extrabold text-[#0B1F3A] dark:text-white mt-1">
-              Luồng Vận hành Có Giám sát: User → Agent → Context → Proposal → Approval → Audit Log
+              {isEn
+                ? 'Supervised Operating Flow: User → Agent → Context → Proposal → Approval → Audit Log'
+                : 'Luồng Vận hành Có Giám sát: User → Agent → Context → Proposal → Approval → Audit Log'}
             </h3>
           </div>
           <div className="text-xs font-semibold text-slate-500 flex items-center gap-2">
@@ -96,7 +115,7 @@ export const AiAgentVisuals: React.FC = () => {
                   <div className="flex items-center justify-between w-full mb-2">
                     <Icon className={`w-4 h-4 ${isCurrent ? 'text-white' : 'text-blue-600 dark:text-cyan-400'}`} />
                     <span className={`text-[10px] font-mono ${isCurrent ? 'text-blue-100' : 'text-slate-400'}`}>
-                      Bước {step.id}
+                      {t('solutions.visuals.common.stepPrefix')} {step.id}
                     </span>
                   </div>
                   <div className="text-xs font-bold truncate">{step.title}</div>
@@ -132,37 +151,49 @@ export const AiAgentVisuals: React.FC = () => {
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                   <Bot className="w-4 h-4 text-blue-600" />
-                  Bản Đề Xuất Gợi Ý Bởi AI (AI Proposal Draft #PRP-8821) [Kịch bản minh họa]
+                  {t('solutions.visuals.aiAgent.proposalCardTitle')} {t('solutions.visuals.common.illustrativeScenario')}
                 </span>
-                <span className="font-mono text-[10px] text-slate-400">Context: Scope B (CRM) + Scope E (Tài chính)</span>
+                <span className="font-mono text-[10px] text-slate-400">
+                  {t('solutions.visuals.aiAgent.proposalCardSubtitle')}
+                </span>
               </div>
 
               <div className="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-lg border border-slate-200/60 dark:border-slate-800 space-y-2">
                 <p>
-                  <strong>Khách hàng:</strong> Công ty Cổ phần Công nghệ An Phát (Mã: KH-2026-0842)
+                  <strong>{isEn ? 'Client:' : 'Khách hàng:'}</strong> {isEn ? 'An Phat Technology JSC (Code: KH-2026-0842)' : 'Công ty Cổ phần Công nghệ An Phát (Mã: KH-2026-0842)'}
                 </p>
                 <p>
-                  <strong>Nội dung đề xuất:</strong> Biên bản đối soát tạm ứng đợt 1 cho Hợp đồng HD-2026/VMC-AP01.
-                  Số tiền đề xuất đối soát theo chứng từ mẫu: <strong>800,000,000 VND [Dữ liệu minh họa]</strong>.
+                  <strong>{isEn ? 'Proposal Content:' : 'Nội dung đề xuất:'}</strong>{' '}
+                  {isEn
+                    ? 'Reconciliation record for Phase 1 advance of Contract HD-2026/VMC-AP01. Proposed reconciliation amount based on source vouchers: 800,000,000 VND [Illustrative Data].'
+                    : 'Biên bản đối soát tạm ứng đợt 1 cho Hợp đồng HD-2026/VMC-AP01. Số tiền đề xuất đối soát theo chứng từ mẫu: 800,000,000 VND [Dữ liệu minh họa].'}
                 </p>
                 <p className="text-[11px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 p-2 rounded border border-amber-200 dark:border-amber-900/50 flex items-center gap-1.5">
                   <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                  <span>Cảnh báo kiểm toán: Bắt buộc Giám đốc Tài chính bấm phê duyệt trước khi gửi biên bản cho khách hàng.</span>
+                  <span>
+                    {isEn
+                      ? 'Audit Warning: Mandatory sign-off from Chief Financial Officer before dispatching reconciliation document to client.'
+                      : 'Cảnh báo kiểm toán: Bắt buộc Giám đốc Tài chính bấm phê duyệt trước khi gửi biên bản cho khách hàng.'}
+                  </span>
                 </p>
               </div>
 
               {/* Human Gate Control */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800">
                 <div className="text-xs text-slate-500">
-                  {isApproved === null && 'Trạng thái: Đang chờ lãnh đạo bấm nút xác nhận'}
+                  {isApproved === null && (
+                    <span>
+                      {t('solutions.visuals.common.status')}: {isEn ? 'Pending executive confirmation' : 'Đang chờ lãnh đạo bấm nút xác nhận'}
+                    </span>
+                  )}
                   {isApproved === true && (
                     <span className="text-emerald-600 font-bold flex items-center gap-1">
-                      <CheckCircle2 className="w-4 h-4" /> Đã phê duyệt! Bản ghi đã được ghi vết vào Audit Log lúc 14:22:10 [Minh họa].
+                      <CheckCircle2 className="w-4 h-4" /> {t('solutions.visuals.aiAgent.approvedAlert')}
                     </span>
                   )}
                   {isApproved === false && (
                     <span className="text-rose-600 font-bold flex items-center gap-1">
-                      <XCircle className="w-4 h-4" /> Đã từ chối! Yêu cầu nhân viên kinh doanh đối soát lại chứng từ gốc.
+                      <XCircle className="w-4 h-4" /> {t('solutions.visuals.aiAgent.rejectedAlert')}
                     </span>
                   )}
                 </div>
@@ -177,7 +208,7 @@ export const AiAgentVisuals: React.FC = () => {
                     className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Phê duyệt đề xuất</span>
+                    <span>{t('solutions.visuals.aiAgent.btnApprove')}</span>
                   </button>
                   <button
                     type="button"
@@ -188,14 +219,14 @@ export const AiAgentVisuals: React.FC = () => {
                     className="flex-1 sm:flex-initial px-3 py-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     <XCircle className="w-3.5 h-3.5" />
-                    <span>Từ chối</span>
+                    <span>{t('solutions.visuals.aiAgent.btnReject')}</span>
                   </button>
                   {isApproved !== null && (
                     <button
                       type="button"
                       onClick={() => setIsApproved(null)}
                       className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600"
-                      title="Thử lại mô phỏng"
+                      title={isEn ? 'Reset simulation' : 'Thử lại mô phỏng'}
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                     </button>
@@ -212,38 +243,53 @@ export const AiAgentVisuals: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h4 className="text-sm font-extrabold text-[#0B1F3A] dark:text-white uppercase tracking-wider">
-              Kiến trúc Liên thông Mạng lưới 9 AI Copilots theo Phân hệ
+              {isEn
+                ? 'Network Interoperability: 9 AI Copilots Across Enterprise Scopes'
+                : 'Kiến trúc Liên thông Mạng lưới 9 AI Copilots theo Phân hệ'}
             </h4>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Phân định rõ kiến trúc hạ tầng mạng lưới (tại trang này) so với danh mục các vai trò Copilot tác nghiệp (tại /ai).
+              {isEn
+                ? 'Clear distinction between network infrastructure (on this page) and individual operational Copilot roles (at /ai).'
+                : 'Phân định rõ kiến trúc hạ tầng mạng lưới (tại trang này) so với danh mục các vai trò Copilot tác nghiệp (tại /ai).'}
             </p>
           </div>
-          <span className="text-[11px] font-mono text-slate-400">[Kiến trúc chuẩn hóa]</span>
+          <span className="text-[11px] font-mono text-slate-400">
+            {isEn ? '[Standardized Architecture]' : '[Kiến trúc chuẩn hóa]'}
+          </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-1.5">
             <span className="text-xs font-bold text-blue-600 dark:text-cyan-400 block">
-              1. Tầng Giao thức Điều hành (Executive)
+              {isEn ? '1. Executive Protocol Layer' : '1. Tầng Giao thức Điều hành (Executive)'}
             </span>
             <p className="text-xs text-slate-600 dark:text-slate-300">
-              <strong>AI CEO:</strong> Điều phối số liệu tổng hợp từ Scope J (BI) và kết nối với các Agent chuyên trách; không can thiệp trực tiếp hồ sơ cấp dưới khi chưa có thẩm quyền.
+              <strong>{isEn ? 'AI CEO:' : 'AI CEO:'}</strong>{' '}
+              {isEn
+                ? 'Coordinates consolidated metrics from Scope J (BI) and interfaces with specialized Agents; never accesses subordinate records without authorization.'
+                : 'Điều phối số liệu tổng hợp từ Scope J (BI) và kết nối với các Agent chuyên trách; không can thiệp trực tiếp hồ sơ cấp dưới khi chưa có thẩm quyền.'}
             </p>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-1.5">
             <span className="text-xs font-bold text-blue-600 dark:text-cyan-400 block">
-              2. Tầng Copilot Tác nghiệp Chức năng
+              {isEn ? '2. Departmental Copilot Layer' : '2. Tầng Copilot Tác nghiệp Chức năng'}
             </span>
             <p className="text-xs text-slate-600 dark:text-slate-300">
-              <strong>AI Sales, Marketing, CSKH, HR, Finance:</strong> Hoạt động trong từng phân hệ nghiệp vụ độc lập, đọc dữ liệu được cấp phát qua giao thức RBAC nghiêm ngặt.
+              <strong>{isEn ? 'AI Sales, Marketing, CS, HR, Finance:' : 'AI Sales, Marketing, CSKH, HR, Finance:'}</strong>{' '}
+              {isEn
+                ? 'Operate within autonomous departmental modules, accessing data provisioned under strict zero-trust RBAC protocols.'
+                : 'Hoạt động trong từng phân hệ nghiệp vụ độc lập, đọc dữ liệu được cấp phát qua giao thức RBAC nghiêm ngặt.'}
             </p>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-1.5">
             <span className="text-xs font-bold text-blue-600 dark:text-cyan-400 block">
-              3. Tầng Tri thức & Động cơ Tự động
+              {isEn ? '3. Knowledge & Automation Engine' : '3. Tầng Tri thức & Động cơ Tự động'}
             </span>
             <p className="text-xs text-slate-600 dark:text-slate-300">
-              <strong>AI Voice, Workflow, Search RAG:</strong> Cung cấp dịch vụ hạ tầng (bóc băng cuộc gọi, định tuyến quy trình, trích xuất tài liệu SOP) phục vụ toàn bộ mạng lưới.
+              <strong>{isEn ? 'AI Voice, Workflow, Search RAG:' : 'AI Voice, Workflow, Search RAG:'}</strong>{' '}
+              {isEn
+                ? 'Provide enterprise infrastructure services (call transcription, workflow routing, SOP RAG retrieval) enabling the entire network.'
+                : 'Cung cấp dịch vụ hạ tầng (bóc băng cuộc gọi, định tuyến quy trình, trích xuất tài liệu SOP) phục vụ toàn bộ mạng lưới.'}
             </p>
           </div>
         </div>

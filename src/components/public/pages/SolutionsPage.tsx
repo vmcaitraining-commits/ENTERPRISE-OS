@@ -4,6 +4,7 @@ import { departmentSolutions, needSolutions } from '../../../data/websiteContent
 import { NeedSolutionDetailView } from './NeedSolutionDetailView';
 import { DepartmentSolutionDetailView } from '../solutions/DepartmentSolutionDetailView';
 import { PublicLink } from '../PublicLink';
+import { useI18n } from '../../../i18n';
 import {
   ArrowRight, CheckCircle2, ChevronRight, Sparkles,
   Building2, Target, Layers, Filter, Compass, Users,
@@ -12,14 +13,51 @@ import {
 
 export const SolutionsPage: React.FC = () => {
   const { currentPath, navigate, openConsultationModal } = usePublicRouter();
+  const { t, tRaw } = useI18n();
   const [filterMode, setFilterMode] = useState<'all' | 'department' | 'need'>('all');
 
   // Determine active department or need from path (e.g. /solutions/sales, /solutions/crm)
   const segments = currentPath.split('/');
   const subSlug = segments[2]; // 'sales', 'marketing', 'crm', 'ai-agent', 'voice', etc.
 
-  const activeDept = departmentSolutions.find((d) => d.slug === subSlug);
-  const activeNeed = needSolutions.find((n) => n.slug === subSlug);
+  // Localize department solutions
+  const localizedDeptSolutions = departmentSolutions.map((dept) => {
+    const trans = tRaw<Record<string, any>>(`solutions.departments.${dept.slug}`) || {};
+    return {
+      ...dept,
+      name: trans.name || dept.name,
+      tagline: trans.tagline || dept.tagline,
+      problems: trans.problems || dept.problems,
+      dataManaged: trans.dataManaged || dept.dataManaged,
+      processes: trans.processes || dept.processes,
+      aiAssistance: trans.aiAssistance || dept.aiAssistance,
+      reports: trans.reports || dept.reports,
+      interDepartmentConnection: trans.interDepartmentConnection || dept.interDepartmentConnection,
+    };
+  });
+
+  // Localize need solutions
+  const localizedNeedSolutions = needSolutions.map((need) => {
+    const trans = tRaw<Record<string, any>>(`solutions.needs.${need.slug}`) || {};
+    return {
+      ...need,
+      name: trans.name || need.name,
+      tagline: trans.tagline || need.tagline,
+      coreValue: trans.coreValue || need.coreValue,
+      problems: trans.problems || need.problems,
+      solutionOverview: trans.solutionOverview || need.solutionOverview,
+      dataTypes: trans.dataTypes || need.dataTypes,
+      operatingWorkflow: trans.operatingWorkflow || need.operatingWorkflow,
+      keyFeatures: trans.keyFeatures || need.keyFeatures,
+      aiAssistance: trans.aiAssistance || need.aiAssistance,
+      systemConnections: trans.systemConnections || need.systemConnections,
+      reportTypes: trans.reportTypes || need.reportTypes,
+      securityAndGovernance: trans.securityAndGovernance || need.securityAndGovernance,
+    };
+  });
+
+  const activeDept = localizedDeptSolutions.find((d) => d.slug === subSlug);
+  const activeNeed = localizedNeedSolutions.find((n) => n.slug === subSlug);
 
   // If a specific need solution is requested (e.g. /solutions/crm, /solutions/ai-agent, etc.)
   if (activeNeed) {
@@ -51,9 +89,9 @@ export const SolutionsPage: React.FC = () => {
     }
   };
 
-  const totalCount = departmentSolutions.length + needSolutions.length;
-  const deptCount = departmentSolutions.length;
-  const needCount = needSolutions.length;
+  const totalCount = localizedDeptSolutions.length + localizedNeedSolutions.length;
+  const deptCount = localizedDeptSolutions.length;
+  const needCount = localizedNeedSolutions.length;
 
   // Overview /solutions page
   return (
@@ -62,19 +100,19 @@ export const SolutionsPage: React.FC = () => {
       <section className="bg-gradient-to-b from-[#0B1F3A] to-[#0d274c] dark:from-[#060D19] dark:to-[#0B1528] text-white pt-14 pb-16 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
           <div className="inline-block px-3 py-1 rounded-md bg-[#155EEF]/30 text-[#06B6D4] text-xs font-bold uppercase tracking-wider border border-[#155EEF]/40">
-            HỆ THỐNG GIẢI PHÁP CHUYÊN SÂU
+            {t('solutions.overview.badge')}
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Giải pháp Vận hành Doanh nghiệp
+            {t('solutions.overview.title')}
           </h1>
           <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Khám phá {deptCount} bộ giải pháp chuyên biệt theo Phòng ban và {needCount} gói giải pháp theo Nhu cầu chuyển đổi, vận hành trên nền tảng dữ liệu hợp nhất AI Enterprise.
+            {t('solutions.overview.description', { deptCount, needCount })}
           </p>
 
           {/* Filter Bar / Selector */}
           <div className="pt-3 flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-slate-400 mr-1 flex items-center gap-1">
-              <Filter className="w-3.5 h-3.5" /> Lọc giải pháp:
+              <Filter className="w-3.5 h-3.5" /> {t('solutions.overview.filterLabel')}
             </span>
             <button
               type="button"
@@ -85,7 +123,7 @@ export const SolutionsPage: React.FC = () => {
                   : 'bg-white/10 text-slate-300 hover:bg-white/20'
               }`}
             >
-              Tất cả ({totalCount} giải pháp)
+              {t('solutions.overview.filterAll', { totalCount })}
             </button>
             <button
               type="button"
@@ -96,7 +134,7 @@ export const SolutionsPage: React.FC = () => {
                   : 'bg-white/10 text-slate-300 hover:bg-white/20'
               }`}
             >
-              Theo Phòng ban ({deptCount} giải pháp)
+              {t('solutions.overview.filterDept', { deptCount })}
             </button>
             <button
               type="button"
@@ -107,7 +145,7 @@ export const SolutionsPage: React.FC = () => {
                   : 'bg-white/10 text-slate-300 hover:bg-white/20'
               }`}
             >
-              Theo Nhu cầu chuyển đổi ({needCount} giải pháp)
+              {t('solutions.overview.filterNeed', { needCount })}
             </button>
           </div>
         </div>
@@ -121,20 +159,20 @@ export const SolutionsPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-[#155EEF] dark:text-[#06B6D4]" />
                 <h2 className="text-2xl font-extrabold text-[#0B1F3A] dark:text-white">
-                  1. Giải pháp theo Phòng ban
+                  {t('solutions.overview.deptSectionTitle')}
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
-                Visual nghiệp vụ riêng, quy trình chuẩn hóa và trợ lý AI Copilot có kiểm soát cho từng khối chức năng.
+                {t('solutions.overview.deptSectionDesc')}
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-blue-600 bg-blue-50 dark:bg-blue-950 px-2.5 py-1 rounded-md">
-              {deptCount} Phòng ban
+              {t('solutions.overview.deptCountBadge', { count: deptCount })}
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {departmentSolutions.map((dept) => (
+            {localizedDeptSolutions.map((dept) => (
               <PublicLink
                 key={dept.id}
                 href={`/solutions/${dept.slug}`}
@@ -161,7 +199,7 @@ export const SolutionsPage: React.FC = () => {
 
                   <div className="pt-2">
                     <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
-                      Dữ liệu trọng yếu:
+                      {t('solutions.overview.dataManagedLabel')}
                     </span>
                     <div className="flex flex-wrap gap-1">
                       {dept.dataManaged.slice(0, 3).map((d, i) => (
@@ -177,7 +215,7 @@ export const SolutionsPage: React.FC = () => {
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-[#155EEF] dark:text-[#06B6D4]">
-                  <span>Xem màn hình nghiệp vụ & SOP</span>
+                  <span>{t('solutions.overview.deptCardCta')}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </PublicLink>
@@ -194,20 +232,20 @@ export const SolutionsPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                 <h2 className="text-2xl font-extrabold text-[#0B1F3A] dark:text-white">
-                  2. Giải pháp theo Nhu cầu chuyển đổi
+                  {t('solutions.overview.needSectionTitle')}
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
-                Giải quyết dứt điểm các bài toán công nghệ bức thiết: Tự động hóa, Quản trị tri thức, Trợ lý ảo, Tổng đài AI.
+                {t('solutions.overview.needSectionDesc')}
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-cyan-700 bg-cyan-50 dark:bg-cyan-950 px-2.5 py-1 rounded-md">
-              {needCount} Giải pháp
+              {t('solutions.overview.needCountBadge', { count: needCount })}
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {needSolutions.map((item) => (
+            {localizedNeedSolutions.map((item) => (
               <PublicLink
                 key={item.id}
                 href={`/solutions/${item.slug}`}
@@ -223,7 +261,7 @@ export const SolutionsPage: React.FC = () => {
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">{item.tagline}</p>
                 </div>
                 <div className="text-xs font-semibold text-[#155EEF] dark:text-[#06B6D4] pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span>Xem chi tiết giải pháp</span>
+                  <span>{t('solutions.overview.needCardCta')}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </PublicLink>
@@ -237,20 +275,20 @@ export const SolutionsPage: React.FC = () => {
         <div className="p-8 rounded-2xl bg-gradient-to-r from-[#0B1F3A] via-[#0d274c] to-[#155EEF] text-white flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <span className="text-[11px] font-mono uppercase tracking-wider text-[#06B6D4] font-bold">
-              KIẾN TRÚC MỘT DỮ LIỆU — NHIỀU VAI TRÒ
+              {t('solutions.overview.crosslinkBadge')}
             </span>
             <h3 className="text-xl sm:text-2xl font-extrabold">
-              Khám phá cách 11 phân hệ và 6 phòng ban liên thông không điểm nghẽn
+              {t('solutions.overview.crosslinkTitle')}
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Mọi phòng ban đều truy xuất chung một nguồn sự thật duy nhất (Single Source of Truth), phân quyền đa tầng và kiểm soát chặt chẽ bởi con người.
+              {t('solutions.overview.crosslinkDesc')}
             </p>
           </div>
           <PublicLink
             href="/ai-enterprise"
             className="shrink-0 px-6 py-3 bg-white text-[#0B1F3A] hover:bg-slate-100 font-bold text-xs rounded-xl shadow-md transition-colors inline-flex items-center gap-2 cursor-pointer"
           >
-            <span>Xem Tổng quan AI Enterprise</span>
+            <span>{t('solutions.overview.crosslinkCta')}</span>
             <ArrowRight className="w-4 h-4" />
           </PublicLink>
         </div>

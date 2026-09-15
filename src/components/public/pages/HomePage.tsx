@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePublicRouter } from '../../../context/PublicRouterContext';
+import { useI18n } from '../../../i18n';
 import { ArrowRight, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { HeroWorkflowDemo } from '../home/HeroWorkflowDemo';
 import { BottlenecksBeforeAfter } from '../home/BottlenecksBeforeAfter';
@@ -13,6 +14,7 @@ import { FinalCtaSection } from '../home/FinalCtaSection';
 
 export const HomePage: React.FC = () => {
   const { navigate, openConsultationModal } = usePublicRouter();
+  const { t } = useI18n();
 
   return (
     <div className="space-y-20 sm:space-y-24 pb-20 text-[#0F172A] dark:text-slate-100 transition-colors">
@@ -26,17 +28,18 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/80 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-[#155EEF] dark:text-[#06B6D4] text-xs font-bold tracking-wider uppercase">
                 <span className="w-2 h-2 rounded-full bg-[#155EEF] dark:bg-[#06B6D4] animate-pulse" />
-                VMC GROUP • KIẾN TRÚC DOANH NGHIỆP AI
+                {t('home.hero.badge', 'VMC GROUP • KIẾN TRÚC DOANH NGHIỆP AI')}
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1F3A] dark:text-white tracking-tight leading-[1.15]">
-                Xây dựng hệ thống doanh nghiệp vận hành bằng{' '}
-                <span className="text-[#155EEF] dark:text-[#3B82F6]">dữ liệu</span>, công nghệ và{' '}
-                <span className="text-[#06B6D4]">AI</span>.
+                {t('home.hero.titleLine1', 'Xây dựng hệ thống doanh nghiệp vận hành bằng')}{' '}
+                <span className="text-[#155EEF] dark:text-[#3B82F6]">{t('home.hero.titleHighlightData', 'dữ liệu')}</span>
+                {t('home.hero.titleLine2', ', công nghệ và')}{' '}
+                <span className="text-[#06B6D4]">{t('home.hero.titleHighlightAi', 'AI')}</span>.
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
-                Kết nối dữ liệu, quy trình và các phòng ban vào một hệ điều hành thống nhất — giúp doanh nghiệp vận hành tinh gọn, tăng tốc độ xử lý và ra quyết định chính xác.
+                {t('home.hero.subheadline', 'Kết nối dữ liệu, quy trình và các phòng ban vào một hệ điều hành thống nhất — giúp doanh nghiệp vận hành tinh gọn, tăng tốc độ xử lý và ra quyết định chính xác.')}
               </p>
 
               {/* Primary & Secondary CTAs */}
@@ -46,7 +49,7 @@ export const HomePage: React.FC = () => {
                   onClick={() => openConsultationModal('consultation')}
                   className="flex items-center gap-2 px-6 py-3.5 bg-[#155EEF] hover:bg-blue-600 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg transition-all cursor-pointer"
                 >
-                  <span>Đăng ký tư vấn giải pháp</span>
+                  <span>{t('home.hero.ctaConsultation', 'Đăng ký tư vấn giải pháp')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -55,7 +58,7 @@ export const HomePage: React.FC = () => {
                   onClick={() => navigate('/ai-enterprise')}
                   className="flex items-center gap-2 px-5 py-3.5 bg-white dark:bg-[#0E1A30] hover:bg-slate-50 dark:hover:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-[#0B1F3A] dark:text-white font-semibold text-sm rounded-xl transition-colors cursor-pointer"
                 >
-                  <span>Khám phá AI ENTERPRISE</span>
+                  <span>{t('home.hero.ctaExploreAi', 'Khám phá AI ENTERPRISE')}</span>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </button>
               </div>
@@ -64,15 +67,15 @@ export const HomePage: React.FC = () => {
               <div className="pt-4 flex flex-wrap items-center gap-5 text-xs font-medium text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span>Dữ liệu thuộc sở hữu riêng 100%</span>
+                  <span>{t('home.hero.trust100Ownership', 'Dữ liệu thuộc sở hữu riêng 100%')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span>AI hoạt động có phê duyệt con người</span>
+                  <span>{t('home.hero.trustHumanApproval', 'AI hoạt động có phê duyệt con người')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span>Kiến trúc mở chuẩn API/Webhook</span>
+                  <span>{t('home.hero.trustOpenArchitecture', 'Kiến trúc mở chuẩn API/Webhook')}</span>
                 </div>
               </div>
             </div>

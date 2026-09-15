@@ -2,13 +2,17 @@ import { LocaleCode, TranslationNamespace, TranslationDictionary } from './types
 import { DEFAULT_LOCALE } from './registry';
 
 // Dynamic import maps for lazy loading translation namespaces
-const namespaceLoaders: Record<string, Record<string, () => Promise<{ default: TranslationDictionary }>>> = {
+export const namespaceLoaders: Record<string, Record<string, () => Promise<{ default: TranslationDictionary }>>> = {
   vi: {
     common: () => import('./locales/vi/common'),
     nav: () => import('./locales/vi/nav'),
     forms: () => import('./locales/vi/forms'),
     accessibility: () => import('./locales/vi/accessibility'),
     notFound: () => import('./locales/vi/notFound'),
+    home: () => import('./locales/vi/home'),
+    aiEnterprise: () => import('./locales/vi/aiEnterprise'),
+    solutions: () => import('./locales/vi/solutions'),
+    industries: () => import('./locales/vi/industries'),
   },
   en: {
     common: () => import('./locales/en/common'),
@@ -16,6 +20,10 @@ const namespaceLoaders: Record<string, Record<string, () => Promise<{ default: T
     forms: () => import('./locales/en/forms'),
     accessibility: () => import('./locales/en/accessibility'),
     notFound: () => import('./locales/en/notFound'),
+    home: () => import('./locales/en/home'),
+    aiEnterprise: () => import('./locales/en/aiEnterprise'),
+    solutions: () => import('./locales/en/solutions'),
+    industries: () => import('./locales/en/industries'),
   }
 };
 
@@ -90,7 +98,11 @@ export const preloadCoreNamespaces = async (locale: LocaleCode): Promise<void> =
     loadNamespace(locale, 'nav'),
     loadNamespace(locale, 'forms'),
     loadNamespace(locale, 'accessibility'),
-    loadNamespace(locale, 'notFound')
+    loadNamespace(locale, 'notFound'),
+    loadNamespace(locale, 'home'),
+    loadNamespace(locale, 'aiEnterprise'),
+    loadNamespace(locale, 'solutions'),
+    loadNamespace(locale, 'industries')
   ]);
 };
 

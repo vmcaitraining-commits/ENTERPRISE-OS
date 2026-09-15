@@ -4,104 +4,56 @@ import {
   Globe, Mail, MessageSquare, CreditCard, Server, ArrowUpRight,
   CheckCircle2, RefreshCw, Key
 } from 'lucide-react';
+import { useI18n } from '../../../i18n';
 
-interface IntegrationSpoke {
+interface SpokeConfig {
   id: string;
-  name: string;
-  category: string;
+  keyPrefix: 'apiWebhook' | 'googleWorkspace' | 'emailCorp' | 'zaloChat' | 'bankingPay' | 'privateDb';
   status: 'ready' | 'capable';
-  statusLabel: string;
-  desc: string;
   icon: React.ElementType;
 }
 
-const INTEGRATION_SPOKES: IntegrationSpoke[] = [
-  {
-    id: 'api_webhook',
-    name: 'RESTful API & Webhook',
-    category: 'Giao tiếp hệ thống',
-    status: 'ready',
-    statusLabel: 'Sẵn sàng theo kiến trúc',
-    desc: 'Cổng giao tiếp chuẩn REST/JSON cho phép kết nối hai chiều với mọi ứng dụng nghiệp vụ.',
-    icon: Globe
-  },
-  {
-    id: 'google_workspace',
-    name: 'Google Workspace',
-    category: 'Văn phòng số',
-    status: 'capable',
-    statusLabel: 'Có khả năng tích hợp',
-    desc: 'Đồng bộ lịch hẹn, trang tính Google Sheets và tài liệu làm việc chung theo nhu cầu.',
-    icon: Server
-  },
-  {
-    id: 'email_corp',
-    name: 'Email Doanh nghiệp',
-    category: 'Thông báo & Xác thực',
-    status: 'capable',
-    statusLabel: 'Có khả năng tích hợp',
-    desc: 'Gửi nhận thông báo trạng thái đơn hàng, báo giá và sao kê qua giao thức SMTP/API.',
-    icon: Mail
-  },
-  {
-    id: 'zalo_chat',
-    name: 'Hệ sinh thái Zalo & Tin nhắn',
-    category: 'Kênh tương tác khách',
-    status: 'capable',
-    statusLabel: 'Có khả năng tích hợp',
-    desc: 'Tiếp nhận tin nhắn tư vấn từ khách hàng và gửi thông báo biến động tự động.',
-    icon: MessageSquare
-  },
-  {
-    id: 'banking_pay',
-    name: 'Cổng thanh toán & Ngân hàng',
-    category: 'Tài chính & Dòng tiền',
-    status: 'capable',
-    statusLabel: 'Có khả năng tích hợp',
-    desc: 'Nhận Webhook biến động số dư tài khoản ngân hàng để tự động đối soát đơn hàng.',
-    icon: CreditCard
-  },
-  {
-    id: 'private_db',
-    name: 'Cơ sở dữ liệu riêng (PostgreSQL, MySQL)',
-    category: 'Kho dữ liệu hiện hữu',
-    status: 'capable',
-    statusLabel: 'Có khả năng tích hợp',
-    desc: 'Trích xuất và đồng bộ dữ liệu từ các kho dữ liệu máy chủ riêng của doanh nghiệp.',
-    icon: Database
-  }
+const SPOKE_CONFIGS: SpokeConfig[] = [
+  { id: 'api_webhook', keyPrefix: 'apiWebhook', status: 'ready', icon: Globe },
+  { id: 'google_workspace', keyPrefix: 'googleWorkspace', status: 'capable', icon: Server },
+  { id: 'email_corp', keyPrefix: 'emailCorp', status: 'capable', icon: Mail },
+  { id: 'zalo_chat', keyPrefix: 'zaloChat', status: 'capable', icon: MessageSquare },
+  { id: 'banking_pay', keyPrefix: 'bankingPay', status: 'capable', icon: CreditCard },
+  { id: 'private_db', keyPrefix: 'privateDb', status: 'capable', icon: Database }
 ];
 
-const SECURITY_PILLARS = [
-  {
-    id: 'sec_rbac',
-    title: 'Phân quyền đa tầng (RBAC)',
-    description: 'Phân định quyền xem, sửa, duyệt theo phòng ban và vai trò. Nhân sự chỉ tiếp cận đúng phạm vi công việc được giao.',
-    icon: Key
-  },
-  {
-    id: 'sec_isolated',
-    title: 'Không gian dữ liệu sở hữu riêng',
-    description: 'Doanh nghiệp sở hữu toàn quyền dữ liệu của mình. Hệ thống tách biệt không gian lưu trữ, không chia sẻ chéo.',
-    icon: Database
-  },
-  {
-    id: 'sec_audit',
-    title: 'Nhật ký kiểm toán (Full Audit Log)',
-    description: 'Ghi vết minh bạch mọi thao tác thêm, sửa, xóa, duyệt và truy cập dữ liệu kèm thời gian và định danh người thực hiện.',
-    icon: FileText
-  },
-  {
-    id: 'sec_approval',
-    title: 'Cơ chế phê duyệt con người',
-    description: 'Các tác vụ tài chính nhạy cảm, ký duyệt hợp đồng hoặc thay đổi định mức bắt buộc có sự chấp thuận của người có thẩm quyền.',
-    icon: UserCheck
-  }
+interface PillarConfig {
+  id: string;
+  keyPrefix: 'rbac' | 'isolated' | 'audit' | 'approval';
+  icon: React.ElementType;
+}
+
+const PILLAR_CONFIGS: PillarConfig[] = [
+  { id: 'sec_rbac', keyPrefix: 'rbac', icon: Key },
+  { id: 'sec_isolated', keyPrefix: 'isolated', icon: Database },
+  { id: 'sec_audit', keyPrefix: 'audit', icon: FileText },
+  { id: 'sec_approval', keyPrefix: 'approval', icon: UserCheck }
 ];
 
 export const IntegrationAndSecurityHub: React.FC = () => {
+  const { t } = useI18n();
   const [selectedSpokeId, setSelectedSpokeId] = useState<string>('api_webhook');
-  const selectedSpoke = INTEGRATION_SPOKES.find((s) => s.id === selectedSpokeId) || INTEGRATION_SPOKES[0];
+
+  const getSpokeData = (cfg: SpokeConfig) => {
+    return {
+      name: t(`home.integrationAndSecurity.spokes.${cfg.keyPrefix}.name`, ''),
+      category: t(`home.integrationAndSecurity.spokes.${cfg.keyPrefix}.category`, ''),
+      statusLabel: t(`home.integrationAndSecurity.spokes.${cfg.keyPrefix}.statusLabel`, ''),
+      desc: t(`home.integrationAndSecurity.spokes.${cfg.keyPrefix}.desc`, '')
+    };
+  };
+
+  const getPillarData = (cfg: PillarConfig) => {
+    return {
+      title: t(`home.integrationAndSecurity.securityPillars.${cfg.keyPrefix}.title`, ''),
+      description: t(`home.integrationAndSecurity.securityPillars.${cfg.keyPrefix}.desc`, '')
+    };
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
@@ -109,13 +61,13 @@ export const IntegrationAndSecurityHub: React.FC = () => {
       <div className="space-y-8">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="text-xs font-bold uppercase tracking-wider text-[#155EEF] dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 inline-block px-3 py-1 rounded-full border border-blue-200 dark:border-blue-800">
-            KIẾN TRÚC MỞ (OPEN ARCHITECTURE)
+            {t('home.integrationAndSecurity.integrationBadge', 'KIẾN TRÚC MỞ (OPEN ARCHITECTURE)')}
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1F3A] dark:text-white tracking-tight">
-            Kết nối linh hoạt với hệ sinh thái công nghệ của bạn
+            {t('home.integrationAndSecurity.integrationHeading', 'Kết nối linh hoạt với hệ sinh thái công nghệ của bạn')}
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            AI ENTERPRISE đóng vai trò như trung tâm điều phối, sẵn sàng liên kết thông suốt qua API, Webhook và các dịch vụ bên thứ ba.
+            {t('home.integrationAndSecurity.integrationDescription', 'AI ENTERPRISE đóng vai trò như trung tâm điều phối, sẵn sàng liên kết thông suốt qua API, Webhook và các dịch vụ bên thứ ba.')}
           </p>
         </div>
 
@@ -129,30 +81,31 @@ export const IntegrationAndSecurityHub: React.FC = () => {
               </div>
               <div>
                 <span className="text-[10px] font-mono text-[#06B6D4] uppercase tracking-wider font-bold">
-                  TRUNG TÂM ĐIỀU PHỐI LÕI
+                  {t('home.integrationAndSecurity.hubCoreTitle', 'TRUNG TÂM ĐIỀU PHỐI LÕI')}
                 </span>
                 <h3 className="text-lg font-bold text-white mt-0.5">
-                  AI ENTERPRISE CORE
+                  {t('home.integrationAndSecurity.hubCoreHeading', 'AI ENTERPRISE CORE')}
                 </h3>
                 <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Cơ sở dữ liệu tập trung, bộ máy phân quyền RBAC và quản lý dòng quy trình SOP thống nhất.
+                  {t('home.integrationAndSecurity.hubCoreDesc', 'Cơ sở dữ liệu tập trung, bộ máy phân quyền RBAC và quản lý dòng quy trình SOP thống nhất.')}
                 </p>
               </div>
               <div className="w-full pt-3 border-t border-slate-700/80 flex items-center justify-around text-[11px] font-mono text-slate-300">
-                <span>Unified API</span>
+                <span>{t('home.integrationAndSecurity.hubCoreFooter.unifiedApi', 'Unified API')}</span>
                 <span>•</span>
-                <span>Webhooks</span>
+                <span>{t('home.integrationAndSecurity.hubCoreFooter.webhooks', 'Webhooks')}</span>
                 <span>•</span>
-                <span>Audit Trail</span>
+                <span>{t('home.integrationAndSecurity.hubCoreFooter.auditTrail', 'Audit Trail')}</span>
               </div>
             </div>
 
             {/* Spokes Grid (8 cols) */}
             <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {INTEGRATION_SPOKES.map((spoke) => {
+              {SPOKE_CONFIGS.map((spoke) => {
                 const isSelected = spoke.id === selectedSpokeId;
                 const Icon = spoke.icon;
                 const isReady = spoke.status === 'ready';
+                const data = getSpokeData(spoke);
 
                 return (
                   <div
@@ -170,7 +123,7 @@ export const IntegrationAndSecurityHub: React.FC = () => {
                           <Icon className="w-4 h-4" />
                         </div>
                         <span className="text-xs font-bold text-[#0B1F3A] dark:text-white truncate">
-                          {spoke.name}
+                          {data.name}
                         </span>
                       </div>
 
@@ -181,12 +134,12 @@ export const IntegrationAndSecurityHub: React.FC = () => {
                             : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700'
                         }`}
                       >
-                        {spoke.statusLabel}
+                        {data.statusLabel}
                       </span>
                     </div>
 
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2">
-                      {spoke.desc}
+                      {data.desc}
                     </p>
                   </div>
                 );
@@ -200,19 +153,20 @@ export const IntegrationAndSecurityHub: React.FC = () => {
       <div className="space-y-8 pt-6 border-t border-slate-200 dark:border-slate-800">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 inline-block px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
-            AN TOÀN & BẢO MẬT
+            {t('home.integrationAndSecurity.securityBadge', 'AN TOÀN & BẢO MẬT')}
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1F3A] dark:text-white tracking-tight">
-            Bảo mật đa tầng theo tiêu chuẩn doanh nghiệp
+            {t('home.integrationAndSecurity.securityHeading', 'Bảo mật đa tầng theo tiêu chuẩn doanh nghiệp')}
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            Dữ liệu là tài sản cốt lõi. Chúng tôi thiết lập 4 rào chắn bảo vệ nghiêm ngặt để đảm bảo an toàn thông tin và tính toàn vẹn vận hành.
+            {t('home.integrationAndSecurity.securityDescription', 'Dữ liệu là tài sản cốt lõi. Chúng tôi thiết lập 4 rào chắn bảo vệ nghiêm ngặt để đảm bảo an toàn thông tin và tính toàn vẹn vận hành.')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {SECURITY_PILLARS.map((pillar) => {
+          {PILLAR_CONFIGS.map((pillar) => {
             const Icon = pillar.icon;
+            const data = getPillarData(pillar);
             return (
               <div
                 key={pillar.id}
@@ -222,10 +176,10 @@ export const IntegrationAndSecurityHub: React.FC = () => {
                   <Icon className="w-5 h-5" />
                 </div>
                 <h3 className="text-sm font-bold text-[#0B1F3A] dark:text-white">
-                  {pillar.title}
+                  {data.title}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {pillar.description}
+                  {data.description}
                 </p>
               </div>
             );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { JourneyStep } from '../../../data/industryDetailedData';
+import { useI18n } from '../../../i18n';
 import { AlertTriangle, CheckCircle2, ArrowRight, ShieldAlert, Cpu } from 'lucide-react';
 
 interface IndustryJourneyVisualProps {
@@ -8,6 +9,7 @@ interface IndustryJourneyVisualProps {
 }
 
 export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ steps, industryName }) => {
+  const { t } = useI18n();
   const [selectedStep, setSelectedStep] = useState<number>(() => {
     const firstBottleneck = steps.find((s) => s.isBottleneck);
     return firstBottleneck ? firstBottleneck.stepNumber : 1;
@@ -21,24 +23,24 @@ export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ st
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-mono font-medium mb-2">
             <AlertTriangle className="w-3.5 h-3.5" />
-            HÀNH TRÌNH VẬN HÀNH & ĐIỂM NGHẼN THỰC TẾ
+            {t('industries.visuals.journey.badge')}
           </div>
           <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">
-            Luồng Dữ Liệu Nghiệp Vụ — {industryName}
+            {t('industries.visuals.journey.heading', { industryName })}
           </h3>
           <p className="text-sm text-slate-400 mt-1">
-            Bấm vào từng bước trên hành trình để xem đối soát chi tiết và cách hệ thống xử lý điểm nghẽn.
+            {t('industries.visuals.journey.subheading')}
           </p>
         </div>
 
         <div className="flex items-center gap-4 text-xs font-mono">
           <div className="flex items-center gap-1.5 text-slate-300">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
-            <span>Chuẩn hóa</span>
+            <span>{t('industries.visuals.journey.legendNormalized')}</span>
           </div>
           <div className="flex items-center gap-1.5 text-amber-300">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block animate-pulse"></span>
-            <span>Điểm nghẽn rủi ro cao</span>
+            <span>{t('industries.visuals.journey.legendBottleneck')}</span>
           </div>
         </div>
       </div>
@@ -78,12 +80,12 @@ export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ st
                   {step.isBottleneck ? (
                     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
                       <AlertTriangle className="w-2.5 h-2.5" />
-                      Nghẽn
+                      {t('industries.visuals.journey.bottleneckBadge')}
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
                       <CheckCircle2 className="w-2.5 h-2.5" />
-                      Thông suốt
+                      {t('industries.visuals.journey.smoothBadge')}
                     </span>
                   )}
                 </div>
@@ -108,7 +110,7 @@ export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ st
           <div className="space-y-3 max-w-2xl">
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-xs">
-                Giai đoạn {activeStepData.stepNumber} / {steps.length}
+                {t('industries.visuals.journey.phaseLabel', { step: String(activeStepData.stepNumber), total: String(steps.length) })}
               </span>
               <h4 className="text-lg font-bold text-white">
                 {activeStepData.title}: {activeStepData.subtitle}
@@ -119,7 +121,7 @@ export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ st
               <div className="p-3.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm leading-relaxed flex items-start gap-3">
                 <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-amber-300 block font-semibold mb-0.5">Điểm nghẽn vận hành thực tế:</strong>
+                  <strong className="text-amber-300 block font-semibold mb-0.5">{t('industries.visuals.journey.bottleneckTitle')}</strong>
                   {activeStepData.bottleneckNote}
                 </div>
               </div>
@@ -128,7 +130,7 @@ export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ st
             <div className="p-3.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 text-sm leading-relaxed flex items-start gap-3">
               <Cpu className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
               <div>
-                <strong className="text-indigo-300 block font-semibold mb-0.5">Hệ thống AI ENTERPRISE can thiệp:</strong>
+                <strong className="text-indigo-300 block font-semibold mb-0.5">{t('industries.visuals.journey.systemSupportTitle')}</strong>
                 {activeStepData.systemSupport}
               </div>
             </div>
@@ -136,9 +138,8 @@ export const IndustryJourneyVisual: React.FC<IndustryJourneyVisualProps> = ({ st
 
           <div className="shrink-0 pt-2 md:pt-0">
             <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 text-xs font-mono text-slate-400 space-y-1">
-              <div>Trạng thái: {activeStepData.isBottleneck ? 'Được kiểm soát chốt chặn' : 'Chuẩn hóa theo kịch bản'}</div>
-              <div>Giao diện hỗ trợ: Màn hình nghiệp vụ tập trung</div>
-              <div>Bảo mật: Phân quyền theo vai trò (RBAC)</div>
+              <div>{t('industries.visuals.journey.statusLabel')}: {activeStepData.isBottleneck ? t('industries.visuals.journey.statusControlled') : t('industries.visuals.journey.statusStandard')}</div>
+              <div>{t('industries.visuals.journey.interfaceLabel')}</div>
             </div>
           </div>
         </div>

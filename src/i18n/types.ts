@@ -22,7 +22,9 @@ export type TranslationNamespace =
   | 'solutions'
   | 'industries'
   | 'ai'
-  | 'seo';
+  | 'seo'
+  | 'aiEnterprise'
+  | 'aiCopilots';
 
 export type TranslationDictionary = Record<string, any>;
 

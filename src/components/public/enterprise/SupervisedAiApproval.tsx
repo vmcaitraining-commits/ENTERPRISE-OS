@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useI18n } from '../../../i18n';
 import {
-  ShieldCheck, Bot, CheckCircle2, AlertOctagon, ArrowRight,
-  UserCheck, FileText, Lock, Sparkles, RefreshCw, Eye, History
+  ShieldCheck, Bot, CheckCircle2, AlertOctagon, UserCheck
 } from 'lucide-react';
 
 interface ApprovalStep {
@@ -13,117 +13,31 @@ interface ApprovalStep {
   subtext: string;
 }
 
-const APPROVAL_STEPS: ApprovalStep[] = [
-  {
-    stepNum: 1,
-    title: 'Đọc & Thu thập dữ liệu',
-    actor: 'AI',
-    actorLabel: 'AI Engine',
-    description: 'Truy vấn ngữ cảnh nội bộ hợp lệ từ CRM, Kế toán hoặc Wiki quy chuẩn (không truy cập dữ liệu ngoài phạm vi phân quyền).',
-    subtext: 'Theo cấu hình phân quyền'
-  },
-  {
-    stepNum: 2,
-    title: 'Phân tích & Đánh giá rủi ro',
-    actor: 'AI',
-    actorLabel: 'AI Engine',
-    description: 'Đối chiếu với quy chuẩn SOP, chính sách chiết khấu và hạn mức ngân sách để nhận diện điểm bất thường hoặc rủi ro tiềm ẩn.',
-    subtext: 'Đánh giá mức độ rủi ro'
-  },
-  {
-    stepNum: 3,
-    title: 'Soạn thảo bản đề xuất (Draft)',
-    actor: 'AI',
-    actorLabel: 'AI Copilot',
-    description: 'Khởi tạo sẵn bản dự thảo báo giá, phiếu đề xuất chi tiêu hoặc nội dung email phản hồi chuẩn mực.',
-    subtext: 'Chưa có hiệu lực thực thi'
-  },
-  {
-    stepNum: 4,
-    title: 'Chốt chặn: Con người phê duyệt',
-    actor: 'HUMAN',
-    actorLabel: 'Người có thẩm quyền',
-    description: 'Cấp quản lý (Trưởng phòng/Kế toán trưởng/CEO) xem xét bản dự thảo, có thể chỉnh sửa, chấp thuận hoặc bác bỏ.',
-    subtext: 'BẮT BUỘC PHÊ DUYỆT'
-  },
-  {
-    stepNum: 5,
-    title: 'Tự động hóa thực thi',
-    actor: 'SYSTEM',
-    actorLabel: 'Workflow Engine',
-    description: 'Ngay khi có lệnh chấp thuận từ người duyệt, hệ thống tự động phát lệnh gửi email, xuất hóa đơn hoặc phân bổ ngân sách.',
-    subtext: 'Thực thi chính xác theo lệnh'
-  },
-  {
-    stepNum: 6,
-    title: 'Ghi nhật ký kiểm toán (Audit Log)',
-    actor: 'SYSTEM',
-    actorLabel: 'Security Core',
-    description: 'Hỗ trợ lưu lại lịch sử: AI đề xuất nội dung gì, ai là người bấm duyệt, thời điểm và kết quả thực thi theo cấu hình kiểm toán.',
-    subtext: 'Phục vụ kiểm toán & truy vết'
-  }
-];
-
-const AUTONOMOUS_TASKS = [
-  {
-    name: 'Phân loại & Chấm điểm Lead',
-    desc: 'Tự động chấm điểm độ nóng của khách hàng tiềm năng dựa trên dữ liệu biểu mẫu và lượt tương tác.'
-  },
-  {
-    name: 'Bóc băng & Tóm tắt cuộc gọi',
-    desc: 'Chuyển đổi âm thanh cuộc gọi tư vấn thành văn bản và trích xuất các ý chính vào CRM.'
-  },
-  {
-    name: 'Gợi ý kịch bản & Dự thảo văn bản',
-    desc: 'Soạn sẵn câu trả lời ticket hỗ trợ hoặc email chăm sóc khách hàng dựa trên cẩm nang Wiki.'
-  },
-  {
-    name: 'Phát hiện cảnh báo biến động số liệu',
-    desc: 'Tự động thông báo cho quản lý khi chi phí quảng cáo tăng đột biến hoặc ticket CSKH sắp quá hạn thời gian theo quy chế.'
-  },
-  {
-    name: 'Đồng bộ hóa trạng thái liên phòng ban',
-    desc: 'Chuyển trạng thái đơn hàng và gửi thông báo nhắc việc nội bộ cho nhân sự liên quan.'
-  }
-];
-
-const STRICT_APPROVAL_TASKS = [
-  {
-    name: 'Lệnh giải ngân & Chuyển tiền thực tế',
-    desc: 'Mọi giao dịch chi tiền từ sổ quỹ hoặc tài khoản ngân hàng BẮT BUỘC có chữ ký duyệt của Kế toán trưởng và Ban Giám Đốc.'
-  },
-  {
-    name: 'Áp dụng chiết khấu vượt trần quy định',
-    desc: 'Báo giá có tỷ lệ giảm giá vượt thẩm quyền của nhân viên kinh doanh phải được Giám đốc Kinh doanh phê duyệt.'
-  },
-  {
-    name: 'Ký kết hợp đồng pháp lý & Đối tác',
-    desc: 'Hợp đồng kinh tế và văn bản cam kết pháp lý bắt buộc phải do người đại diện pháp luật ký duyệt số.'
-  },
-  {
-    name: 'Xuất bản nội dung công khai ra ngoài',
-    desc: 'Bài viết truyền thông, thông cáo báo chí hoặc chính sách giá mới trên Website phải qua bước biên tập và phê duyệt.'
-  },
-  {
-    name: 'Cấp quyền truy cập & Thay đổi cấu hình',
-    desc: 'Thay đổi vai trò quản trị viên, phân bổ quyền xem dữ liệu tài chính hoặc can thiệp cấu hình hệ thống.'
-  }
-];
+interface TaskItem {
+  name: string;
+  desc: string;
+}
 
 export const SupervisedAiApproval: React.FC = () => {
+  const { t, tRaw } = useI18n();
+
+  const steps = tRaw<ApprovalStep[]>('aiEnterprise.supervisedAi.steps') || [];
+  const autonomousTasks = tRaw<TaskItem[]>('aiEnterprise.supervisedAi.autonomousTasks') || [];
+  const strictTasks = tRaw<TaskItem[]>('aiEnterprise.supervisedAi.strictApprovalTasks') || [];
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       {/* Section Header */}
       <div className="max-w-3xl space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
           <ShieldCheck className="w-3.5 h-3.5" />
-          AN TOÀN TRÍ TUỆ NHÂN TẠO
+          {t('aiEnterprise.supervisedAi.badge')}
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1F3A] dark:text-white tracking-tight">
-          Cơ chế AI có kiểm soát: Human-in-the-loop (Con người phê duyệt)
+          {t('aiEnterprise.supervisedAi.title')}
         </h2>
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-          AI trong doanh nghiệp không bao giờ được phép tự do quyết định vận mệnh tài chính hay ký kết hợp đồng. AI ENTERPRISE thiết lập cơ chế kiểm soát nghiêm ngặt: AI đóng vai trò phân tích và đề xuất, con người giữ quyền quyết định tối hậu.
+          {t('aiEnterprise.supervisedAi.description')}
         </p>
       </div>
 
@@ -131,15 +45,15 @@ export const SupervisedAiApproval: React.FC = () => {
       <div className="bg-white dark:bg-[#0D182E] rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xs space-y-6">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
           <h3 className="text-sm font-bold text-[#0B1F3A] dark:text-white uppercase tracking-wider">
-            Quy trình 6 bước vận hành có kiểm soát chuẩn mực
+            {t('aiEnterprise.supervisedAi.flowHeading')}
           </h3>
           <span className="text-xs text-slate-500 dark:text-slate-400 hidden sm:inline">
-            Khóa chốt an toàn tại bước 4
+            {t('aiEnterprise.supervisedAi.flowSubheading')}
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
-          {APPROVAL_STEPS.map((step) => {
+          {steps.map((step) => {
             const isHuman = step.actor === 'HUMAN';
             return (
               <div
@@ -192,16 +106,16 @@ export const SupervisedAiApproval: React.FC = () => {
             <Bot className="w-5 h-5 shrink-0" />
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider">
-                1. Tác vụ AI tự động trong ranh giới an toàn
+                {t('aiEnterprise.supervisedAi.col1Title')}
               </h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Hỗ trợ xử lý thông tin thông thường theo phạm vi quy trình được phân công
+                {t('aiEnterprise.supervisedAi.col1Subtitle')}
               </p>
             </div>
           </div>
 
           <div className="space-y-3">
-            {AUTONOMOUS_TASKS.map((task, idx) => (
+            {autonomousTasks.map((task, idx) => (
               <div key={idx} className="p-3 rounded-xl bg-white dark:bg-[#0D182E] border border-blue-100 dark:border-blue-900/40 space-y-1">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#0B1F3A] dark:text-white">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -221,16 +135,16 @@ export const SupervisedAiApproval: React.FC = () => {
             <AlertOctagon className="w-5 h-5 shrink-0" />
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider">
-                2. Chốt chặn bắt buộc con người phê duyệt
+                {t('aiEnterprise.supervisedAi.col2Title')}
               </h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Bắt buộc có phê duyệt của nhân sự có thẩm quyền trước khi ban hành hoặc thực thi
+                {t('aiEnterprise.supervisedAi.col2Subtitle')}
               </p>
             </div>
           </div>
 
           <div className="space-y-3">
-            {STRICT_APPROVAL_TASKS.map((task, idx) => (
+            {strictTasks.map((task, idx) => (
               <div key={idx} className="p-3 rounded-xl bg-white dark:bg-[#0D182E] border border-amber-100 dark:border-amber-900/40 space-y-1">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#0B1F3A] dark:text-white">
                   <UserCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />

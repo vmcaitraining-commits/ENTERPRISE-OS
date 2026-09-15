@@ -3,110 +3,27 @@ import {
   Globe, Database, Users, CheckSquare, CreditCard, BarChart3,
   ArrowRight, Shield, CheckCircle2, ChevronRight, Activity, Clock
 } from 'lucide-react';
+import { useI18n } from '../../../i18n';
 
-interface WorkflowStep {
+interface StepDefinition {
   id: string;
   stepNumber: number;
-  label: string;
-  shortRole: string;
-  action: string;
   icon: React.ElementType;
-  mockData: {
-    event: string;
-    details: string;
-    tag: string;
-    tagType: 'auto' | 'approval' | 'audit';
-  };
+  keyPrefix: 'step1' | 'step2' | 'step3' | 'step4' | 'step5' | 'step6';
+  tagType: 'auto' | 'approval' | 'audit';
 }
 
-const WORKFLOW_STEPS: WorkflowStep[] = [
-  {
-    id: 'step_form',
-    stepNumber: 1,
-    label: 'Website / Form',
-    shortRole: 'Tiếp nhận yêu cầu',
-    action: 'Khách hàng gửi biểu mẫu yêu cầu tư vấn giải pháp B2B từ Website',
-    icon: Globe,
-    mockData: {
-      event: 'Biểu mẫu tư vấn AI ENTERPRISE #9421',
-      details: 'Công ty Cổ phần Vận tải Á Châu • 120 nhân sự • UTM: Google B2B Search',
-      tag: 'Tự động xác thực',
-      tagType: 'auto'
-    }
-  },
-  {
-    id: 'step_crm',
-    stepNumber: 2,
-    label: 'CRS / CRM',
-    shortRole: 'Chấm điểm & Phân loại',
-    action: 'Tự động kiểm tra trùng lặp, chấm điểm tiềm năng và tạo hồ sơ Customer 360',
-    icon: Database,
-    mockData: {
-      event: 'Tạo Lead mới & Chấm điểm: 88/100',
-      details: 'Gán nhóm: Khách hàng Doanh nghiệp Vừa • Tự động gán nhãn ưu tiên cao',
-      tag: 'Đồng bộ thời gian thực',
-      tagType: 'auto'
-    }
-  },
-  {
-    id: 'step_sales',
-    stepNumber: 3,
-    label: 'Kinh doanh (Sales)',
-    shortRole: 'Tư vấn & Soạn báo giá',
-    action: 'Điều phối cho Trưởng nhóm tư vấn phụ trách, AI hỗ trợ soạn dự thảo giải pháp',
-    icon: Users,
-    mockData: {
-      event: 'Gán tư vấn viên: Nguyễn Văn A (Phòng Sales 01)',
-      details: 'Soạn báo giá cấu hình 5 phân hệ lõi theo mẫu quy chuẩn công ty',
-      tag: 'Đã tạo lịch hẹn 15:00',
-      tagType: 'auto'
-    }
-  },
-  {
-    id: 'step_approval',
-    stepNumber: 4,
-    label: 'Phê duyệt (Human)',
-    shortRole: 'Kiểm soát hạn mức',
-    action: 'Giám đốc Kinh doanh xem xét đề xuất chiết khấu dự án vượt thẩm quyền chuẩn',
-    icon: CheckSquare,
-    mockData: {
-      event: 'Yêu cầu duyệt: Chiết khấu dự án 8% (Giá trị: 320 triệu)',
-      details: 'Người duyệt: Lê Minh Trí (GĐ Vận hành) • Phê duyệt trực tuyến trong 2 phút',
-      tag: 'Human-in-the-loop',
-      tagType: 'approval'
-    }
-  },
-  {
-    id: 'step_finance_cs',
-    stepNumber: 5,
-    label: 'Finance & CSKH',
-    shortRole: 'Liên thông thanh toán & SLA',
-    action: 'Kế toán xuất hóa đơn/hợp đồng; CSKH tự động kích hoạt tài khoản & cam kết SLA',
-    icon: CreditCard,
-    mockData: {
-      event: 'Hợp đồng điện tử ký số #HD-2026-88',
-      details: 'Đối soát tạm ứng 50% qua ngân hàng • Tạo Ticket khởi động dự án',
-      tag: 'Audit Log đã lưu',
-      tagType: 'audit'
-    }
-  },
-  {
-    id: 'step_dashboard',
-    stepNumber: 6,
-    label: 'Executive Dashboard',
-    shortRole: 'Cập nhật chỉ số BI',
-    action: 'Toàn bộ số liệu ghi nhận tức thì vào chỉ số Doanh thu, Pipeline và Báo cáo điều hành',
-    icon: BarChart3,
-    mockData: {
-      event: 'KPI Quý III: +320.000.000 VNĐ vào Pipeline',
-      details: 'Tỷ lệ chuyển đổi phễu tăng 1.8% • Cập nhật trực tiếp lên bảng chỉ số Lãnh đạo',
-      tag: 'Thời gian thực 24/7',
-      tagType: 'auto'
-    }
-  }
+const STEP_DEFINITIONS: StepDefinition[] = [
+  { id: 'step_form', stepNumber: 1, icon: Globe, keyPrefix: 'step1', tagType: 'auto' },
+  { id: 'step_crm', stepNumber: 2, icon: Database, keyPrefix: 'step2', tagType: 'auto' },
+  { id: 'step_sales', stepNumber: 3, icon: Users, keyPrefix: 'step3', tagType: 'auto' },
+  { id: 'step_approval', stepNumber: 4, icon: CheckSquare, keyPrefix: 'step4', tagType: 'approval' },
+  { id: 'step_finance_cs', stepNumber: 5, icon: CreditCard, keyPrefix: 'step5', tagType: 'audit' },
+  { id: 'step_bi', stepNumber: 6, icon: BarChart3, keyPrefix: 'step6', tagType: 'auto' }
 ];
 
 export const HeroWorkflowDemo: React.FC = () => {
+  const { t } = useI18n();
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -114,13 +31,26 @@ export const HeroWorkflowDemo: React.FC = () => {
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
-      setActiveStepIndex((prev) => (prev + 1) % WORKFLOW_STEPS.length);
+      setActiveStepIndex((prev) => (prev + 1) % STEP_DEFINITIONS.length);
     }, 4000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
-  const currentStep = WORKFLOW_STEPS[activeStepIndex];
-  const CurrentIcon = currentStep.icon;
+  const currentDef = STEP_DEFINITIONS[activeStepIndex];
+  const CurrentIcon = currentDef.icon;
+
+  const getStepData = (def: StepDefinition) => {
+    return {
+      label: t(`home.workflowDemo.steps.${def.keyPrefix}.label`, ''),
+      shortRole: t(`home.workflowDemo.steps.${def.keyPrefix}.shortRole`, ''),
+      action: t(`home.workflowDemo.steps.${def.keyPrefix}.action`, ''),
+      event: t(`home.workflowDemo.steps.${def.keyPrefix}.event`, ''),
+      details: t(`home.workflowDemo.steps.${def.keyPrefix}.details`, ''),
+      tag: t(`home.workflowDemo.steps.${def.keyPrefix}.tag`, '')
+    };
+  };
+
+  const currentData = getStepData(currentDef);
 
   return (
     <div
@@ -134,25 +64,30 @@ export const HeroWorkflowDemo: React.FC = () => {
           <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block"></span>
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block"></span>
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
-          <span className="ml-2 font-mono text-[11px] text-slate-400">luong-van-hanh-doanh-nghiep.os</span>
+          <span className="ml-2 font-mono text-[11px] text-slate-400">
+            {t('home.workflowDemo.osFileName', 'luong-van-hanh-doanh-nghiep.os')}
+          </span>
         </div>
         <div className="flex items-center gap-1.5 text-[10px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-medium">
           <Activity className="w-3 h-3 text-amber-400 animate-pulse" />
-          <span>Minh họa vận hành</span>
+          <span>{t('home.workflowDemo.demoTag', 'Minh họa vận hành')}</span>
         </div>
       </div>
 
       {/* Horizontal Mini-Steppers */}
       <div>
         <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium mb-2">
-          <span>Hành trình dữ liệu liên phòng ban:</span>
-          <span className="font-mono text-[#06B6D4]">Bước {activeStepIndex + 1}/6</span>
+          <span>{t('home.workflowDemo.journeyTitle', 'Hành trình dữ liệu liên phòng ban:')}</span>
+          <span className="font-mono text-[#06B6D4]">
+            {t('home.workflowDemo.stepCount', `Bước ${activeStepIndex + 1}/6`, { current: activeStepIndex + 1 })}
+          </span>
         </div>
         
         <div className="grid grid-cols-6 gap-1 sm:gap-1.5">
-          {WORKFLOW_STEPS.map((step, idx) => {
+          {STEP_DEFINITIONS.map((step, idx) => {
             const isCurrent = idx === activeStepIndex;
             const isCompleted = idx < activeStepIndex;
+            const data = getStepData(step);
             return (
               <button
                 key={step.id}
@@ -174,7 +109,7 @@ export const HeroWorkflowDemo: React.FC = () => {
                   {isCompleted && <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400 shrink-0 ml-auto hidden sm:block" />}
                 </div>
                 <div className="truncate font-medium text-[10px] sm:text-[11px] mt-0.5">
-                  {step.label.split('/')[0]}
+                  {data.label.split('/')[0]}
                 </div>
               </button>
             );
@@ -193,38 +128,40 @@ export const HeroWorkflowDemo: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[10px] text-[#06B6D4] uppercase tracking-wider font-semibold">
-                    Bước 0{currentStep.stepNumber}
+                    {t('home.workflowDemo.stepPrefix', `Bước 0${currentDef.stepNumber}`, { num: currentDef.stepNumber })}
                   </span>
-                  <span className="text-[10px] text-slate-400 font-mono">• {currentStep.shortRole}</span>
+                  <span className="text-[10px] text-slate-400 font-mono">• {currentData.shortRole}</span>
                 </div>
-                <h4 className="text-sm font-bold text-white leading-snug">{currentStep.label}</h4>
+                <h4 className="text-sm font-bold text-white leading-snug">{currentData.label}</h4>
               </div>
             </div>
 
             <span
               className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                currentStep.mockData.tagType === 'approval'
+                currentDef.tagType === 'approval'
                   ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                  : currentStep.mockData.tagType === 'audit'
+                  : currentDef.tagType === 'audit'
                   ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
                   : 'bg-blue-500/20 text-blue-300 border-blue-500/40'
               }`}
             >
-              {currentStep.mockData.tag}
+              {currentData.tag}
             </span>
           </div>
 
-          <p className="text-xs text-slate-300 leading-relaxed">{currentStep.action}</p>
+          <p className="text-xs text-slate-300 leading-relaxed">{currentData.action}</p>
         </div>
 
         {/* Data payload simulated block */}
         <div className="p-2.5 rounded-lg bg-black/40 border border-slate-800 font-mono text-[11px] space-y-1">
           <div className="flex items-center gap-1.5 text-slate-400">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
-            <span className="text-[10px] text-slate-400 font-semibold uppercase">Dữ liệu luân chuyển:</span>
+            <span className="text-[10px] text-slate-400 font-semibold uppercase">
+              {t('home.workflowDemo.dataMovementLabel', 'Dữ liệu luân chuyển:')}
+            </span>
           </div>
-          <div className="text-slate-200 font-medium truncate">{currentStep.mockData.event}</div>
-          <div className="text-slate-400 text-[10px] truncate">{currentStep.mockData.details}</div>
+          <div className="text-slate-200 font-medium truncate">{currentData.event}</div>
+          <div className="text-slate-400 text-[10px] truncate">{currentData.details}</div>
         </div>
       </div>
 
@@ -232,17 +169,19 @@ export const HeroWorkflowDemo: React.FC = () => {
       <div className="flex items-center justify-between pt-1 text-[11px] text-slate-400">
         <div className="flex items-center gap-1.5">
           <Shield className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-[10px]">Dữ liệu liên thông khép kín, kiểm soát quyền theo vai trò</span>
+          <span className="text-[10px]">
+            {t('home.workflowDemo.closedLoopGuard', 'Dữ liệu liên thông khép kín, kiểm soát quyền theo vai trò')}
+          </span>
         </div>
         <button
           type="button"
           onClick={() => {
-            setActiveStepIndex((prev) => (prev + 1) % WORKFLOW_STEPS.length);
+            setActiveStepIndex((prev) => (prev + 1) % STEP_DEFINITIONS.length);
             setIsAutoPlaying(false);
           }}
           className="inline-flex items-center gap-1 text-[11px] text-[#06B6D4] hover:text-white font-medium transition-colors cursor-pointer"
         >
-          <span>Bước kế</span>
+          <span>{t('home.workflowDemo.nextStepButton', 'Bước kế')}</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
