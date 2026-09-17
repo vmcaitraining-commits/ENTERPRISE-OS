@@ -25,7 +25,7 @@ export const SalesVisuals: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400 hover:text-[#0B1F3A] dark:hover:text-white'
             }`}
           >
-            {isEn ? '1. Kanban Pipeline' : '1. Kanban Pipeline'}
+            {t('solutions.visuals.sales.tabPipeline', isEn ? '1. Kanban Pipeline' : '1. Kanban Pipeline')}
           </button>
           <button
             type="button"
@@ -36,7 +36,7 @@ export const SalesVisuals: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400 hover:text-[#0B1F3A] dark:hover:text-white'
             }`}
           >
-            {isEn ? '2. Customer 360' : '2. Customer 360'}
+            {t('solutions.visuals.sales.tabCustomer360', isEn ? '2. Customer 360' : '2. Customer 360')}
           </button>
           <button
             type="button"
@@ -47,7 +47,7 @@ export const SalesVisuals: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400 hover:text-[#0B1F3A] dark:hover:text-white'
             }`}
           >
-            {isEn ? '3. Sales Funnel' : '3. Phễu chuyển đổi (Funnel)'}
+            {t('solutions.visuals.sales.tabFunnel', isEn ? '3. Sales Funnel' : '3. Phễu chuyển đổi (Funnel)')}
           </button>
           <button
             type="button"
@@ -58,11 +58,11 @@ export const SalesVisuals: React.FC = () => {
                 : 'text-slate-600 dark:text-slate-400 hover:text-[#0B1F3A] dark:hover:text-white'
             }`}
           >
-            {isEn ? '4. Contract → Finance → Support Flow' : '4. Liên thông Hợp đồng → Kế toán → CSKH'}
+            {t('solutions.visuals.sales.tabHandoff', isEn ? '4. Contract → Finance → Support Flow' : '4. Liên thông Hợp đồng → Kế toán → CSKH')}
           </button>
         </div>
         <span className="text-[11px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800">
-          {isEn ? '[Illustrative Data]' : '[Dữ liệu minh họa]'}
+          {t('solutions.visuals.common.illustrativeData', isEn ? '[Illustrative Data]' : '[Dữ liệu minh họa]')}
         </span>
       </div>
 
@@ -73,17 +73,17 @@ export const SalesVisuals: React.FC = () => {
             <div>
               <h4 className="text-sm font-bold text-[#0B1F3A] dark:text-white flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#155EEF] dark:text-[#06B6D4]" />
-                {isEn ? 'Sales Opportunity Pipeline' : 'Đường ống cơ hội bán hàng (Sales Opportunity Pipeline)'}
+                {t('solutions.visuals.sales.pipelineTitle', isEn ? 'Sales Opportunity Pipeline' : 'Đường ống cơ hội bán hàng (Sales Opportunity Pipeline)')}
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {isEn
+                {t('solutions.visuals.sales.pipelineSubtitle', isEn
                   ? 'Track deal progression from initial lead intake to won contracts and customer handoff'
-                  : 'Theo dõi tiến độ từ lúc tiếp nhận lead đến khi chốt hợp đồng và chuyển giao'}
+                  : 'Theo dõi tiến độ từ lúc tiếp nhận lead đến khi chốt hợp đồng và chuyển giao')}
               </p>
             </div>
             <div className="flex items-center gap-3 text-xs text-slate-500">
               <span>
-                {isEn ? 'Total Pipeline Value: ' : 'Tổng giá trị đường ống: '}
+                {t('solutions.visuals.sales.pipelineTotalLabel', isEn ? 'Total Pipeline Value: ' : 'Tổng giá trị đường ống: ')}
                 <strong className="text-emerald-600 dark:text-emerald-400 font-mono">1.480.000.000 đ</strong>
               </span>
             </div>
@@ -95,7 +95,7 @@ export const SalesVisuals: React.FC = () => {
             <div className="bg-slate-50/80 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
-                  {isEn ? 'Outreach & Qualify' : 'Tiếp cận & Đánh giá'}
+                  {t('solutions.visuals.sales.colApproach', isEn ? 'Outreach & Qualify' : 'Tiếp cận & Đánh giá')}
                 </span>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold">4 deal</span>
               </div>

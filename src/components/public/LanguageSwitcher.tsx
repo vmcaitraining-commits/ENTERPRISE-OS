@@ -93,7 +93,8 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   );
 
   const handleSelectLocale = (code: LocaleCode) => {
-    const isSelectable = isLocalePublished(code) || (code === 'en' && isDevOrTestMode);
+    const item = SUPPORTED_LOCALES[code];
+    const isSelectable = isLocalePublished(code) || (item?.status === 'draft' && isDevOrTestMode);
     if (!isSelectable) return;
 
     changeLocale(code);

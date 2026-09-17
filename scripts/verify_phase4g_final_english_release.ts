@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Load i18n modules
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE, isLocalePublished } from '../src/i18n/registry';
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, isLocalePublished, getPublishedLocales } from '../src/i18n/registry';
 import { parsePathLocale, buildLocalizedPath } from '../src/i18n/parser';
 import {
   namespaceLoaders,
@@ -409,14 +409,15 @@ if (SUPPORTED_LOCALES.en.status === 'draft') {
     log(`  ✓ sitemap.xml verified with exactly 38 published Vietnamese URLs (0 draft /en/ URLs leaked).`);
   }
 } else if (SUPPORTED_LOCALES.en.status === 'published') {
-  if (sitemapUrls.length !== 76) {
+  const expectedCount = SUPPORTED_LOCALES['zh-CN'].status === 'published' ? 114 : 76;
+  if (sitemapUrls.length !== expectedCount) {
     issues.push({
       section: 'Sitemap',
       type: 'ERROR',
-      message: `Expected 76 URLs in sitemap.xml when EN is published, found ${sitemapUrls.length}`
+      message: `Expected ${expectedCount} URLs in sitemap.xml, found ${sitemapUrls.length}`
     });
   } else {
-    log(`  ✓ sitemap.xml verified with exactly 76 published URLs (38 VI + 38 EN).`);
+    log(`  ✓ sitemap.xml verified with exactly ${expectedCount} published URLs.`);
   }
 }
 
@@ -428,7 +429,8 @@ for (const url of sitemapUrls) {
       message: `Disallowed admin path in sitemap: ${url}`
     });
   }
-  if (url.includes('zh') || url.includes('ja') || url.includes('ko')) {
+  const hasPlanned = ['/ja', '/ko', '/de', '/fr', '/es'].some((seg) => url.includes(seg));
+  if (hasPlanned) {
     issues.push({
       section: 'Sitemap',
       type: 'ERROR',
@@ -620,14 +622,15 @@ try {
     SUPPORTED_LOCALES.en.status = 'published';
     const simulatedXml = generateSitemapXml();
     const simulatedMatches = simulatedXml.match(/<loc>(.*?)<\/loc>/g) || [];
-    if (simulatedMatches.length !== 76) {
+    const expectedSimulated = getPublishedLocales().length * 38;
+    if (simulatedMatches.length !== expectedSimulated) {
       issues.push({
         section: 'Future Architecture',
         type: 'ERROR',
-        message: `Simulated published sitemap expected 76 URLs, got ${simulatedMatches.length}`
+        message: `Simulated published sitemap expected ${expectedSimulated} URLs, got ${simulatedMatches.length}`
       });
     } else {
-      log(`  ✓ Simulation verified: promoting en -> 'published' automatically synchronizes sitemap to 76 URLs (38 VI + 38 EN).`);
+      log(`  ✓ Simulation verified: promoting en -> 'published' automatically synchronizes sitemap to ${expectedSimulated} URLs across ${getPublishedLocales().length} published locales.`);
     }
   } finally {
     SUPPORTED_LOCALES.en.status = originalStatus;

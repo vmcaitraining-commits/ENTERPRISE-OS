@@ -34,6 +34,22 @@ export const namespaceLoaders: Record<string, Record<string, () => Promise<{ def
     resources: () => import('./locales/en/resources'),
     about: () => import('./locales/en/about'),
     contact: () => import('./locales/en/contact'),
+  },
+  'zh-CN': {
+    common: () => import('./locales/zh-CN/common'),
+    nav: () => import('./locales/zh-CN/nav'),
+    forms: () => import('./locales/zh-CN/forms'),
+    accessibility: () => import('./locales/zh-CN/accessibility'),
+    notFound: () => import('./locales/zh-CN/notFound'),
+    home: () => import('./locales/zh-CN/home'),
+    aiEnterprise: () => import('./locales/zh-CN/aiEnterprise'),
+    solutions: () => import('./locales/zh-CN/solutions'),
+    industries: () => import('./locales/zh-CN/industries'),
+    aiCopilots: () => import('./locales/zh-CN/aiCopilots'),
+    capabilities: () => import('./locales/zh-CN/capabilities'),
+    resources: () => import('./locales/zh-CN/resources'),
+    about: () => import('./locales/zh-CN/about'),
+    contact: () => import('./locales/zh-CN/contact'),
   }
 };
 

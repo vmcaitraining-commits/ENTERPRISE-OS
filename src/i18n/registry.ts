@@ -26,7 +26,7 @@ export const SUPPORTED_LOCALES: Record<LocaleCode, LocaleMetadata> = {
     name: 'Chinese (Simplified)',
     nativeName: '简体中文',
     flag: '🇨🇳',
-    status: 'planned',
+    status: 'published', // Formally approved by Human Approver for public release
     direction: 'ltr',
     isDefault: false
   },

@@ -314,6 +314,161 @@ export const routeSeoMapEn: Record<string, { title: string; description: string 
   }
 };
 
+export const routeSeoMapZh: Record<string, { title: string; description: string }> = {
+  '/': {
+    title: 'VMC Group | 企业级 AI 操作系统架构师',
+    description: 'VMC Group 构建由 AI 驱动的企业操作系统，在统一平台上融合人、数据、流程、软件与 AI 协同助理。'
+  },
+  '/ai-enterprise': {
+    title: 'AI ENTERPRISE | 融合 11 大功能分系统的企业操作系统 - VMC Group',
+    description: '融合门户、CRM、客服、运营、财务至安全与细粒度 RBAC 权限的 11 大分系统架构设计。'
+  },
+  '/solutions': {
+    title: '企业数字化运营解决方案体系 | VMC Group',
+    description: '全面概览 VMC Group 针对各业务部门及数字化转型需求的企业级运营解决方案。'
+  },
+  '/solutions/sales': {
+    title: '销售业务 (Sales) 与客户管道解决方案 | VMC Group',
+    description: '360 度全方位客户档案、多渠道销售漏斗、标准化报价体系与业务营收转化。'
+  },
+  '/solutions/marketing': {
+    title: '全渠道数字营销与业务增长解决方案 | VMC Group',
+    description: '营销活动全流程追踪、优化获客成本 (CAC)，并与销售漏斗数据无缝直连打通。'
+  },
+  '/solutions/customer-service': {
+    title: '客户服务 (CSKH) 与 SLA 工单管理解决方案 | VMC Group',
+    description: '全渠道统一接入、客户投诉工单自动化分流、SLA 履约时效闭环监督与客户满意度提升。'
+  },
+  '/solutions/hr': {
+    title: '人力资源治理与智能考勤薪酬解决方案 | VMC Group',
+    description: '集中式员工档案库、自动化智能考勤、薪资核算对账校验与数字化招聘培训规程。'
+  },
+  '/solutions/finance': {
+    title: '财务会计核算与现金流管控解决方案 | VMC Group',
+    description: '实时监测收支资金流、客户往来账款治理、备用金借支审批受控流转与运营预算红线预警。'
+  },
+  '/solutions/management': {
+    title: '企业经营调度与目标治理解决方案 | VMC Group',
+    description: '面向高管层的全局经营综合指标驾驶舱，实时洞察 OKR/KPI 推进节奏，及时预警潜在运营风险。'
+  },
+  '/solutions/crm': {
+    title: '企业级 CRS / CRM | 客户 360 全景档案与销售漏斗 - VMC Group',
+    description: '360 度客户全生命周期档案、可视化商机阶段管道、往来交互历史日志、标准报价合同与业财对账。'
+  },
+  '/solutions/ai-agent': {
+    title: '企业级 AI Agent 协同网络架构解决方案 | VMC Group',
+    description: '业务专职 AI Agent 协同网络架构、人机协同 (Human-in-the-Loop) 审核机制与严格的 RBAC 数据管控红线。'
+  },
+  '/solutions/voice': {
+    title: 'AI 语音总机与智能通话转写分析解决方案 | VMC Group',
+    description: '自动化语音对话高精转写、无缝直连 VoIP/CRM、通话后结构化纪要生成与智能派发待办任务。'
+  },
+  '/solutions/automation': {
+    title: '业务流程自动化引擎 (Workflow Automation) SOP | VMC Group',
+    description: '基于“触发 - 条件 - 执行 - 审核 - 审计”五位一体机制构建的跨部门自动化引擎。'
+  },
+  '/solutions/website': {
+    title: '直连 CRM 核心底座的企业官方门户 | VMC Group',
+    description: '直通企业内部 CRM 系统的数字化企业官网，线索实时入库，转化效能透明可查。'
+  },
+  '/solutions/bi': {
+    title: '实时报表与高管商业智能 (BI) 中心 | VMC Group',
+    description: '实时自动更新的高管决策看板，全面覆盖 KPI/OKR 指标、营业收入、现金流水、人力效能及交付产能。'
+  },
+  '/industries': {
+    title: '面向 8 大核心行业的定制化解决方案 | VMC Group',
+    description: '深度契合商贸、专业服务、教育培训、房地产、制造加工、渠道分销、工程建设与高新科技行业。'
+  },
+  '/industries/trade': {
+    title: '商贸与零售企业运营解决方案 | VMC Group',
+    description: '全渠道线索汇聚、精准库存调拨、订单履约跟踪与商贸零售全生命周期闭环。'
+  },
+  '/industries/service': {
+    title: '专业服务型企业运营解决方案 | VMC Group',
+    description: '服务合同履约管理、项目阶段里程碑把控以及透明精准的人力资源投入核算。'
+  },
+  '/industries/education': {
+    title: '教育培训与招生管理企业解决方案 | VMC Group',
+    description: '潜客学员漏斗跟进、个性化咨询排期、学费交纳进度核验与学员全周期培养记录。'
+  },
+  '/industries/real-estate': {
+    title: '房地产开发与经纪代理解决方案 | VMC Group',
+    description: '楼盘项目房源销控管理、经纪渠道线索公道分配与交易佣金快速合规对账。'
+  },
+  '/industries/manufacturing': {
+    title: '制造加工与定制订单生产解决方案 | VMC Group',
+    description: '按订单进度统筹排产、原材料库存动态同步直连与单件产品成本精细核算。'
+  },
+  '/industries/distribution': {
+    title: '分销代理与渠道网络管控解决方案 | VMC Group',
+    description: '经销商分级价格体系、批量返利阶梯、应收账款授信额度与干线配送跟踪。'
+  },
+  '/industries/construction': {
+    title: '工程建设与项目现场管理解决方案 | VMC Group',
+    description: '招投标文件台账、分阶段工程节点验收、施工现场实际成本管控与分包商协同。'
+  },
+  '/industries/technology': {
+    title: '高新科技与数字化服务企业解决方案 | VMC Group',
+    description: 'B2B 大客户商机漏斗、周期性订阅合约 (MRR) 与持续性技术保障支持流程。'
+  },
+  '/ai': {
+    title: '9 大业务专职 AI Copilot 协同网络 | VMC Group',
+    description: '探索赋能业务骨干的 9 大 AI Copilot：AI CEO、Sales、Marketing、CSKH、HR、Finance、Voice、Workflow、RAG。'
+  },
+  '/ai/ceo': {
+    title: 'AI CEO Copilot - 高管决策协同助理 | VMC Group',
+    description: '多维综合洞察企业经营体征，敏锐探查现金流卡点，及时提供运营隐患前瞻预警。'
+  },
+  '/ai/sales': {
+    title: 'AI Sales Copilot - 销售赋能与线索转化助理 | VMC Group',
+    description: '潜在客资精准评分画像、输出定制化跟进沟通话术，自动化创建客户跟进待办日程。'
+  },
+  '/ai/marketing': {
+    title: 'AI Marketing Copilot - 营销活动智能优化助理 | VMC Group',
+    description: '深度剖析客户画像偏好、起草高转化触达文案，持续优化综合获客成本 (CAC)。'
+  },
+  '/ai/customer-service': {
+    title: 'AI CSKH Copilot - 客服工单与 SLA 履约助理 | VMC Group',
+    description: '建议客户投诉专业应对方案、智能判定紧急程度等级，辅助客服专员规范标准应答。'
+  },
+  '/ai/hr': {
+    title: 'AI HR Copilot - 人事考勤与招聘评估助理 | VMC Group',
+    description: '高效初筛候选人履历、智能化考勤数据校验核对，规范拟定员工绩效评估建议草案。'
+  },
+  '/ai/finance': {
+    title: 'AI Finance Copilot - 现金流管理与业财对账助理 | VMC Group',
+    description: '智能勾稽发票原始凭证、细致筛查异常运营支出，定期出具前瞻性现金流预算报告。'
+  },
+  '/ai/voice': {
+    title: 'AI Voice Copilot - 语音通话智能分析助理 | VMC Group',
+    description: '录音高精自动化转写、通话后快速萃取核心纪要，自动沉淀沟通历史至 CRM 客户档案。'
+  },
+  '/ai/workflow': {
+    title: 'AI Workflow Copilot - 数字化 SOP 流程自动化助理 | VMC Group',
+    description: '敏锐识别业务流程断点、科学建议跨部门任务调配，实时预防工单超时超期违约。'
+  },
+  '/ai/rag': {
+    title: 'AI Search / RAG - 企业内部知识检索问答助理 | VMC Group',
+    description: '支持以自然语言快速精准调阅企业制度章程、标准 SOP 手册及产品技术全套文档。'
+  },
+  '/capabilities': {
+    title: '实战落地能力与 6 大实施阶段路线图 | VMC Group',
+    description: '4 大实操落地核心能力支柱，结合 6 大标准化推进阶段，规范交付实用可靠的 AI ENTERPRISE 系统。'
+  },
+  '/resources': {
+    title: '运营资源知识库与保密协议 (NDA) 承诺 | VMC Group',
+    description: '系统架构参考蓝图、数字化 SOP 规程框架、100% 数据主权保护原则及常见疑难解答。'
+  },
+  '/about': {
+    title: '关于 VMC Group | 战略愿景、企业使命与务实准则',
+    description: 'VMC Group 企业档案、系统架构师定位、务实的人工智能应用理念与 6 大实施标准。'
+  },
+  '/contact': {
+    title: '联系我们 & 预约系统架构咨询 | VMC Group',
+    description: '递交企业运营现状调研诉求，获取 VMC Group 资深系统架构师专属定制的咨询规划方案。'
+  }
+};
+
 interface RouterContextType {
   currentPath: string;
   locale: LocaleCode;
@@ -380,14 +535,14 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const isPublished = isLocalePublished(locale);
     const isKnownRoute = Boolean(routeSeoMap[basePath]);
 
-    const activeSeoMap = locale === 'en' ? routeSeoMapEn : routeSeoMap;
+    const activeSeoMap = locale === 'zh-CN' ? routeSeoMapZh : (locale === 'en' ? routeSeoMapEn : routeSeoMap);
     const seo = activeSeoMap[basePath] || routeSeoMap[basePath] || {
       title: isKnownRoute
-        ? (locale === 'en' ? 'VMC Group | Enterprise AI Operating System' : 'VMC Group | Hệ Thống Doanh Nghiệp Vận Hành Bằng AI')
-        : (locale === 'en' ? 'Page Not Found (404) | VMC Group' : 'Trang Không Tìm Thấy (404) | VMC Group'),
+        ? (locale === 'zh-CN' ? 'VMC Group | 企业级 AI 操作系统' : (locale === 'en' ? 'VMC Group | Enterprise AI Operating System' : 'VMC Group | Hệ Thống Doanh Nghiệp Vận Hành Bằng AI'))
+        : (locale === 'zh-CN' ? '页面未找到 (404) | VMC Group' : (locale === 'en' ? 'Page Not Found (404) | VMC Group' : 'Trang Không Tìm Thấy (404) | VMC Group')),
       description: isKnownRoute
-        ? (locale === 'en' ? 'Public website VMCGROUP.COM and VMC Group Enterprise AI Operating System.' : 'Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.')
-        : (locale === 'en' ? 'The requested page does not exist or has been redirected.' : 'Trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển hướng.')
+        ? (locale === 'zh-CN' ? 'VMCGROUP.COM 官方门户与 VMC Group 企业级 AI 操作系统。' : (locale === 'en' ? 'Public website VMCGROUP.COM and VMC Group Enterprise AI Operating System.' : 'Website công khai VMCGROUP.COM và Hệ thống Quản trị Hệ điều hành Doanh nghiệp AI VMC Group.'))
+        : (locale === 'zh-CN' ? '您访问的页面不存在或已被重定向。' : (locale === 'en' ? 'The requested page does not exist or has been redirected.' : 'Trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển hướng.'))
     };
 
     document.title = seo.title;
@@ -430,9 +585,8 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     // Dynamic Canonical URL:
     // VI: /solutions/crm -> https://vmcgroup.com/solutions/crm
     // EN: /en/solutions/crm -> https://vmcgroup.com/en/solutions/crm
-    const canonicalHref = locale === 'en'
-      ? `https://vmcgroup.com${basePath === '/' ? '/en' : `/en${basePath}`}`
-      : `https://vmcgroup.com${basePath === '/' ? '/' : basePath}`;
+    // zh-CN: /zh-CN/solutions/crm -> https://vmcgroup.com/zh-CN/solutions/crm (draft, accompanied by noindex, nofollow)
+    const canonicalHref = `https://vmcgroup.com${buildLocalizedPath(basePath, locale)}`;
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -488,7 +642,7 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         {
           '@type': 'ListItem',
           position: 1,
-          name: locale === 'en' ? 'Home' : 'Trang chủ',
+          name: locale === 'zh-CN' ? '首页' : (locale === 'en' ? 'Home' : 'Trang chủ'),
           item: `https://vmcgroup.com${locale === DEFAULT_LOCALE ? '/' : `/${locale}`}`
         }
       ];
