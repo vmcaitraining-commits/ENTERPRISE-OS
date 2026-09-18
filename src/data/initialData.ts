@@ -392,17 +392,17 @@ export const initialEnterpriseData: EnterpriseData = {
       title: 'Logo chính thức',
       type: 'Logo chính',
       status: 'Đã xác nhận',
-      format: 'SVG / Vector',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120"><rect width="400" height="120" rx="12" fill="%230B1F3A"/><path d="M40 35 L60 85 L80 35 L68 35 L60 62 L52 35 Z" fill="%23155EEF"/><path d="M75 35 L95 85 L115 35 L105 35 L95 62 L85 35 Z" fill="%2306B6D4"/><circle cx="125" cy="55" r="7" fill="%23D9A62E"/><text x="145" y="65" font-family="system-ui, sans-serif" font-weight="800" font-size="34" fill="%23FFFFFF" letter-spacing="1">VMC</text><text x="235" y="65" font-family="system-ui, sans-serif" font-weight="400" font-size="28" fill="%2306B6D4">GROUP</text><text x="146" y="85" font-family="system-ui, sans-serif" font-weight="500" font-size="11" fill="%2394A3B8" letter-spacing="2">AI ENTERPRISE OS</text></svg>',
-      usageNote: 'Sử dụng làm logo chính thức trong giai đoạn khởi tạo'
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-logo-primary.svg',
+      usageNote: 'Logo chuẩn chính thức của VMC Group, sử dụng cho các tài liệu, nền tảng và điểm chạm thương hiệu chính.'
     },
     {
       id: 'logo_2',
       title: 'Logo bố cục ngang',
       type: 'Logo ngang',
       status: 'Đã xác nhận',
-      format: 'SVG / PNG',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100" width="500" height="100"><rect width="500" height="100" rx="10" fill="%23FFFFFF" stroke="%23E2E8F0"/><path d="M30 25 L48 75 L66 25 L56 25 L48 52 L40 25 Z" fill="%230B1F3A"/><path d="M60 25 L78 75 L96 25 L86 25 L78 52 L70 25 Z" fill="%23155EEF"/><text x="115" y="58" font-family="system-ui, sans-serif" font-weight="800" font-size="30" fill="%230B1F3A">VMC</text><text x="190" y="58" font-family="system-ui, sans-serif" font-weight="400" font-size="26" fill="%23155EEF">GROUP</text><text x="117" y="78" font-family="system-ui, sans-serif" font-weight="600" font-size="10" fill="%2364748B" letter-spacing="1.5">AI ENTERPRISE SYSTEM</text></svg>',
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-logo-horizontal.svg',
       usageNote: 'Dành cho thanh điều hướng Header, Navbar, tài liệu văn bản ngang'
     },
     {
@@ -410,8 +410,8 @@ export const initialEnterpriseData: EnterpriseData = {
       title: 'Biểu tượng thương hiệu (Symbol)',
       type: 'Logo biểu tượng',
       status: 'Đã xác nhận',
-      format: 'SVG / Vector',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120"><rect width="120" height="120" rx="24" fill="%230B1F3A"/><path d="M30 35 L48 85 L66 35 L56 35 L48 60 L40 35 Z" fill="%23155EEF"/><path d="M55 35 L73 85 L91 35 L81 35 L73 60 L65 35 Z" fill="%2306B6D4"/><circle cx="95" cy="45" r="6" fill="%23D9A62E"/></svg>',
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-symbol.svg',
       usageNote: 'Avatar, App Icon, dấu ấn thương hiệu và mạng xã hội'
     },
     {
@@ -419,8 +419,8 @@ export const initialEnterpriseData: EnterpriseData = {
       title: 'Logo nền sáng',
       type: 'Logo nền sáng',
       status: 'Đã xác nhận',
-      format: 'SVG / Transparent PNG',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100" width="360" height="100"><text x="20" y="60" font-family="system-ui, sans-serif" font-weight="800" font-size="34" fill="%230B1F3A">VMC</text><text x="105" y="60" font-family="system-ui, sans-serif" font-weight="500" font-size="30" fill="%23155EEF">GROUP</text><text x="21" y="80" font-family="system-ui, sans-serif" font-weight="600" font-size="10" fill="%2306B6D4" letter-spacing="2">DATA • TECH • AI</text></svg>',
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-logo-light.svg',
       usageNote: 'Hiển thị trên nền trắng hoặc sáng màu (#F8FAFC, #FFFFFF)'
     },
     {
@@ -428,29 +428,30 @@ export const initialEnterpriseData: EnterpriseData = {
       title: 'Logo nền tối',
       type: 'Logo nền tối',
       status: 'Đã xác nhận',
-      format: 'SVG / Transparent PNG',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100" width="360" height="100"><rect width="360" height="100" rx="8" fill="%230B1F3A"/><text x="25" y="60" font-family="system-ui, sans-serif" font-weight="800" font-size="34" fill="%23FFFFFF">VMC</text><text x="110" y="60" font-family="system-ui, sans-serif" font-weight="500" font-size="30" fill="%2306B6D4">GROUP</text><text x="26" y="80" font-family="system-ui, sans-serif" font-weight="600" font-size="10" fill="%23D9A62E" letter-spacing="2">DATA • TECH • AI</text></svg>',
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-logo-dark.svg',
       usageNote: 'Hiển thị trên nền tối hoặc Navy (#0B1F3A, #0F172A)'
     },
     {
       id: 'logo_6',
-      title: 'Logo đơn sắc trắng',
+      title: 'Logo đơn sắc',
       type: 'Logo trắng',
       status: 'Đã xác nhận',
-      format: 'Monochrome White SVG',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100" width="360" height="100"><rect width="360" height="100" rx="8" fill="%23334155"/><text x="25" y="60" font-family="system-ui, sans-serif" font-weight="800" font-size="34" fill="%23FFFFFF">VMC</text><text x="110" y="60" font-family="system-ui, sans-serif" font-weight="400" font-size="30" fill="%23FFFFFF">GROUP</text><text x="26" y="80" font-family="system-ui, sans-serif" font-weight="500" font-size="10" fill="%23E2E8F0" letter-spacing="2">ENTERPRISE SYSTEM</text></svg>',
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-logo-monochrome.svg',
       usageNote: 'In ấn đơn sắc, ấn phẩm khắc laser, quà tặng doanh nghiệp'
     },
     {
       id: 'logo_7',
-      title: 'Favicon trình duyệt',
+      title: 'Favicon & App Icon',
       type: 'Favicon',
       status: 'Đã xác nhận',
-      format: 'ICO / SVG / PNG 32x32',
-      url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="6" fill="%230B1F3A"/><text x="4" y="23" font-family="system-ui, sans-serif" font-weight="900" font-size="17" fill="%2306B6D4">V</text><circle cx="24" cy="10" r="3" fill="%23D9A62E"/></svg>',
+      format: 'SVG Vector',
+      url: '/brand/logo/vmc-symbol.svg',
       usageNote: 'Hiển thị trên tab trình duyệt và bookmark'
     }
   ],
+  activeWebsiteLogoId: 'logo_1',
   typography: [
     { level: 'Heading', fontFamily: 'Be Vietnam Pro', weight: 'Bold / ExtraBold (700 – 800)', size: '24px – 36px', usage: 'Tiêu đề trang lớn, banner chính, tiêu đề cấp 1' },
     { level: 'Subheading', fontFamily: 'Be Vietnam Pro', weight: 'SemiBold (600 – 700)', size: '18px – 22px', usage: 'Tiêu đề module, tiêu đề card, section' },

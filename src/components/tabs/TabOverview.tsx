@@ -1,10 +1,12 @@
 import React from 'react';
 import { useEnterprise } from '../../context/EnterpriseContext';
+import { usePublicRouter } from '../../context/PublicRouterContext';
 import { StatusBadge } from '../common/StatusBadge';
 import { Globe, Mail, Phone, MapPin, TrendingUp, User, ArrowRight, Sparkles, Cpu, Target, ShieldCheck } from 'lucide-react';
 
 export const TabOverview: React.FC = () => {
-  const { data, tempData, isEditing, setActiveTab } = useEnterprise();
+  const { data, tempData, isEditing } = useEnterprise();
+  const { navigate } = usePublicRouter();
   const currentData = isEditing ? tempData : data;
   const officialLogo = currentData.brandLogos.find(l => l.type === 'Logo chính') || currentData.brandLogos[0];
 
@@ -50,7 +52,7 @@ export const TabOverview: React.FC = () => {
           <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 w-full lg:w-auto shrink-0">
             <button
               id="btn-overview-to-profile"
-              onClick={() => setActiveTab(2)}
+              onClick={() => navigate('/admin/company/profile')}
               className="px-4 py-2.5 bg-[#0B1F3A] hover:bg-[#155EEF] text-white text-xs sm:text-sm font-semibold rounded-xl flex items-center justify-between gap-3 transition-colors shadow-xs cursor-pointer"
             >
               <span>Xem toàn bộ hồ sơ</span>
@@ -58,7 +60,7 @@ export const TabOverview: React.FC = () => {
             </button>
             <button
               id="btn-overview-to-media"
-              onClick={() => setActiveTab(6)}
+              onClick={() => navigate('/admin/company/media')}
               className="px-4 py-2.5 bg-slate-50 hover:bg-slate-100 text-[#0B1F3A] border border-[#CBD5E1] text-xs sm:text-sm font-medium rounded-xl flex items-center justify-between gap-3 transition-colors cursor-pointer"
             >
               <span>Kho ảnh & Video</span>
@@ -171,7 +173,7 @@ export const TabOverview: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => setActiveTab(3)}
+            onClick={() => navigate('/admin/company/strategy')}
             className="mt-4 pt-3 border-t border-[#F1F5F9] text-xs font-semibold text-[#155EEF] hover:text-blue-700 flex items-center gap-1 cursor-pointer"
           >
             <span>Xem chi tiết định vị</span>
@@ -197,7 +199,7 @@ export const TabOverview: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => setActiveTab(3)}
+            onClick={() => navigate('/admin/company/strategy')}
             className="mt-4 pt-3 border-t border-[#F1F5F9] text-xs font-semibold text-[#06B6D4] hover:text-cyan-700 flex items-center gap-1 cursor-pointer"
           >
             <span>Xem chi tiết tầm nhìn</span>
@@ -223,7 +225,7 @@ export const TabOverview: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => setActiveTab(3)}
+            onClick={() => navigate('/admin/company/strategy')}
             className="mt-4 pt-3 border-t border-[#F1F5F9] text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer"
           >
             <span>Xem 4 trụ cột sứ mệnh</span>
@@ -254,7 +256,7 @@ export const TabOverview: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => setActiveTab(4)}
+            onClick={() => navigate('/admin/company/products-market')}
             className="mt-4 pt-3 border-t border-white/10 text-xs font-semibold text-[#06B6D4] hover:text-white flex items-center justify-between cursor-pointer"
           >
             <span>Khám phá hệ sinh thái AI Enterprise</span>

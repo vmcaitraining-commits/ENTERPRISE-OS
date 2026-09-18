@@ -32,7 +32,7 @@ export const parsePathLocale = (rawPath: string): ParsedPathResult => {
   if (cleanPath === '/admin' || cleanPath.startsWith('/admin/')) {
     return {
       locale: DEFAULT_LOCALE,
-      canonicalPath: '/admin',
+      canonicalPath: cleanPath,
       anchor,
       hasLocalePrefix: false
     };
@@ -80,7 +80,7 @@ export const parsePathLocale = (rawPath: string): ParsedPathResult => {
 export const buildLocalizedPath = (path: string, locale: LocaleCode, anchor?: string): string => {
   // Never localize admin
   if (path === '/admin' || path.startsWith('/admin/')) {
-    return '/admin';
+    return path;
   }
 
   // Separate any existing anchor in path

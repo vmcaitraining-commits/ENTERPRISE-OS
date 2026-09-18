@@ -34,9 +34,9 @@ export const TabStrategy: React.FC = () => {
 
   return (
     <div id="tab-content-strategy" className="space-y-6">
-      <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 shadow-2xs flex items-center justify-between">
+      <div className="bg-white rounded-xl border border-[#E5EAF1] p-4 sm:p-5 shadow-2xs flex items-center justify-between">
         <div>
-          <h2 className="text-base sm:text-lg font-bold text-[#0B1F3A]">Định vị & Chiến lược phát triển</h2>
+          <h2 className="text-base sm:text-lg font-bold text-[#0F1F3D]">Định vị & Chiến lược phát triển</h2>
           <p className="text-xs sm:text-sm text-[#64748B]">Bản chất tổ chức, định vị khác biệt và nguyên tắc truyền thông chuẩn mực</p>
         </div>
         <span className="text-xs font-semibold px-3 py-1 bg-blue-50 text-[#155EEF] rounded-full border border-blue-200">
@@ -52,20 +52,20 @@ export const TabStrategy: React.FC = () => {
             <div
               key={item.id}
               id={`card-strategy-${item.id}`}
-              className="bg-white rounded-xl border border-[#E2E8F0] p-5 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between"
+              className="bg-white rounded-xl border border-[#E5EAF1] p-5 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between"
             >
               <div>
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center shrink-0 border border-[#E2E8F0]">
+                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center shrink-0 border border-[#E5EAF1]">
                       {iconMap[item.id] || <Compass className="w-4 h-4 text-[#155EEF]" />}
                     </div>
                     <div>
                       <span className="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider block">
                         Mục {String(index + 1).padStart(2, '0')}
                       </span>
-                      <h3 className="text-base font-bold text-[#0B1F3A]">{item.title}</h3>
+                      <h3 className="text-base font-bold text-[#0F1F3D]">{item.title}</h3>
                     </div>
                   </div>
 

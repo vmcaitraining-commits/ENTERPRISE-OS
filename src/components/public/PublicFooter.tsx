@@ -3,6 +3,7 @@ import { usePublicRouter } from '../../context/PublicRouterContext';
 import { useEnterprise } from '../../context/EnterpriseContext';
 import { useI18n } from '../../i18n/I18nContext';
 import { PublicLink } from './PublicLink';
+import { BrandLogo } from '../common/BrandLogo';
 import { Mail, Globe, MapPin, Shield, ArrowRight, Activity } from 'lucide-react';
 import { NAV_INDUSTRIES } from './navigationData';
 
@@ -24,22 +25,15 @@ export const PublicFooter: React.FC = () => {
           {/* Column 1: Brand & Positioning */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/10 dark:bg-white/5 flex items-center justify-center text-white border border-white/20">
-                <div className="flex items-center tracking-tight">
-                  <span className="font-black text-base text-white">V</span>
-                  <span className="font-black text-base text-[#06B6D4]">M</span>
-                  <span className="font-black text-base text-[#155EEF]">C</span>
-                </div>
-              </div>
-              <div>
-                <div className="text-lg font-black text-white tracking-tight">{companyName}</div>
-                <div className="text-[11px] font-semibold text-[#06B6D4] uppercase tracking-wider">
-                  {t('common.brandTagline')}
-                </div>
+              <div className="flex items-center h-12 sm:h-13 w-auto">
+                <BrandLogo 
+                  variant="dark" 
+                  imgClassName="h-12 sm:h-13 w-auto max-w-[245px] sm:max-w-[270px] object-contain drop-shadow-sm" 
+                  alt={`${companyName} Logo`}
+                />
               </div>
             </div>
-
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm mt-2">
               {t('nav.footerDescription')}
             </p>
 

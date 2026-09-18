@@ -47,6 +47,7 @@ interface EnterpriseContextType {
   addBrandColor: (color: BrandColor) => void;
   deleteBrandColor: (id: string) => void;
   updateBrandLogo: (logo: BrandLogo) => void;
+  setActiveWebsiteLogo: (logoId: string) => void;
   updateMissingItemStatus: (id: number, status: 'Chưa có' | 'Đang xử lý' | 'Đã hoàn thành') => void;
   addMediaItem: (item: Omit<MediaItem, 'id' | 'uploadedAt' | 'uploader'>) => void;
   updateMediaItem: (id: string, updated: Partial<MediaItem>) => void;
@@ -72,7 +73,25 @@ export const EnterpriseProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [data, setData] = useState<EnterpriseData>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_DATA_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed: EnterpriseData = JSON.parse(saved);
+        if (!parsed.activeWebsiteLogoId) {
+          parsed.activeWebsiteLogoId = 'logo_1';
+        }
+        if (parsed.brandLogos && Array.isArray(parsed.brandLogos)) {
+          parsed.brandLogos = parsed.brandLogos.map(logo => {
+            // If the URL is an obsolete placeholder or points to a legacy .png path, upgrade to vector SVG
+            if (logo.url && (logo.url.endsWith('.png') || logo.url === '/brand/vmc-group-logo.png')) {
+              const defaultMatch = initialEnterpriseData.brandLogos.find(l => l.id === logo.id || l.type === logo.type);
+              if (defaultMatch) {
+                return { ...logo, url: defaultMatch.url, format: defaultMatch.format };
+              }
+            }
+            return logo;
+          });
+        }
+        return parsed;
+      }
     } catch {
       // fallback
     }
@@ -351,6 +370,25 @@ export const EnterpriseProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  const setActiveWebsiteLogo = (logoId: string) => {
+    const activeLogo = (isEditing ? tempData : data).brandLogos.find(l => l.id === logoId);
+    const updater = (targetData: EnterpriseData) => ({
+      ...targetData,
+      activeWebsiteLogoId: logoId
+    });
+
+    if (isEditing) {
+      setTempData(prev => updater(prev));
+    } else {
+      setData(prev => {
+        recordChange('Nhận diện thương hiệu', 'Logo Website', 'Thay đổi logo chính website', activeLogo?.title || logoId);
+        return updater(prev);
+      });
+      setTempData(prev => updater(prev));
+      showToast(`Đã chọn "${activeLogo?.title || 'Logo'}" làm logo chính thức trên Website`, 'success');
+    }
+  };
+
   const updateMissingItemStatus = (id: number, status: 'Chưa có' | 'Đang xử lý' | 'Đã hoàn thành') => {
     const item = data.missingDataItems.find(i => i.id === id);
     const updater = (targetData: EnterpriseData) => ({
@@ -525,6 +563,7 @@ export const EnterpriseProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         addBrandColor,
         deleteBrandColor,
         updateBrandLogo,
+        setActiveWebsiteLogo,
         updateMissingItemStatus,
         addMediaItem,
         updateMediaItem,

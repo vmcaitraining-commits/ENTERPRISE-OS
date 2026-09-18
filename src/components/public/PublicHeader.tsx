@@ -4,6 +4,7 @@ import { useEnterprise } from '../../context/EnterpriseContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useI18n } from '../../i18n/I18nContext';
 import { PublicLink } from './PublicLink';
+import { BrandLogo } from '../common/BrandLogo';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   NAV_DEPARTMENTS,
@@ -150,7 +151,7 @@ export const PublicHeader: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className={`flex items-center justify-between transition-all duration-200 ${
-            isScrolled ? 'h-14 sm:h-16' : 'h-16 sm:h-18'
+            isScrolled ? 'h-15 sm:h-16 md:h-17' : 'h-17 sm:h-19 md:h-20'
           }`}
         >
           {/* Brand Logo & Desktop Navigation */}
@@ -161,23 +162,13 @@ export const PublicHeader: React.FC = () => {
               className="flex items-center gap-2.5 sm:gap-3 group text-left focus:outline-none focus:ring-2 focus:ring-[#155EEF] rounded-xl p-1"
               aria-label={t('nav.brandHomeAria', { company: companyName })}
             >
-              {/* Brand Icon */}
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0B1F3A] dark:bg-slate-900 border border-slate-700/50 flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform shrink-0">
-                <div className="flex items-center tracking-tight">
-                  <span className="font-black text-sm sm:text-base text-white">V</span>
-                  <span className="font-black text-sm sm:text-base text-[#06B6D4]">M</span>
-                  <span className="font-black text-sm sm:text-base text-[#155EEF]">C</span>
-                </div>
-              </div>
-
-              {/* Brand Typography */}
-              <div className="flex flex-col">
-                <span className="font-extrabold text-sm sm:text-base tracking-tight text-[#0B1F3A] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-[#06B6D4] transition-colors leading-none">
-                  {companyName}
-                </span>
-                <span className="text-[10px] font-bold text-[#06B6D4] tracking-widest mt-1 uppercase">
-                  {t('common.brandTagline')}
-                </span>
+              {/* Brand Logo kết nối trực tiếp với Nhận diện thương hiệu Admin - Logo chính thức */}
+              <div className="h-9 sm:h-11 md:h-12 w-auto flex items-center shrink-0">
+                <BrandLogo 
+                  variant="primary" 
+                  imgClassName="h-9 sm:h-11 md:h-12 w-auto max-w-[210px] sm:max-w-[245px] md:max-w-[270px] object-contain drop-shadow-xs group-hover:scale-102 transition-transform" 
+                  alt={`${companyName} Logo`}
+                />
               </div>
             </PublicLink>
 

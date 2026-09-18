@@ -20,13 +20,13 @@ export const TabProfile: React.FC = () => {
     <div id="tab-content-profile" className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Section A: Định danh */}
-        <div id="section-identity" className="bg-white rounded-xl border border-[#E2E8F0] p-5 sm:p-6 shadow-2xs">
+        <div id="section-identity" className="bg-white rounded-xl border border-[#E5EAF1] p-5 sm:p-6 shadow-2xs">
           <div className="flex items-center gap-2.5 pb-4 mb-4 border-b border-[#F1F5F9]">
             <div className="w-9 h-9 rounded-lg bg-blue-50 text-[#155EEF] flex items-center justify-center shrink-0">
               <Building2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#0B1F3A]">A. Thông tin định danh</h3>
+              <h3 className="text-base font-bold text-[#0F1F3D]">A. Thông tin định danh</h3>
               <p className="text-xs text-[#64748B]">Tên gọi, thương hiệu và người đại diện chính thức</p>
             </div>
           </div>
@@ -64,13 +64,13 @@ export const TabProfile: React.FC = () => {
         </div>
 
         {/* Section B: Pháp lý */}
-        <div id="section-legal" className="bg-white rounded-xl border border-[#E2E8F0] p-5 sm:p-6 shadow-2xs">
+        <div id="section-legal" className="bg-white rounded-xl border border-[#E5EAF1] p-5 sm:p-6 shadow-2xs">
           <div className="flex items-center gap-2.5 pb-4 mb-4 border-b border-[#F1F5F9]">
             <div className="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
               <Scale className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#0B1F3A]">B. Thông tin pháp lý</h3>
+              <h3 className="text-base font-bold text-[#0F1F3D]">B. Thông tin pháp lý</h3>
               <p className="text-xs text-[#64748B]">Hồ sơ đăng ký kinh doanh và mã số thuế</p>
             </div>
           </div>
@@ -102,13 +102,13 @@ export const TabProfile: React.FC = () => {
         </div>
 
         {/* Section C: Liên hệ */}
-        <div id="section-contact" className="bg-white rounded-xl border border-[#E2E8F0] p-5 sm:p-6 shadow-2xs">
+        <div id="section-contact" className="bg-white rounded-xl border border-[#E5EAF1] p-5 sm:p-6 shadow-2xs">
           <div className="flex items-center gap-2.5 pb-4 mb-4 border-b border-[#F1F5F9]">
             <div className="w-9 h-9 rounded-lg bg-cyan-50 text-[#06B6D4] flex items-center justify-center shrink-0">
               <Mail className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#0B1F3A]">C. Thông tin liên hệ</h3>
+              <h3 className="text-base font-bold text-[#0F1F3D]">C. Thông tin liên hệ</h3>
               <p className="text-xs text-[#64748B]">Kênh truyền thông, liên lạc và địa chỉ trụ sở</p>
             </div>
           </div>
@@ -163,13 +163,13 @@ export const TabProfile: React.FC = () => {
         </div>
 
         {/* Section D: Thị trường */}
-        <div id="section-market" className="bg-white rounded-xl border border-[#E2E8F0] p-5 sm:p-6 shadow-2xs">
+        <div id="section-market" className="bg-white rounded-xl border border-[#E5EAF1] p-5 sm:p-6 shadow-2xs">
           <div className="flex items-center gap-2.5 pb-4 mb-4 border-b border-[#F1F5F9]">
             <div className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#0B1F3A]">D. Thị trường hoạt động</h3>
+              <h3 className="text-base font-bold text-[#0F1F3D]">D. Thị trường hoạt động</h3>
               <p className="text-xs text-[#64748B]">Phạm vi hiện tại và định hướng vươn ra quốc tế</p>
             </div>
           </div>

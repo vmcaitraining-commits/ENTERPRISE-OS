@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEnterprise } from '../../context/EnterpriseContext';
 import {
-  LayoutDashboard, Building2, Compass, Cpu, Palette, Image as ImageIcon, ShieldCheck
+  LayoutDashboard, Building2, Compass, Cpu, Palette, Image as ImageIcon, ShieldCheck, Globe
 } from 'lucide-react';
 
 interface TabItem {
@@ -54,6 +54,11 @@ export const TabNavigation: React.FC = () => {
       icon: <ShieldCheck className="w-4 h-4" />,
       badge: (stats?.needsReviewFields ?? 0) > 0 ? `${stats.needsReviewFields} cần rà soát` : undefined,
       badgeColor: 'bg-amber-100 text-amber-800'
+    },
+    {
+      id: 8,
+      label: '8. Quản trị trang web',
+      icon: <Globe className="w-4 h-4" />
     }
   ];
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEnterprise } from '../../context/EnterpriseContext';
+import { usePublicRouter } from '../../context/PublicRouterContext';
 import { StatusBadge } from '../common/StatusBadge';
 import {
   Activity, AlertTriangle, CheckCircle, Clock, Download, RefreshCw,
@@ -12,10 +13,20 @@ export const TabGovernance: React.FC = () => {
     mediaList,
     stats,
     changeHistory,
-    setActiveTab,
     resetToDefault,
     showToast
   } = useEnterprise();
+  const { navigate } = usePublicRouter();
+
+  const tabIndexToRoute: Record<number, string> = {
+    1: '/admin/company/overview',
+    2: '/admin/company/profile',
+    3: '/admin/company/strategy',
+    4: '/admin/company/products-market',
+    5: '/admin/company/brand',
+    6: '/admin/company/media',
+    7: '/admin/company/data-review'
+  };
 
   // List of fields that need attention
   const attentionFields = [
@@ -133,12 +144,12 @@ export const TabGovernance: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-slate-50 border border-[#E2E8F0] flex flex-col justify-between">
-            <span className="text-xs text-[#64748B] font-semibold">Tỷ lệ hoàn thiện hồ sơ</span>
+          <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200/60 flex flex-col justify-between">
+            <span className="text-xs text-blue-800 font-semibold">Tỷ lệ hoàn thiện hồ sơ</span>
             <div className="my-2">
               <span className="text-3xl font-black text-[#155EEF]">{stats.completionPercentage}%</span>
             </div>
-            <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-blue-100 h-2 rounded-full overflow-hidden">
               <div className="bg-[#155EEF] h-full" style={{ width: `${stats.completionPercentage}%` }} />
             </div>
           </div>
@@ -203,7 +214,7 @@ export const TabGovernance: React.FC = () => {
                   <td className="py-3 px-4 text-[#64748B]">{item.issue}</td>
                   <td className="py-3 px-3 text-right">
                     <button
-                      onClick={() => setActiveTab(item.tabIndex)}
+                      onClick={() => navigate(tabIndexToRoute[item.tabIndex] || '/admin/company/profile')}
                       className="inline-flex items-center gap-1 text-xs font-semibold text-[#155EEF] hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                     >
                       <span>Cập nhật</span>

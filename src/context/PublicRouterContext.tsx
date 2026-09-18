@@ -501,7 +501,7 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [currentPath, setCurrentPath] = useState<string>(initialParsed.canonicalPath);
   const [locale, setLocale] = useState<LocaleCode>(initialParsed.locale);
   const [isAdminView, setIsAdminView] = useState<boolean>(() => {
-    return initialParsed.canonicalPath === '/admin';
+    return initialParsed.canonicalPath === '/admin' || initialParsed.canonicalPath.startsWith('/admin/');
   });
 
   const [isConsultationModalOpen, setIsConsultationModalOpen] = useState(false);
@@ -515,7 +515,7 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const parsed = parsePathLocale(rawPath);
       setCurrentPath(parsed.canonicalPath);
       setLocale(parsed.locale);
-      setIsAdminView(parsed.canonicalPath === '/admin');
+      setIsAdminView(parsed.canonicalPath === '/admin' || parsed.canonicalPath.startsWith('/admin/'));
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -692,13 +692,21 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const targetLocale = parsed.hasLocalePrefix ? parsed.locale : locale;
     const targetCanonical = parsed.canonicalPath;
 
+    // AVOID NO-OP NAVIGATION: If already on the target canonical route and no anchor, do nothing
+    if (targetCanonical === currentPath && (!parsed.anchor || parsed.anchor === '')) {
+      return;
+    }
+
     setCurrentPath(targetCanonical);
-    if (targetCanonical === '/admin') {
+    if (targetCanonical === '/admin' || targetCanonical.startsWith('/admin/')) {
       setIsAdminView(true);
       try {
-        window.history.pushState({}, '', '/admin');
+        window.history.pushState({}, '', targetCanonical);
       } catch {
-        window.location.hash = '/admin';
+        window.location.hash = targetCanonical;
+      }
+      if (typeof window !== 'undefined' && window.location.hash && window.location.hash.startsWith('#/')) {
+        window.location.hash = targetCanonical;
       }
     } else {
       setIsAdminView(false);
@@ -733,9 +741,14 @@ export const PublicRouterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }
       }, 120);
     } else if (options.scrollToTop !== false) {
-      window.scrollTo({ top: 0, behavior: scrollBehavior });
+      // For Admin routes, do instant jump without smooth scroll lag
+      if (targetCanonical.startsWith('/admin')) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      } else {
+        window.scrollTo({ top: 0, behavior: scrollBehavior });
+      }
     }
-  }, [locale]);
+  }, [locale, currentPath]);
 
   const changeLocale = useCallback((newLocale: LocaleCode) => {
     if (!isSupportedLocale(newLocale) || newLocale === locale) return;

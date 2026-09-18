@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 52" width="100%" height="100%" fill="none">
+  <g transform="translate(0, 2)">
+    <path d="M7 9C8.5 7.5 12 8.5 13.5 11.5L24 37.5L20 39.5L8.5 15C7.2 12.5 6 10.2 7 9Z" fill="#FFFFFF" fill-opacity="0.85" />
+    <path d="M13 10.5C14.5 12 19 22.8 24 36L28.5 24.5C26 18.2 21 11.5 16 9.2C14.2 8.5 12.2 9 13 10.5Z" fill="#FFFFFF" fill-opacity="0.65" />
+    <path d="M22 40L24 44.5C25.5 44.5 27 43 28 40.8L41.5 11C42.5 9 40.5 7.5 38.5 8.5C36 9.8 30 16.5 26.5 24.8L22 40Z" fill="#FFFFFF" fill-opacity="0.95" />
+    <circle cx="24" cy="42.5" r="1.5" fill="#FFFFFF" />
+  </g>
+
+  <g transform="translate(54, 0)">
+    <text x="0" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Be Vietnam Pro', sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" letter-spacing="-0.5">VMC</text>
+    <text x="57" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Be Vietnam Pro', sans-serif" font-weight="600" font-size="24" fill="#F8FAFC" letter-spacing="-0.3">Group</text>
+    <circle cx="132" cy="25" r="3" fill="#FFFFFF" fill-opacity="0.8" />
+    <text x="0.5" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Be Vietnam Pro', sans-serif" font-weight="800" font-size="8.5" fill="#E2E8F0" letter-spacing="2.5">AI ENTERPRISE OS</text>
+  </g>
+</svg>

@@ -220,6 +220,7 @@ export interface EnterpriseData {
   customerAndMarket: TargetCustomerInfo;
   brandColors: BrandColor[];
   brandLogos: BrandLogo[];
+  activeWebsiteLogoId?: string;
   typography: TypographyLevel[];
   brandPersonality: string[];
   designPrinciples: string[];
